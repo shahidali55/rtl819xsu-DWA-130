@@ -266,7 +266,7 @@ struct net_device *init_netdev(void)
 	_adapter *padapter;
 	struct net_device *pnetdev;
 
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("+init_net_dev\n"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("+init_net_dev\n"));
 
 	//pnetdev = alloc_netdev(sizeof(_adapter), "wlan%d", ether_setup);
 	pnetdev = rtw_alloc_etherdev(sizeof(_adapter));	
@@ -285,7 +285,7 @@ struct net_device *init_netdev(void)
 	//pnetdev->init = NULL;
 #if (LINUX_VERSION_CODE>=KERNEL_VERSION(2,6,29))
 
-	printk("register rtl8712_netdev_ops to netdev_ops\n");
+	//printk("register rtl8712_netdev_ops to netdev_ops\n");
 	pnetdev->netdev_ops = &rtl8712_netdev_ops;
 
 #else
@@ -325,7 +325,7 @@ struct net_device *init_netdev(void)
 	if(dev_alloc_name(pnetdev,"wlan%d") < 0)
 #endif
 	{
-		RT_TRACE(_module_os_intfs_c_,_drv_err_,("dev_alloc_name, fail! \n"));
+		//RT_TRACE(_module_os_intfs_c_,_drv_err_,("dev_alloc_name, fail! \n"));
 	}
 
 	//step 2.
@@ -344,7 +344,7 @@ u32 start_drv_threads(_adapter *padapter)
 {
     u32 _status = _SUCCESS;
 
-    RT_TRACE(_module_os_intfs_c_,_drv_info_,("+start_drv_threads\n"));
+    //RT_TRACE(_module_os_intfs_c_,_drv_info_,("+start_drv_threads\n"));
 
 #ifdef CONFIG_SDIO_HCI
     padapter->xmitThread = kernel_thread(xmit_thread, padapter, CLONE_FS|CLONE_FILES);
@@ -373,7 +373,7 @@ u32 start_drv_threads(_adapter *padapter)
 
 void stop_drv_threads (_adapter *padapter)
 {
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("+stop_drv_threads\n"));	
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("+stop_drv_threads\n"));	
 
 	//Below is to termindate cmd_thread & event_thread...
 	_up_sema(&padapter->cmdpriv.cmd_queue_sema);
@@ -394,20 +394,20 @@ void stop_drv_threads (_adapter *padapter)
 	// Below is to termindate tx_thread...
 	_up_sema(&padapter->xmitpriv.xmit_sema);	
 	_down_sema(&padapter->xmitpriv.terminate_xmitthread_sema);
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("\n drv_halt: xmit_thread can be terminated ! \n"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("\n drv_halt: xmit_thread can be terminated ! \n"));
 #endif
 	 
 #ifdef CONFIG_RECV_THREAD_MODE	
 	// Below is to termindate rx_thread...
 	_up_sema(&padapter->recvpriv.recv_sema);
 	_down_sema(&padapter->recvpriv.terminate_recvthread_sema);
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("\n drv_halt:recv_thread can be terminated! \n"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("\n drv_halt:recv_thread can be terminated! \n"));
 #endif
 }
 
 void start_drv_timers (_adapter *padapter)
 {
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("+start_drv_timers\n"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("+start_drv_timers\n"));
 
 	_set_timer(&padapter->mlmepriv.sitesurveyctrl.sitesurvey_ctrl_timer, 5000);
 
@@ -416,30 +416,30 @@ void start_drv_timers (_adapter *padapter)
 
 void stop_drv_timers (_adapter *padapter)
 {
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("+stop_drv_timers\n"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("+stop_drv_timers\n"));
 
 	_cancel_timer_ex(&padapter->mlmepriv.assoc_timer);
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("stop_drv_timers:cancel association timer complete! \n"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("stop_drv_timers:cancel association timer complete! \n"));
 
 	_cancel_timer_ex(&padapter->mlmepriv.sitesurveyctrl.sitesurvey_ctrl_timer);
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("stop_drv_timers:cancel sitesurvey_ctrl_timer! \n"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("stop_drv_timers:cancel sitesurvey_ctrl_timer! \n"));
 
 	_cancel_timer_ex(&padapter->securitypriv.tkip_timer);
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("stop_drv_timers:cancel tkip_timer! \n"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("stop_drv_timers:cancel tkip_timer! \n"));
 
 	_cancel_timer_ex(&padapter->mlmepriv.scan_to_timer);
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("stop_drv_timers:cancel scan_to_timer! \n"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("stop_drv_timers:cancel scan_to_timer! \n"));
 	
 #ifdef CONFIG_PWRCTRL
 	_cancel_timer_ex(&padapter->mlmepriv.dhcp_timer);
-	RT_TRACE(_module_os_intfs_c_,_drv_err_,("stop_drv_timers:cancel dhcp_timer! \n"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_err_,("stop_drv_timers:cancel dhcp_timer! \n"));
 #endif
 
 	_cancel_timer_ex(&padapter->mlmepriv.survey_timer);
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("stop_drv_timers: cancel survey_timer!\n"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("stop_drv_timers: cancel survey_timer!\n"));
 	
 	_cancel_timer_ex(&padapter->mlmepriv.wdg_timer);
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("stop_drv_timers:cancel wdg_timer! \n"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("stop_drv_timers:cancel wdg_timer! \n"));
 }
 
 u8 init_default_value(_adapter *padapter)
@@ -517,11 +517,11 @@ u8 init_drv_sw(_adapter *padapter)
 
 _func_enter_;
 
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("+init_drv_sw\n"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("+init_drv_sw\n"));
 
 	if ((init_cmd_priv(&padapter->cmdpriv)) == _FAIL)
 	{
-		RT_TRACE(_module_os_intfs_c_,_drv_err_,("\n Can't init cmd_priv\n"));
+		//RT_TRACE(_module_os_intfs_c_,_drv_err_,("\n Can't init cmd_priv\n"));
 		ret8=_FAIL;
 		goto exit;
 	}
@@ -529,7 +529,7 @@ _func_enter_;
 	
 	if ((init_evt_priv(&padapter->evtpriv)) == _FAIL)
 	{
-		RT_TRACE(_module_os_intfs_c_,_drv_err_,("\n Can't init evt_priv\n"));
+		//RT_TRACE(_module_os_intfs_c_,_drv_err_,("\n Can't init evt_priv\n"));
 		ret8=_FAIL;
 		goto exit;
 	}
@@ -542,7 +542,7 @@ _func_enter_;
 	
 	if (init_mlme_priv(padapter) == _FAIL)
 	{
-		RT_TRACE(_module_os_intfs_c_,_drv_err_,("\n Can't init mlme_priv\n"));
+		//RT_TRACE(_module_os_intfs_c_,_drv_err_,("\n Can't init mlme_priv\n"));
 		ret8=_FAIL;
 		goto exit;
 	}
@@ -585,7 +585,7 @@ _func_enter_;
 
 exit:
 	
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("-init_drv_sw\n"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("-init_drv_sw\n"));
 
 	_func_exit_;	
 	
@@ -600,7 +600,7 @@ u8 free_drv_sw(_adapter *padapter)
 
 	struct net_device *pnetdev = (struct net_device*)padapter->pnetdev;
 
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("==>free_drv_sw"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("==>free_drv_sw"));
 	
 	free_cmd_priv(&padapter->cmdpriv);	
 	free_evt_priv(&padapter->evtpriv);
@@ -633,14 +633,14 @@ u8 free_drv_sw(_adapter *padapter)
 	free_mlme_ext_priv(&padapter->mlmeextpriv);
 #endif	
 
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("<==free_drv_sw\n"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("<==free_drv_sw\n"));
 
 	if(pnetdev)
 	{
 		rtw_free_netdev(pnetdev);
 	}
 
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("-free_drv_sw\n"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("-free_drv_sw\n"));
 
 	return _SUCCESS;
 }
@@ -672,7 +672,7 @@ static int netdev_open(struct net_device *pnetdev)
 	uint status;	
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(pnetdev);
 
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("+871x_drv - dev_open\n"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("+871x_drv - dev_open\n"));
 	//printk("+871x_drv - drv_open, bup=%d\n", padapter->bup);
 
        if(padapter->bup == _FALSE)
@@ -684,7 +684,7 @@ static int netdev_open(struct net_device *pnetdev)
 		status = rtl871x_hal_init(padapter);		
 		if (status ==_FAIL)
 		{			
-			RT_TRACE(_module_os_intfs_c_,_drv_err_,("rtl871x_hal_init(): Can't init h/w!\n"));
+			//RT_TRACE(_module_os_intfs_c_,_drv_err_,("rtl871x_hal_init(): Can't init h/w!\n"));
 			goto netdev_open_error;
 		}
 		
@@ -703,14 +703,14 @@ static int netdev_open(struct net_device *pnetdev)
 			_memcpy( padapter->eeprompriv.mac_addr, pnetdev->dev_addr, ETH_ALEN );
 		}
 
-		printk("MAC Address= %x-%x-%x-%x-%x-%x\n", 
-				 pnetdev->dev_addr[0],	pnetdev->dev_addr[1],  pnetdev->dev_addr[2],	pnetdev->dev_addr[3], pnetdev->dev_addr[4], pnetdev->dev_addr[5]);		
+		//printk("MAC Address= %x-%x-%x-%x-%x-%x\n", 
+		//		 pnetdev->dev_addr[0],	pnetdev->dev_addr[1],  pnetdev->dev_addr[2],	pnetdev->dev_addr[3], pnetdev->dev_addr[4], pnetdev->dev_addr[5]);		
 
 		
 #ifdef CONFIG_MLME_EXT
 		if (init_mlme_ext_priv(padapter) == _FAIL)
 		{
-			RT_TRACE(_module_os_intfs_c_,_drv_err_,("can't init mlme_ext_priv\n"));
+			//RT_TRACE(_module_os_intfs_c_,_drv_err_,("can't init mlme_ext_priv\n"));
 			goto netdev_open_error;
 		}
 #endif
@@ -723,7 +723,7 @@ static int netdev_open(struct net_device *pnetdev)
 		status=start_drv_threads(padapter);
 		if(status ==_FAIL)
 		{			
-			RT_TRACE(_module_os_intfs_c_,_drv_err_,("Initialize driver software resource Failed!\n"));			
+			//RT_TRACE(_module_os_intfs_c_,_drv_err_,("Initialize driver software resource Failed!\n"));			
 			goto netdev_open_error;			
 		}
 		
@@ -731,7 +731,7 @@ static int netdev_open(struct net_device *pnetdev)
 #ifdef CONFIG_USB_HCI	
 		if(padapter->dvobjpriv.inirp_init == NULL)
 		{
-			RT_TRACE(_module_os_intfs_c_,_drv_err_,("Initialize dvobjpriv.inirp_init error!!!\n"));
+			//RT_TRACE(_module_os_intfs_c_,_drv_err_,("Initialize dvobjpriv.inirp_init error!!!\n"));
 			goto netdev_open_error;	
 		}
 		else
@@ -745,7 +745,7 @@ static int netdev_open(struct net_device *pnetdev)
 #endif
 	
 #ifdef CONFIG_PWRCTRL
-		RT_TRACE(_module_os_intfs_c_,_drv_info_,("Initialize Power Mode. \n"));
+		//RT_TRACE(_module_os_intfs_c_,_drv_info_,("Initialize Power Mode. \n"));
 		set_ps_mode(padapter, padapter->registrypriv.power_mgnt, padapter->registrypriv.smart_ps);
 #endif	
 	
@@ -774,7 +774,7 @@ static int netdev_open(struct net_device *pnetdev)
 	start_drv_timers(padapter);
 	padapter->ledpriv.LedControlHandler(padapter, LED_CTL_NO_LINK);	
 
-        RT_TRACE(_module_os_intfs_c_,_drv_info_,("-871x_drv - dev_open\n"));
+        //RT_TRACE(_module_os_intfs_c_,_drv_info_,("-871x_drv - dev_open\n"));
 	//printk("-871x_drv - drv_open, bup=%d\n", padapter->bup);
 		
 	 return 0;
@@ -786,7 +786,7 @@ netdev_open_error:
 	netif_carrier_off(pnetdev);	
 	netif_stop_queue(pnetdev);
 	
-	RT_TRACE(_module_os_intfs_c_,_drv_err_,("-871x_drv - dev_open, fail!\n"));
+	//RT_TRACE(_module_os_intfs_c_,_drv_err_,("-871x_drv - dev_open, fail!\n"));
 	//printk("-871x_drv - drv_open fail, bup=%d\n", padapter->bup);
 	
 	return (-1);
@@ -796,7 +796,7 @@ static int netdev_close(struct net_device *pnetdev)
 {
 	_adapter *padapter = (_adapter *)rtw_netdev_priv(pnetdev);
 		
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("+871x_drv - drv_close\n"));	
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("+871x_drv - drv_close\n"));	
 
 	// Close LED
         padapter->ledpriv.LedControlHandler(padapter, LED_CTL_POWER_OFF);
@@ -812,7 +812,7 @@ static int netdev_close(struct net_device *pnetdev)
 	}
 	else*/
 	{
-		printk("(2)871x_drv - drv_close, bup=%d, hw_init_completed=%d\n", padapter->bup, padapter->hw_init_completed);
+		//printk("(2)871x_drv - drv_close, bup=%d, hw_init_completed=%d\n", padapter->bup, padapter->hw_init_completed);
 
 		//s1.
 		if(pnetdev)   
@@ -839,14 +839,14 @@ static int netdev_close(struct net_device *pnetdev)
 	}
 
 #ifdef CONFIG_IOCTL_CFG80211
-	printk("call rtw_indicate_scan_done when drv_close\n");
+	//printk("call rtw_indicate_scan_done when drv_close\n");
 	rtw_indicate_scan_done(padapter, _TRUE);
 #endif //CONFIG_IOCTL_CFG80211	
 
 	//r871x_dev_unload(padapter);
 
-	RT_TRACE(_module_os_intfs_c_,_drv_info_,("-871x_drv - drv_close\n"));
-	printk("-871x_drv - drv_close, bup=%d\n", padapter->bup);
+	//RT_TRACE(_module_os_intfs_c_,_drv_info_,("-871x_drv - drv_close\n"));
+	//printk("-871x_drv - drv_close, bup=%d\n", padapter->bup);
 	   
 	return 0;
 }
@@ -902,7 +902,7 @@ int start_pseudo_adhoc(_adapter *padapter)
 	//create new  a wlan_network for mp driver and replace the cur_network;
 	pnetwork= (struct wlan_network *)_malloc(sizeof(struct wlan_network));       
 	if(pnetwork == NULL){
-		RT_TRACE(_module_os_intfs_c_,_drv_err_,("Can't alloc wlan_network for pseudo_adhoc\n"));
+		//RT_TRACE(_module_os_intfs_c_,_drv_err_,("Can't alloc wlan_network for pseudo_adhoc\n"));
 		return _FAIL;
 	}
 	_memset((unsigned char *)pnetwork, 0, sizeof (struct wlan_network));
@@ -924,7 +924,7 @@ int start_pseudo_adhoc(_adapter *padapter)
 	//psta = alloc_stainfo(&padapter->stapriv, pnetwork->network.MacAddress);
 	psta = alloc_stainfo(&padapter->stapriv, adhoc_sta_addr);
 	if (psta == NULL) {
-		RT_TRACE(_module_os_intfs_c_,_drv_err_,("Can't alloc sta_info for pseudo_adhoc\n"));
+		//RT_TRACE(_module_os_intfs_c_,_drv_err_,("Can't alloc sta_info for pseudo_adhoc\n"));
 		return _FAIL;
 	}
 
