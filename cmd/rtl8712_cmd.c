@@ -85,7 +85,7 @@ void mlme_cmd_hdl(_adapter *padapter, struct cmd_obj *pcmd)
 		cmd_hdl = wlancmds[pcmd->cmdcode].h2cfuns;
 		if(cmd_hdl)
 		{
-			RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("mlme_cmd_hdl(): cmd_hdl=0x%p, cmdcode=0x%x\n", cmd_hdl, pcmd->cmdcode));
+			//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("mlme_cmd_hdl(): cmd_hdl=0x%p, cmdcode=0x%x\n", cmd_hdl, pcmd->cmdcode));
 			ret = cmd_hdl(padapter, pcmdbuf);
 			pcmd->res = ret;
 		}
@@ -96,7 +96,7 @@ void mlme_cmd_hdl(_adapter *padapter, struct cmd_obj *pcmd)
 		pcmd_callback = cmd_callback[pcmd->cmdcode].callback;
 		if(pcmd_callback==NULL)
 		{
-			RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("mlme_cmd_hdl(): pcmd_callback=0x%p, cmdcode=0x%x\n", pcmd_callback, pcmd->cmdcode));
+			//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("mlme_cmd_hdl(): pcmd_callback=0x%p, cmdcode=0x%x\n", pcmd_callback, pcmd->cmdcode));
 			free_cmd_obj(pcmd);
 		}	
 		else
@@ -119,7 +119,7 @@ void start_hw_event_posting(_adapter *padapter)
 	
 	if (*head == *tail)
 	{
-		RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,(" hw event error! head:%d, tail:%d\n", *head, *tail));
+		//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,(" hw event error! head:%d, tail:%d\n", *head, *tail));
 		return;	
 	}
 
@@ -127,12 +127,12 @@ void start_hw_event_posting(_adapter *padapter)
 
 	//assign event code, size...
 	
-	RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("tail:%d, evt_code:%d, evt_sz:%d\n", *tail, node->evt_code, node->evt_sz)); 
+	//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("tail:%d, evt_code:%d, evt_sz:%d\n", *tail, node->evt_code, node->evt_sz)); 
 	
 	pmlmeext->c2h_res = ((node->evt_code << 24) | 
 	 					((node->evt_sz) << 8) | pmlmeext->c2hevent.seq++);
 
-	RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("evt_sz = %d, val=%x\n", node->evt_sz, pmlmeext->c2h_res));
+	//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("evt_sz = %d, val=%x\n", node->evt_sz, pmlmeext->c2h_res));
 	
 	pmlmeext->c2h_buf = node->node;
 	
@@ -151,7 +151,7 @@ int event_queuing (_adapter *padapter, struct event_node *evtnode)
 	if (CIRC_SPACE(*head, *tail, C2HEVENT_SZ))
 	{		
 		_memcpy(&(pmlmeext->c2hevent.nodes[*head]), evtnode, sizeof (struct event_node));	
-		RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("event code: %x\n", evtnode->evt_code));
+		//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("event code: %x\n", evtnode->evt_code));
 		
 		if (*head == *tail)
 			hwen = 1;
@@ -180,7 +180,7 @@ void event_complete(_adapter *padapter)
 	volatile int *head = &(pmlmeext->c2hevent.head);	
 	volatile int *tail = &(pmlmeext->c2hevent.tail);
 
-	RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("+event_complete\n"));
+	//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("+event_complete\n"));
 
 	node = &(pmlmeext->c2hevent.nodes[*tail]);
 
@@ -220,7 +220,7 @@ _func_enter_;
 	allow_signal(SIGTERM);
 #endif	
 
-	RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("@@@@@@@ start r871x event_thread @@@@@@@\n"));
+	//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("@@@@@@@ start r871x event_thread @@@@@@@\n"));
 
 	evt_seq = 0;
 
@@ -230,13 +230,13 @@ _func_enter_;
 			break;
 		
 		if ((padapter->bDriverStopped == _TRUE)||(padapter->bSurpriseRemoved== _TRUE)){
-			RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("event_thread:bDriverStopped or bSurpriseRemoved"));
+			//RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("event_thread:bDriverStopped or bSurpriseRemoved"));
 			break;
 		}
 					
 		val = pmlmeext->c2h_res;
 
-		RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_, ("event_thread, c2h_res=%x, event_seq=%d\n", val, pevt_priv->event_seq));
+		//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_, ("event_thread, c2h_res=%x, event_seq=%d\n", val, pevt_priv->event_seq));
 		
 		r_sz = (val >> 8) & 0xffff;
 		ec = (val >> 24);
@@ -244,7 +244,7 @@ _func_enter_;
 		// checking event sequence...		
 		if ((val & 0x7f) != evt_seq/*pevt_priv->event_seq*/)
 		{
-			RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("Evetn Seq Error! %d vs %d\n", (val & 0xff), pevt_priv->event_seq));
+			//RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("Evetn Seq Error! %d vs %d\n", (val & 0xff), pevt_priv->event_seq));
 
 			//pevt_priv->event_seq = ((val+1)&0x7f); 
 			evt_seq = ((val+1)&0x7f); 	
@@ -255,7 +255,7 @@ _func_enter_;
 		// checking if event code is valid
 		if (ec >= MAX_C2HEVT)
 		{
-			RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("Event Code(%d) mismatch!\n", (val >> 24)));
+			//RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("Event Code(%d) mismatch!\n", (val >> 24)));
 			
 			evt_seq = ((val+1)&0x7f); 	
 			
@@ -267,7 +267,7 @@ _func_enter_;
 			(wlanevents[ec].parmsize != r_sz))
 		{
 			
-			RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("Event(%d) Parm Size mismatch (%d vs %d)!\n", 
+			//RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("Event(%d) Parm Size mismatch (%d vs %d)!\n", 
 							ec, wlanevents[ec].parmsize, r_sz));
 			
 			evt_seq = ((val+1)&0x7f); 	
@@ -285,7 +285,7 @@ _func_enter_;
 
 		if (peventbuf == NULL)
 		{
-			RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("\nCan't allocate memory buf for event code:%d, len:%d\n", (val >> 24), r_sz));
+			//RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("\nCan't allocate memory buf for event code:%d, len:%d\n", (val >> 24), r_sz));
 			goto _abort_event_;
 		}
 		
@@ -712,7 +712,7 @@ struct cmd_obj *cmd_hdl_filter(_adapter *padapter, struct cmd_obj *pcmd)
 
 #ifdef CONFIG_MLME_EXT
 
-	RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("cmd_hdl_filter(): cmd_code=%d\n", pcmd->cmdcode));
+	//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("cmd_hdl_filter(): cmd_code=%d\n", pcmd->cmdcode));
 
 	switch(pcmd->cmdcode)
 	{
@@ -815,18 +815,18 @@ u8 check_cmd_fifo(_adapter *padapter,uint sz){
 	uint cmd_pg=0;
 	public_pg=read8(padapter, SDIO_BCNQ_FREEPG);
 	cmd_pg=read8(padapter, SDIO_CMDQ_FREEPG);
-	RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("check_cmd_fifo, public_pg=%x  cmd_pg=%x\n",public_pg,cmd_pg));
+	//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("check_cmd_fifo, public_pg=%x  cmd_pg=%x\n",public_pg,cmd_pg));
 	cmd_pg=cmd_pg-public_pg;
 	res=_FAIL;
 	if((cmd_pg >2)||(public_pg >5)){
 		if((public_pg+cmd_pg)< (sz>>8)){
-	RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("check_cmd_fifo, public_pg=0x%x  cmd_pg=0x%x  sz=0x%x\n",public_pg,cmd_pg,sz));
+	//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("check_cmd_fifo, public_pg=0x%x  cmd_pg=0x%x  sz=0x%x\n",public_pg,cmd_pg,sz));
 		res=_FAIL;
 		}
 		else
 			res=_SUCCESS;
 	}else{
-		RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("check_cmd_fifo, public_pg=%x  cmd_pg=%d   cmd pg is not enough\n",public_pg,cmd_pg));
+		//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("check_cmd_fifo, public_pg=%x  cmd_pg=%d   cmd pg is not enough\n",public_pg,cmd_pg));
 		res= _FAIL;
 	}
 #endif	
@@ -845,7 +845,7 @@ u8 fw_cmd(PADAPTER pAdapter, u32 cmd)
 	}
 
 	if (pollingcnts == 0) {
-		RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_, ("!!fw_cmd timeout ........\n"));
+		//RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_, ("!!fw_cmd timeout ........\n"));
 		return _FALSE;
 	}
 
@@ -873,7 +873,7 @@ _func_enter_;
 
 	thread_enter(padapter);
 
-	RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("start r8712 cmd_thread !!!!\n"));
+	//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("start r8712 cmd_thread !!!!\n"));
 
 	while(1)
 	{
@@ -882,7 +882,7 @@ _func_enter_;
 
 		if ((padapter->bDriverStopped == _TRUE)||(padapter->bSurpriseRemoved== _TRUE))
 		{			
-			RT_TRACE(_module_rtl871x_cmd_c_, _drv_info_, ("cmd_thread:bDriverStopped(%d) OR bSurpriseRemoved(%d)", padapter->bDriverStopped, padapter->bSurpriseRemoved));		
+			//RT_TRACE(_module_rtl871x_cmd_c_, _drv_info_, ("cmd_thread:bDriverStopped(%d) OR bSurpriseRemoved(%d)", padapter->bDriverStopped, padapter->bSurpriseRemoved));		
 			break;
 		}
 		
@@ -903,7 +903,7 @@ _next:
 
 		_memset(pdesc, 0, TXDESC_SIZE);
 
-		RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("after dequeue_cmd\n"));
+		//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("after dequeue_cmd\n"));
 
 		pcmd = cmd_hdl_filter(padapter, pcmd);
 	
@@ -954,10 +954,10 @@ _next:
 			_memcpy((u8*)pcmdbuf, pcmd->parmbuf, pcmd->cmdsz);
 
 			while (check_cmd_fifo(padapter,wr_sz)==_FAIL){
-				RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("cmd pg is not enough=>sleep 10 ms\n"));
+				//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("cmd pg is not enough=>sleep 10 ms\n"));
 				if ((padapter->bDriverStopped == _TRUE)||(padapter->bSurpriseRemoved== _TRUE))
 				{			
-					RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_, ("cmd_thread:bDriverStopped(%d) OR bSurpriseRemoved(%d)", padapter->bDriverStopped, padapter->bSurpriseRemoved));		
+					//RT_TRACE(_module_rtl871x_cmd_c_, _drv_err_, ("cmd_thread:bDriverStopped(%d) OR bSurpriseRemoved(%d)", padapter->bDriverStopped, padapter->bSurpriseRemoved));		
 					break;
 				}
 				msleep_os(100);
@@ -970,7 +970,7 @@ _next:
 			}
 			
 			write_mem(padapter, RTL8712_DMA_H2CCMD, wr_sz, (u8*)pdesc);
-			RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("after dump cmd, code=%d\n", pcmd->cmdcode));
+			//RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("after dump cmd, code=%d\n", pcmd->cmdcode));
 			
 			pcmdpriv->cmd_seq++;
 
@@ -1012,7 +1012,7 @@ _next:
 		}
 		else
 		{
-			RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("\nShall not be empty when dequeue cmd_queuu\n"));
+			//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("\nShall not be empty when dequeue cmd_queuu\n"));
 			goto _next;
 		}	
 		
@@ -1046,11 +1046,11 @@ void event_handle(_adapter *padapter, uint *peventbuf)
 	void (*event_callback)(_adapter *dev, u8 *pbuf);	
 	struct	evt_priv	*pevt_priv = &(padapter->evtpriv);	
 
-	RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("+event_handle\n"));
+	//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("+event_handle\n"));
 
 	if(peventbuf == NULL)
 	{		
-		RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("event_handle(): peventbuf is NULL !\n"));
+		//RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("event_handle(): peventbuf is NULL !\n"));
 		goto _abort_event_;
 	}
 	
@@ -1058,12 +1058,12 @@ void event_handle(_adapter *padapter, uint *peventbuf)
 	evt_seq = (u8)((le32_to_cpu(*peventbuf)>>24)&0x7f);
 	evt_code = (u8)((le32_to_cpu(*peventbuf)>>16)&0xff);
 	
-	RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("event_handle(): evt_sz=%d, evt_seq=%d, evt_code=%d\n", evt_sz, evt_seq, evt_code));
+	//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("event_handle(): evt_sz=%d, evt_seq=%d, evt_code=%d\n", evt_sz, evt_seq, evt_code));
 
 	// checking event sequence...		
 	if ((evt_seq & 0x7f) != pevt_priv->event_seq)
 	{
-		RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("Event Seq Error! %d vs %d\n", (evt_seq & 0xff), pevt_priv->event_seq));
+		//RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("Event Seq Error! %d vs %d\n", (evt_seq & 0xff), pevt_priv->event_seq));
               pevt_priv->event_seq = ((evt_seq+1)&0x7f);
 		goto _abort_event_;
 	}
@@ -1071,13 +1071,13 @@ void event_handle(_adapter *padapter, uint *peventbuf)
 	// checking if event code is valid
 	if (evt_code >= MAX_C2HEVT)
 	{
-		RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("Event Code(%d) mismatch!\n", evt_code));
+		//RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("Event Code(%d) mismatch!\n", evt_code));
 		pevt_priv->event_seq = ((evt_seq+1)&0x7f);
 		goto _abort_event_;
 	}
 	else if((evt_code == GEN_EVT_CODE(_Survey)) && (evt_sz > sizeof(WLAN_BSSID_EX)))
 	{
-		RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("_Survey Event SZ too big:%d\n", evt_sz));
+		//RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("_Survey Event SZ too big:%d\n", evt_sz));
 		pevt_priv->event_seq = ((evt_seq+1)&0x7f);
 		goto _abort_event_;
 	}
@@ -1086,15 +1086,15 @@ void event_handle(_adapter *padapter, uint *peventbuf)
 	// checking if event size match the event parm size	
 	if ((wlanevents[evt_code].parmsize != 0) && (wlanevents[evt_code].parmsize != evt_sz))
 	{			
-		RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("Event(%d) Parm Size mismatch (%d vs %d)!\n", 
-					evt_code, wlanevents[evt_code].parmsize, evt_sz));
+		//RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("Event(%d) Parm Size mismatch (%d vs %d)!\n", 
+		//			evt_code, wlanevents[evt_code].parmsize, evt_sz));
 		pevt_priv->event_seq = ((evt_seq+1)&0x7f);
 		goto _abort_event_;	
 			
 	}
 	else if( (evt_sz==0) && (evt_code != GEN_EVT_CODE(_WPS_PBC)))
 	{
-		RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("return fail : evt_code=%d, evt_sz=%d\n", evt_code, evt_sz));
+		//RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("return fail : evt_code=%d, evt_sz=%d\n", evt_code, evt_sz));
 		pevt_priv->event_seq = ((evt_seq+1)&0x7f);
 		goto _abort_event_;	
 	}
@@ -1110,9 +1110,9 @@ void event_handle(_adapter *padapter, uint *peventbuf)
 		event_callback = wlanevents[evt_code].event_callback;
 		if(event_callback)
 		{
-			RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("before event_callback\n"));
+			//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("before event_callback\n"));
 			event_callback(padapter, (u8*)peventbuf);				
-			RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("\n After event_callback:evt code=%d\n",evt_code));
+			//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("\n After event_callback:evt code=%d\n",evt_code));
 		}
 	}
 
@@ -1120,7 +1120,7 @@ void event_handle(_adapter *padapter, uint *peventbuf)
 
 _abort_event_:
 
-	RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("-event_handle\n"));
+	//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("-event_handle\n"));
 
 	return;
 
@@ -1231,7 +1231,7 @@ _func_enter_;
 #endif	
 
 		
-	RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("@@@@@@@ start r8712 event_thread @@@@@@@\n"));
+	//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("@@@@@@@ start r8712 event_thread @@@@@@@\n"));
 
 	while(1)
 	{
@@ -1245,7 +1245,7 @@ _next_event:
 		peventbuf = NULL;		
 	
 		if ((padapter->bDriverStopped == _TRUE)||(padapter->bSurpriseRemoved== _TRUE)){		
-			RT_TRACE(_module_rtl871x_cmd_c_, _drv_info_, ("event_thread:bDriverStopped(%d) OR bSurpriseRemoved(%d)", padapter->bDriverStopped, padapter->bSurpriseRemoved));		
+		//	RT_TRACE(_module_rtl871x_cmd_c_, _drv_info_, ("event_thread:bDriverStopped(%d) OR bSurpriseRemoved(%d)", padapter->bDriverStopped, padapter->bSurpriseRemoved));		
 			break;
 		}
 
@@ -1266,14 +1266,14 @@ _next_event:
 		// checking event sequence...		
 		if ((evt_seq & 0xff) == pevt_priv->event_seq)
 		{
-			RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("Evetn Seq Error! %d vs %d\n", (evt_seq & 0xff), pevt_priv->event_seq));
+			//RT_TRACE(_module_rtl871x_cmd_c_,_drv_info_,("Evetn Seq Error! %d vs %d\n", (evt_seq & 0xff), pevt_priv->event_seq));
 			goto _abort_event_;
 		}
 
 		// checking if event code is valid
 		if (evt_code >= MAX_C2HEVT)
 		{
-			RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("\nEvent Code(%d) mismatch!\n", evt_code));
+			//RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("\nEvent Code(%d) mismatch!\n", evt_code));
 			goto _abort_event_;
 		}
 
@@ -1282,7 +1282,7 @@ _next_event:
 			(wlanevents[evt_code].parmsize != evt_sz))
 		{
 			
-			RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("\nEvent(%d) Parm Size mismatch (%d vs %d)!\n", 
+			//RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("\nEvent(%d) Parm Size mismatch (%d vs %d)!\n", 
 			evt_code, wlanevents[evt_code].parmsize, evt_sz));
 			goto _abort_event_;	
 			
@@ -1292,7 +1292,7 @@ _next_event:
 
 		if (peventbuf == NULL)
 		{
-			RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("\nCan't allocate memory buf for event code:%d, len:%d\n", evt_code, evt_sz));
+			//RT_TRACE(_module_rtl871x_cmd_c_,_drv_err_,("\nCan't allocate memory buf for event code:%d, len:%d\n", evt_code, evt_sz));
 			goto _abort_event_;
 		}
 				
@@ -1389,7 +1389,7 @@ void recv_event_bh(void *priv)
 			}
 			else
 			{
-				printk("recv_event_bh():bDriverStopped(%d) OR bSurpriseRemoved(%d)", padapter->bDriverStopped, padapter->bSurpriseRemoved);
+				//printk("recv_event_bh():bDriverStopped(%d) OR bSurpriseRemoved(%d)", padapter->bDriverStopped, padapter->bSurpriseRemoved);
 			}
 
 			if(evt_sz<64)
