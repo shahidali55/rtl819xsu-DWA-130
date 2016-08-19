@@ -70,7 +70,7 @@ static void efuse_reg_ctrl(_adapter *padapter, u8 bPowerOn)
 
 #ifdef _PRE_EXECUTE_READ_CMD_
 		if (efuse_one_byte_read(padapter, 0, &tmpu8) == _TRUE) {
-			RT_TRACE(_module_rtl8712_efuse_c_,_drv_alert_,("efuse_reg_ctrl: read EFuse fail!!\n"));
+			//RT_TRACE(_module_rtl8712_efuse_c_,_drv_alert_,("efuse_reg_ctrl: read EFuse fail!!\n"));
 		}
 #endif
 	}
@@ -133,11 +133,11 @@ static u8 efuse_one_byte_read(_adapter *padapter, u16 addr, u8 *data)
 
 	if (tmpidx < 100) {
 		*data = read8(padapter, EFUSE_CTRL);
-		RT_TRACE(_module_rtl8712_efuse_c_,_drv_info_,("====Read Efuse addr=0x%x value=0x%x=====\n", addr, *data));
+		//RT_TRACE(_module_rtl8712_efuse_c_,_drv_info_,("====Read Efuse addr=0x%x value=0x%x=====\n", addr, *data));
 		bResult = _TRUE;
 	} else {
 		*data = 0xff;
-		RT_TRACE(_module_rtl8712_efuse_c_,_drv_err_,("====Read Efuse fail!!! addr=0x%x=====\n", addr));
+		//RT_TRACE(_module_rtl8712_efuse_c_,_drv_err_,("====Read Efuse fail!!! addr=0x%x=====\n", addr));
 		bResult = _FALSE;
 	}
 	return bResult;
@@ -158,10 +158,10 @@ static u8 efuse_one_byte_write(_adapter *padapter, u16 addr, u8 data)
 		tmpidx++;
 
 	if (tmpidx < 100) {
-		RT_TRACE(_module_rtl8712_efuse_c_,_drv_info_,("====Write Efuse addr=0x%x value=0x%x=====\n", addr, data));
+		//RT_TRACE(_module_rtl8712_efuse_c_,_drv_info_,("====Write Efuse addr=0x%x value=0x%x=====\n", addr, data));
 		bResult = _TRUE;
 	} else {
-		RT_TRACE(_module_rtl8712_efuse_c_,_drv_err_,("====Write Efuse fail!! addr=0x%x value=0x%x=====\n", addr, data));
+		//RT_TRACE(_module_rtl8712_efuse_c_,_drv_err_,("====Write Efuse fail!! addr=0x%x value=0x%x=====\n", addr, data));
 		bResult = _FALSE;
 	}
 
@@ -188,7 +188,7 @@ static u8 efuse_one_byte_rw(_adapter *padapter, u8 bRead, u16 addr, u8 *data)
 			bResult = _TRUE;
 		} else {
 			*data = 0;
-			RT_TRACE(_module_rtl8712_efuse_c_,_drv_err_,("====Read Efuse Fail!! addr=0x%x =====\n", addr));
+			//RT_TRACE(_module_rtl8712_efuse_c_,_drv_err_,("====Read Efuse Fail!! addr=0x%x =====\n", addr));
 			bResult = _FALSE;
 		}
 	} else {
@@ -199,10 +199,10 @@ static u8 efuse_one_byte_rw(_adapter *padapter, u8 bRead, u16 addr, u8 *data)
 			tmpidx++;
 
 		if (tmpidx < 100) {
-			RT_TRACE(_module_rtl8712_efuse_c_,_drv_info_,("====Write Efuse addr=0x%x value=0x%x =====\n", addr, *data));
+			//RT_TRACE(_module_rtl8712_efuse_c_,_drv_info_,("====Write Efuse addr=0x%x value=0x%x =====\n", addr, *data));
 			bResult = _TRUE;
 		} else {
-			RT_TRACE(_module_rtl8712_efuse_c_,_drv_err_,("====Write Efuse Fail!! addr =0x%x value=0x%x =====\n", addr, *data));
+			//RT_TRACE(_module_rtl8712_efuse_c_,_drv_err_,("====Write Efuse Fail!! addr =0x%x value=0x%x =====\n", addr, *data));
 			bResult = _FALSE;
 		}
 	}
@@ -220,8 +220,8 @@ static u8 efuse_is_empty(_adapter *padapter, u8 *empty)
 		else *empty = _FALSE;
 	} else {
 		// read fail
-		RT_TRACE(_module_rtl871x_mp_ioctl_c_,_drv_emerg_,
-			("efuse_is_empty: fail!!=====\n"));
+		//RT_TRACE(_module_rtl871x_mp_ioctl_c_,_drv_emerg_,
+		//	("efuse_is_empty: fail!!=====\n"));
 		ret = _FALSE;
 	}
 
@@ -250,7 +250,7 @@ void efuse_change_max_size(_adapter *padapter)
 	if(efuse_data != 0xFF){
 		EFUSE_AVAILABLE_MAX_SIZE = 0x1F8; //reserve :3 bytes
 	}
-	RT_TRACE(_module_rtl8712_efuse_c_,_drv_alert_,("efuse_change_max_size , EFUSE_MAX_SIZE = %d\n",EFUSE_AVAILABLE_MAX_SIZE));
+	//RT_TRACE(_module_rtl8712_efuse_c_,_drv_alert_,("efuse_change_max_size , EFUSE_MAX_SIZE = %d\n",EFUSE_AVAILABLE_MAX_SIZE));
 #endif
 
 }
@@ -551,7 +551,7 @@ u8 efuse_pg_packet_write(_adapter *padapter, const u8 offset, const u8 word_en, 
 	// check if E-Fuse Clock Enable and E-Fuse Clock is 40M
 	efuse_data = read8(padapter, EFUSE_CLK_CTRL);
 	if (efuse_data != 0x03) {
-		RT_TRACE(_module_rtl8712_efuse_c_, _drv_err_,("efuse_pg_packet_write: EFUSE_CLK_CTRL=0x%2x != 0x03", efuse_data));
+		//RT_TRACE(_module_rtl8712_efuse_c_, _drv_err_,("efuse_pg_packet_write: EFUSE_CLK_CTRL=0x%2x != 0x03", efuse_data));
 		return _FALSE;
 	}
 
@@ -565,12 +565,12 @@ u8 efuse_pg_packet_write(_adapter *padapter, const u8 offset, const u8 word_en, 
 	while (efuse_addr < EFUSE_AVAILABLE_MAX_SIZE)
 	{
 		curr_size = efuse_get_current_size(padapter);
-		RT_TRACE(_module_rtl8712_efuse_c_, _drv_info_,
-			 ("====efuse_pg_packet_write: max=%d current=%d cnts=%d=====\n",
-			  EFUSE_AVAILABLE_MAX_SIZE, curr_size, (1+target_word_cnts*2)));
+		//RT_TRACE(_module_rtl8712_efuse_c_, _drv_info_,
+		//	 ("====efuse_pg_packet_write: max=%d current=%d cnts=%d=====\n",
+		//	  EFUSE_AVAILABLE_MAX_SIZE, curr_size, (1+target_word_cnts*2)));
 		if ((curr_size + 1 + target_word_cnts*2) > EFUSE_AVAILABLE_MAX_SIZE) {
-			RT_TRACE(_module_rtl8712_efuse_c_, _drv_err_,
-				 ("efuse_pg_packet_write: size not enough!!!!\n"));
+			//RT_TRACE(_module_rtl8712_efuse_c_, _drv_err_,
+			//	 ("efuse_pg_packet_write: size not enough!!!!\n"));
 			return _FALSE; //target_word_cnts + pg header(1 byte)
 		}
 
@@ -581,8 +581,8 @@ u8 efuse_pg_packet_write(_adapter *padapter, const u8 offset, const u8 word_en, 
 		// check if what we read is what we write
 		while (efuse_one_byte_read(padapter, efuse_addr, &efuse_data) == _FALSE) {
 			if (++sub_repeat > _REPEAT_THRESHOLD_) {
-				RT_TRACE(_module_rtl8712_efuse_c_, _drv_emerg_,
-					 ("====efuse_pg_packet_write: can't read written header!!!!\n"));
+				//RT_TRACE(_module_rtl8712_efuse_c_, _drv_emerg_,
+				//	 ("====efuse_pg_packet_write: can't read written header!!!!\n"));
 				bResult = _FALSE; // continue to blind write
 //				return bResult; // no rescue can be done, exit.
 				break; // continue to blind write
@@ -616,8 +616,8 @@ u8 efuse_pg_packet_write(_adapter *padapter, const u8 offset, const u8 word_en, 
 				return _FALSE; // rescue fail, face the music
 
 			if (++repeat_times > _REPEAT_THRESHOLD_) { // fail to write too many times
-				RT_TRACE(_module_rtl8712_efuse_c_, _drv_emerg_,
-					 ("====efuse_pg_packet_write: can't write header for too many times(%d)!!!!\n", _REPEAT_THRESHOLD_));
+				//RT_TRACE(_module_rtl8712_efuse_c_, _drv_emerg_,
+				//	 ("====efuse_pg_packet_write: can't write header for too many times(%d)!!!!\n", _REPEAT_THRESHOLD_));
 				break;
 			}
 			// otherwise, take another risk...
@@ -630,11 +630,11 @@ u8 efuse_pg_packet_write(_adapter *padapter, const u8 offset, const u8 word_en, 
 	remain_size = EFUSE_AVAILABLE_MAX_SIZE - curr_size;
 
 	target_word_cnts = calculate_word_cnts(word_en);
-	RT_TRACE(_module_rtl8712_efuse_c_, _drv_info_,
-		("====efuse_pg_packet_write max=%d remain=%d cnts=%d=====\n", EFUSE_AVAILABLE_MAX_SIZE, remain_size, (target_word_cnts*2+1)));
+	//RT_TRACE(_module_rtl8712_efuse_c_, _drv_info_,
+	//	("====efuse_pg_packet_write max=%d remain=%d cnts=%d=====\n", EFUSE_AVAILABLE_MAX_SIZE, remain_size, (target_word_cnts*2+1)));
 	if (remain_size < (target_word_cnts * 2 + 1)){
-		RT_TRACE(_module_rtl8712_efuse_c_, _drv_err_,
-			 ("====efuse size is not enough !!!!\n"));
+		//RT_TRACE(_module_rtl8712_efuse_c_, _drv_err_,
+		//	 ("====efuse size is not enough !!!!\n"));
 		return _FALSE; //target_word_cnts + pg header(1 byte)
 	}
 
@@ -734,10 +734,10 @@ u8 efuse_pg_packet_write(_adapter *padapter, const u8 offset, const u8 word_en, 
 			else { //************  s1: header == oxff  *******************
 				curr_size = efuse_get_current_size(padapter);
 				remain_size = EFUSE_AVAILABLE_MAX_SIZE - curr_size;
-				RT_TRACE(_module_rtl8712_efuse_c_,_drv_alert_,("====efuse write header state remain_size =%d, target_word_cnts=%d=====\n", remain_size,(target_word_cnts*2+1)));
+				//RT_TRACE(_module_rtl8712_efuse_c_,_drv_alert_,("====efuse write header state remain_size =%d, target_word_cnts=%d=====\n", remain_size,(target_word_cnts*2+1)));
 				if (remain_size < (target_word_cnts*2+1)) //target_word_cnts + pg header(1 byte)
 				{
-					RT_TRACE(_module_rtl8712_efuse_c_,_drv_alert_,("====efuse size isnot enough !!!!\n"));
+					//RT_TRACE(_module_rtl8712_efuse_c_,_drv_alert_,("====efuse size isnot enough !!!!\n"));
 					bContinual = _FALSE;
 					bResult = _FALSE;
 				} else {
@@ -758,7 +758,7 @@ u8 efuse_pg_packet_write(_adapter *padapter, const u8 offset, const u8 word_en, 
 						}
 					}
 					else {//************  s1-2 : fixed the header procedure *******************
-						RT_TRACE(_module_rtl8712_efuse_c_, _drv_err_, ("====efuse write header fail write=0x%02x read=0x%02x!!\n", pg_header, tmp_header));
+						//RT_TRACE(_module_rtl8712_efuse_c_, _drv_err_, ("====efuse write header fail write=0x%02x read=0x%02x!!\n", pg_header, tmp_header));
 						tmp_pkt.offset = (tmp_header>>4) & 0x0F;
 						tmp_pkt.word_en = tmp_header & 0x0F;
 						tmp_word_cnts = calculate_word_cnts(tmp_pkt.word_en);
@@ -902,7 +902,7 @@ u8 efuse_map_write(_adapter *padapter, u16 addr, u16 cnts, u8 *data)
 	// check if E-Fuse Clock Enable and E-Fuse Clock is 40M
 	empty = read8(padapter, EFUSE_CLK_CTRL);
 	if (empty != 0x03) {
-		RT_TRACE(_module_rtl8712_efuse_c_, _drv_err_,("efuse_map_write: EFUSE_CLK_CTRL=0x%2x != 0x03", empty));
+		//RT_TRACE(_module_rtl8712_efuse_c_, _drv_err_,("efuse_map_write: EFUSE_CLK_CTRL=0x%2x != 0x03", empty));
 		return _FALSE;
 	}
 
