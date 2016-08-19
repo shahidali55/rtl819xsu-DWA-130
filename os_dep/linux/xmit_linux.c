@@ -178,7 +178,7 @@ void SetFilter(struct work_struct *work)
 	u8  oldvalue = 0x00, newvalue = 0x00;
 	_irqL	irqL;
 
-	printk("+ SetFilter() \n");
+	//printk("+ SetFilter() \n");
 
 	oldvalue = read8( padapter, 0x117 );
 	newvalue = oldvalue & 0xfe;
@@ -196,7 +196,7 @@ void SetFilter(struct work_struct *work)
 
 	write8( padapter, 0x117, oldvalue );
 
-	printk("- SetFilter() \n");
+	//printk("- SetFilter() \n");
 }
 
 
@@ -210,7 +210,7 @@ int os_xmit_resource_alloc(_adapter *padapter, struct xmit_buf *pxmitbuf)
       		pxmitbuf->pxmit_urb[i] = usb_alloc_urb(0, GFP_KERNEL);
              	if(pxmitbuf->pxmit_urb[i] == NULL) 
              	{
-             		printk("pxmitbuf->pxmit_urb[i]==NULL");
+             		//printk("pxmitbuf->pxmit_urb[i]==NULL");
 	        	return _FAIL;	 
              	}      		  	
 	
@@ -237,7 +237,7 @@ void os_xmit_complete(_adapter *padapter, struct xmit_frame *pxframe)
 {
 	if(pxframe->pkt)
 	{
-		RT_TRACE(_module_xmit_osdep_c_,_drv_err_,("linux : os_xmit_complete, dev_kfree_skb()\n"));	
+		//RT_TRACE(_module_xmit_osdep_c_,_drv_err_,("linux : os_xmit_complete, dev_kfree_skb()\n"));	
 
 		dev_kfree_skb_any(pxframe->pkt);		
 	}	
@@ -255,11 +255,11 @@ int xmit_entry(_pkt *pkt, _nic_hdl pnetdev)
 
 _func_enter_;
 
-	RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("+xmit_enry\n"));
+	//RT_TRACE(_module_rtl871x_mlme_c_, _drv_info_, ("+xmit_enry\n"));
 
 	if (if_up(padapter) == _FALSE)
 	{
-		RT_TRACE(_module_xmit_osdep_c_, _drv_err_, ("xmit_entry: if_up fail\n"));
+		//RT_TRACE(_module_xmit_osdep_c_, _drv_err_, ("xmit_entry: if_up fail\n"));
 		ret = 0;
 		goto _xmit_entry_drop;
 	}
@@ -268,7 +268,7 @@ _func_enter_;
 	if (pxmitframe == NULL)
 	{
 		//printk("pxmitframe == NULL \n");
-		RT_TRACE(_module_xmit_osdep_c_, _drv_err_, ("pxmitframe == NULL\n"));
+		//RT_TRACE(_module_xmit_osdep_c_, _drv_err_, ("pxmitframe == NULL\n"));
 
 		//if (!netif_queue_stopped(pnetdev))
 		//       netif_stop_queue(pnetdev);
@@ -279,7 +279,7 @@ _func_enter_;
 
 	if ((update_attrib(padapter, pkt, &pxmitframe->attrib)) == _FAIL)
 	{
-		RT_TRACE(_module_xmit_osdep_c_, _drv_err_, ("drop xmit pkt for update fail\n"));		
+		//RT_TRACE(_module_xmit_osdep_c_, _drv_err_, ("drop xmit pkt for update fail\n"));		
 		ret = 0;
 		goto _xmit_entry_drop;
 	}
@@ -290,7 +290,7 @@ _func_enter_;
 	if (pre_xmit(padapter, pxmitframe) == _TRUE)
 	{
 		//dump xmitframe directly or drop xframe
-		RT_TRACE(_module_xmit_osdep_c_,_drv_err_,("xmit_entry(): dev_kfree_skb()\n"));			
+		//RT_TRACE(_module_xmit_osdep_c_,_drv_err_,("xmit_entry(): dev_kfree_skb()\n"));			
 		dev_kfree_skb_any(pkt);
 		pxmitframe->pkt = NULL;
 	}
@@ -298,13 +298,13 @@ _func_enter_;
 	{
 #ifdef CONFIG_SDIO_HCI
 		_up_sema(&(pxmitpriv->xmit_sema));
-		RT_TRACE(_module_xmit_osdep_c_, _drv_notice_, ("xmit_entry: enqueue xmit pkt xmit_frame=0x%p up sema\n", pxmitframe));
+		//RT_TRACE(_module_xmit_osdep_c_, _drv_notice_, ("xmit_entry: enqueue xmit pkt xmit_frame=0x%p up sema\n", pxmitframe));
 #endif
 	}
 
 	pxmitpriv->tx_pkts++;
 
-	RT_TRACE(_module_xmit_osdep_c_, _drv_notice_, ("xmit_entry:tx_pkts=%d\n", (u32)pxmitpriv->tx_pkts));
+	//RT_TRACE(_module_xmit_osdep_c_, _drv_notice_, ("xmit_entry:tx_pkts=%d\n", (u32)pxmitpriv->tx_pkts));
 
 _func_exit_;
 
@@ -312,7 +312,7 @@ _func_exit_;
 
 _xmit_entry_drop:
 
-	RT_TRACE(_module_xmit_osdep_c_, _drv_err_, ("_xmit_etnry_drop\n"));
+	//RT_TRACE(_module_xmit_osdep_c_, _drv_err_, ("_xmit_etnry_drop\n"));
 
 	if (pxmitframe) {
 		free_xmitframe(pxmitpriv, pxmitframe);
