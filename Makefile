@@ -11,7 +11,7 @@ CONFIG_SDIO_HCI                 =       n
 
 CONFIG_MP_INCLUDED              =       y
 
-CONFIG_PLATFORM_I386_PC         =       n
+CONFIG_PLATFORM_I386_PC         =       y
 CONFIG_PLATFORM_ANDROID_X86     =       n
 CONFIG_PLATFORM_ARM_S3C         =       n
 CONFIG_PLATFORM_ARM_PXA         =       n
@@ -21,7 +21,7 @@ CONFIG_PLATFORM_MIPS_PLM        =       n
 CONFIG_PLATFORM_RTD2880B        =       n
 CONFIG_PLATFORM_MSTAR389        =       n
 CONFIG_PLATFORM_ARM_TCC8900     =       n
-CONFIG_PLATFORM_ARM_BEAGLE      =       y
+CONFIG_PLATFORM_ARM_BEAGLE      =       n
 CONFIG_MLME_EXT                 =       n
 CONFIG_DRVEXT_MODULE    = n
 
