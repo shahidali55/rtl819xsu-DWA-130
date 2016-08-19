@@ -343,16 +343,16 @@ _func_enter_;
 	}
 	else
 	{
-		printk("wm_comp: status:%d\n",purb->status);
-		RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_mem_complete : purb->status(%d) != 0 \n", purb->status));
+		//printk("wm_comp: status:%d\n",purb->status);
+		//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_mem_complete : purb->status(%d) != 0 \n", purb->status));
 		
 		if(purb->status == (-ESHUTDOWN))
 		{
-			RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_mem_complete: ESHUTDOWN\n"));
+			//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_mem_complete: ESHUTDOWN\n"));
 			
 			padapter->bDriverStopped=_TRUE;
 			
-			RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_mem_complete:bDriverStopped=TRUE\n"));
+			//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_mem_complete:bDriverStopped=TRUE\n"));
 			
 		}
 		else if(purb->status==-EPIPE||purb->status == -EPROTO)
@@ -537,25 +537,25 @@ static void usb_read_port_complete(struct urb *purb, struct pt_regs *regs)
 	}
 	else
 	{
-		RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_read_port_complete : purb->status(%d) != 0 \n", purb->status));
-		printk( "[%s] purb->status(%d) != 0\n", __FUNCTION__, purb->status );
+		//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_read_port_complete : purb->status(%d) != 0 \n", purb->status));
+		//printk( "[%s] purb->status(%d) != 0\n", __FUNCTION__, purb->status );
 		switch(purb->status) {
 			case -EINVAL:
 			case -EPIPE:			
 			case -ENODEV:
 			case -ESHUTDOWN:
 				//padapter->bSurpriseRemoved=_TRUE;
-				RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_read_port_complete:bSurpriseRemoved=TRUE\n"));
+				//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_read_port_complete:bSurpriseRemoved=TRUE\n"));
 			case -ENOENT:
 				padapter->bDriverStopped=_TRUE;
-				RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_read_port_complete:bDriverStopped=TRUE\n"));
+				//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_read_port_complete:bDriverStopped=TRUE\n"));
 				break;
 			case -EPROTO:
 				precvbuf->reuse = _TRUE;
 				read_port(padapter, precvpriv->ff_hwaddr, 0, (unsigned char *)precvbuf);
 				break;
 			case -EINPROGRESS:
-				printk("ERROR: URB IS IN PROGRESS!/n");
+				//printk("ERROR: URB IS IN PROGRESS!/n");
 				break;
 			default:
 				break;
@@ -588,7 +588,7 @@ _func_enter_;
 	
 	if(adapter->bDriverStopped || adapter->bSurpriseRemoved ||adapter->pwrctrlpriv.pnp_bstop_trx)
 	{
-		RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_read_port:( padapter->bDriverStopped ||padapter->bSurpriseRemoved ||adapter->pwrctrlpriv.pnp_bstop_trx)!!!\n"));
+		//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_read_port:( padapter->bDriverStopped ||padapter->bSurpriseRemoved ||adapter->pwrctrlpriv.pnp_bstop_trx)!!!\n"));
 		return _FAIL;
 	}
 
@@ -618,7 +618,7 @@ _func_enter_;
 #endif			
 			if(precvbuf->pskb == NULL)		
 			{
-				RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("init_recvbuf(): alloc_skb fail!\n"));
+				//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("init_recvbuf(): alloc_skb fail!\n"));
 				return _FAIL;
 			}	
 
@@ -668,13 +668,13 @@ _func_enter_;
 
 		if((err) && (err != (-EPERM)))
 		{
-			RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("cannot submit rx in-token(err=0x%.8x), URB_STATUS =0x%.8x", err, purb->status));
+			//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("cannot submit rx in-token(err=0x%.8x), URB_STATUS =0x%.8x", err, purb->status));
 			ret = _FAIL;
 		}
 	}
 	else
 	{
-		RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_read_port:precvbuf ==NULL\n"));
+		//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_read_port:precvbuf ==NULL\n"));
 		ret = _FAIL;
 	}
 
@@ -691,7 +691,7 @@ void usb_read_port_cancel(_adapter *padapter)
 
 	precvbuf = (struct recv_buf *)padapter->recvpriv.precv_buf;
 
-	RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("+usb_read_port_cancel\n"));
+	//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("+usb_read_port_cancel\n"));
 
 	for(i=0; i < NR_RECVBUFF ; i++)
 	{
@@ -703,7 +703,7 @@ void usb_read_port_cancel(_adapter *padapter)
 		precvbuf++;	
 	}
 
-	RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("-usb_read_port_cancel\n"));
+	//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("-usb_read_port_cancel\n"));
 }
 
 void xmit_bh(void *priv)
@@ -716,7 +716,7 @@ void xmit_bh(void *priv)
 	//{
 		if ((padapter->bDriverStopped == _TRUE)||(padapter->bSurpriseRemoved== _TRUE))
 		{
-			printk("xmit_bh => bDriverStopped or bSurpriseRemoved \n");
+			//printk("xmit_bh => bDriverStopped or bSurpriseRemoved \n");
 			return;
 			//break;
 		}
@@ -751,7 +751,7 @@ static void usb_write_port_complete(struct urb *purb, struct pt_regs *regs)
 
 _func_enter_;
 
-	RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("+usb_write_port_complete\n"));
+	//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("+usb_write_port_complete\n"));
 
 	//_enter_critical(&pxmitpriv->lock, &irqL);
 	
@@ -804,7 +804,7 @@ _func_enter_;
 	
 	if(padapter->bSurpriseRemoved)
 	{
-		RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_port_complete:bDriverStopped(%d) OR bSurpriseRemoved(%d)", padapter->bDriverStopped, padapter->bSurpriseRemoved));
+		//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_port_complete:bDriverStopped(%d) OR bSurpriseRemoved(%d)", padapter->bDriverStopped, padapter->bSurpriseRemoved));
 		goto exit;
 	}
 
@@ -812,7 +812,7 @@ _func_enter_;
 	{
 		if(purb->status == -EPIPE|| purb->status == -EPROTO)
 		{
-			printk("wp_comp: work around for pipe error (%d)!\n", purb->status);
+			//printk("wp_comp: work around for pipe error (%d)!\n", purb->status);
 
 			//if(purb->pipe == usb_sndbulkpipe(pusbd, 0x04))
 			//	_set_workitem(&pxmitpriv->xmit_pipe4_reset_wi);
@@ -839,7 +839,7 @@ _func_enter_;
 	}
 	else
 	{
-		RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_port_complete : purb->status(%d) != 0 \n", purb->status));
+		//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_port_complete : purb->status(%d) != 0 \n", purb->status));
 		/*if(purb->status == (-ESHUTDOWN))
 		{
 			RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_port_complete: ESHUTDOWN\n"));
@@ -881,7 +881,7 @@ _func_enter_;
 	xmitframe_complete(padapter, pxmitpriv, pxmitbuf);
 #endif
 
-	RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("-usb_write_port_complete\n"));
+	//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("-usb_write_port_complete\n"));
 
 exit:
 
@@ -905,11 +905,11 @@ u32 usb_write_port(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *wmem)
 	
 _func_enter_;	
 	
-	RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("+usb_write_port\n"));
+	//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("+usb_write_port\n"));
 	
 	if((padapter->bDriverStopped) || (padapter->bSurpriseRemoved) ||(padapter->pwrctrlpriv.pnp_bstop_trx))
 	{
-		RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_port:( padapter->bDriverStopped ||padapter->bSurpriseRemoved ||adapter->pwrctrlpriv.pnp_bstop_trx)!!!\n"));
+		//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_port:( padapter->bDriverStopped ||padapter->bSurpriseRemoved ||adapter->pwrctrlpriv.pnp_bstop_trx)!!!\n"));
 		return _FAIL;
 	}
 	
@@ -1004,7 +1004,7 @@ _func_enter_;
 	}
 	else
 	{
-		RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_port(): usb_submit_urb, status=%x\n", status));
+		//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_port(): usb_submit_urb, status=%x\n", status));
 		ret= _FAIL;
 	}
 //   Commented by Albert 2009/10/13
@@ -1018,7 +1018,7 @@ _func_enter_;
 
 _func_exit_;
 	
-	RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("-usb_write_port\n"));
+	//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("-usb_write_port\n"));
 	
 	return ret;
 
@@ -1061,7 +1061,7 @@ int usbctrl_vendorreq(struct intf_priv *pintfpriv, u8 request, u16 value, u16 in
 	
 	if ( palloc_buf== NULL)
 	{
-		printk( "[%s] Can't alloc memory for vendor request\n", __FUNCTION__ );
+		//printk( "[%s] Can't alloc memory for vendor request\n", __FUNCTION__ );
 		return(-1);
 	}
 	
@@ -1085,8 +1085,8 @@ retry:
 	
 	if (status < 0)
        {
-		printk("retry = %d, reg 0x%x, usb read/write TimeOut! status:%d value=0x%x\n", intretry, value, status, *(u32*)pdata);
-		RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("reg 0x%x, usb_read8 TimeOut! status:0x%x value=0x%x\n", value, status, *(u32*)pdata));
+		//printk("retry = %d, reg 0x%x, usb read/write TimeOut! status:%d value=0x%x\n", intretry, value, status, *(u32*)pdata);
+		//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("reg 0x%x, usb_read8 TimeOut! status:0x%x value=0x%x\n", value, status, *(u32*)pdata));
 		intretry++;
 		if ( intretry < RTW_USB_CONTROL_RETRY_CNT )
 		{
