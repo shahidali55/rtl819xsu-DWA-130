@@ -254,7 +254,7 @@ _func_enter_;
 	pdev_desc = &pusbd->descriptor;
 
 #if 0
-	printk("\n8712_usb_device_descriptor:\n");
+	/*printk("\n8712_usb_device_descriptor:\n");
 	printk("bLength=%x\n", pdev_desc->bLength);
 	printk("bDescriptorType=%x\n", pdev_desc->bDescriptorType);
 	printk("bcdUSB=%x\n", pdev_desc->bcdUSB);
@@ -268,14 +268,14 @@ _func_enter_;
 	printk("iManufacturer=%x\n", pdev_desc->iManufacturer);
 	printk("iProduct=%x\n", pdev_desc->iProduct);
 	printk("iSerialNumber=%x\n", pdev_desc->iSerialNumber);
-	printk("bNumConfigurations=%x\n", pdev_desc->bNumConfigurations);
+	printk("bNumConfigurations=%x\n", pdev_desc->bNumConfigurations);*/
 #endif	
 	
 	phost_conf = pusbd->actconfig;
 	pconf_desc = &phost_conf->desc;
 	
 #if 0	
-	printk("\n8712_usb_configuration_descriptor:\n");
+	/*printk("\n8712_usb_configuration_descriptor:\n");
 	printk("bLength=%x\n", pconf_desc->bLength);
 	printk("bDescriptorType=%x\n", pconf_desc->bDescriptorType);
 	printk("wTotalLength=%x\n", pconf_desc->wTotalLength);
@@ -283,7 +283,7 @@ _func_enter_;
 	printk("bConfigurationValue=%x\n", pconf_desc->bConfigurationValue);
 	printk("iConfiguration=%x\n", pconf_desc->iConfiguration);
 	printk("bmAttributes=%x\n", pconf_desc->bmAttributes);
-	printk("bMaxPower=%x\n", pconf_desc->bMaxPower);
+	printk("bMaxPower=%x\n", pconf_desc->bMaxPower);*/
 #endif
 
 	//printk("\n/****** num of altsetting = (%d) ******/\n", pintf->num_altsetting);
@@ -292,7 +292,7 @@ _func_enter_;
 	piface_desc = &phost_iface->desc;
 
 #if 0
-	printk("\n8712_usb_interface_descriptor:\n");
+	/*printk("\n8712_usb_interface_descriptor:\n");
 	printk("bLength=%x\n", piface_desc->bLength);
 	printk("bDescriptorType=%x\n", piface_desc->bDescriptorType);
 	printk("bInterfaceNumber=%x\n", piface_desc->bInterfaceNumber);
@@ -301,7 +301,7 @@ _func_enter_;
 	printk("bInterfaceClass=%x\n", piface_desc->bInterfaceClass);
 	printk("bInterfaceSubClass=%x\n", piface_desc->bInterfaceSubClass);
 	printk("bInterfaceProtocol=%x\n", piface_desc->bInterfaceProtocol);
-	printk("iInterface=%x\n", piface_desc->iInterface);	
+	printk("iInterface=%x\n", piface_desc->iInterface);*/
 #endif
 	
 	pdvobjpriv->nr_endpoint = piface_desc->bNumEndpoints;
@@ -316,39 +316,39 @@ _func_enter_;
 		{
 			pendp_desc = &phost_endp->desc;
 		
-			printk("\n8712_usb_endpoint_descriptor(%d):\n", i);
-			printk("bLength=%x\n",pendp_desc->bLength);
-			printk("bDescriptorType=%x\n",pendp_desc->bDescriptorType);
-			printk("bEndpointAddress=%x\n",pendp_desc->bEndpointAddress);
+			//printk("\n8712_usb_endpoint_descriptor(%d):\n", i);
+			//printk("bLength=%x\n",pendp_desc->bLength);
+			//printk("bDescriptorType=%x\n",pendp_desc->bDescriptorType);
+			//printk("bEndpointAddress=%x\n",pendp_desc->bEndpointAddress);
 			//printk("bmAttributes=%x\n",pendp_desc->bmAttributes);
 			//printk("wMaxPacketSize=%x\n",pendp_desc->wMaxPacketSize);
-			printk("wMaxPacketSize=%x\n",le16_to_cpu(pendp_desc->wMaxPacketSize));
-			printk("bInterval=%x\n",pendp_desc->bInterval);
+			//printk("wMaxPacketSize=%x\n",le16_to_cpu(pendp_desc->wMaxPacketSize));
+			//printk("bInterval=%x\n",pendp_desc->bInterval);
 			//printk("bRefresh=%x\n",pendp_desc->bRefresh);
 			//printk("bSynchAddress=%x\n",pendp_desc->bSynchAddress);	
 		}	
 
 	}
 
-	printk("\n");
+	//printk("\n");
 	
 	if (pusbd->speed==USB_SPEED_HIGH)
 	{
                 pdvobjpriv->ishighspeed = _TRUE;
-                printk("8712u : USB_SPEED_HIGH\n");
+                //printk("8712u : USB_SPEED_HIGH\n");
 	}
 	else
 	{
 		 pdvobjpriv->ishighspeed = _FALSE;
-                 printk("8712u: NON USB_SPEED_HIGH\n");
+                 //printk("8712u: NON USB_SPEED_HIGH\n");
 	}
 	  	
 			
-	printk("nr_endpoint=%d\n", pdvobjpriv->nr_endpoint);
+	//printk("nr_endpoint=%d\n", pdvobjpriv->nr_endpoint);
 	  	
 	if ( (alloc_io_queue(padapter)) == _FAIL)
 	{
-		RT_TRACE(_module_hci_intfs_c_,_drv_err_,(" \n Can't init io_reqs\n"));
+		//RT_TRACE(_module_hci_intfs_c_,_drv_err_,(" \n Can't init io_reqs\n"));
 		status = _FAIL;			
 	}	
 	
@@ -374,14 +374,14 @@ void usb_dvobj_deinit(_adapter * padapter){
 
 void rtl871x_intf_stop(_adapter *padapter)
 {
-	RT_TRACE(_module_hci_intfs_c_,_drv_err_,("+rtl871x_intf_stop\n"));
+	//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("+rtl871x_intf_stop\n"));
 	
 	//disabel_hw_interrupt
 	if(padapter->bSurpriseRemoved == _FALSE)
 	{
 		//device still exists, so driver can do i/o operation
 		//TODO:
-		RT_TRACE(_module_hci_intfs_c_,_drv_err_,("SurpriseRemoved==_FALSE\n"));
+		//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("SurpriseRemoved==_FALSE\n"));
 	}
 	
 	//cancel in irp
@@ -396,21 +396,21 @@ void rtl871x_intf_stop(_adapter *padapter)
 
 	//todo:cancel other irps
 
-	RT_TRACE(_module_hci_intfs_c_,_drv_err_,("-rtl871x_intf_stop\n"));
+	//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("-rtl871x_intf_stop\n"));
 
 }
 
 #if 0
 void r871x_dev_unload(_adapter *padapter)
 {
-	RT_TRACE(_module_hci_intfs_c_,_drv_err_,("+r871x_dev_unload\n"));
+	//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("+r871x_dev_unload\n"));
 
 	if(padapter->bSurpriseRemoved == _TRUE)
 	{		
 		padapter->bDriverStopped = _TRUE;
 	
-		RT_TRACE(_module_os_intfs_c_, _drv_info_, ("padapter->bSurpriseRemoved==_TRUE\n"));
-		RT_TRACE(_module_hci_intfs_c_,_drv_err_,("unload -> surprise removed\n"));
+		//RT_TRACE(_module_os_intfs_c_, _drv_info_, ("padapter->bSurpriseRemoved==_TRUE\n"));
+		//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("unload -> surprise removed\n"));
 		
 		free_drv_sw(padapter);
 		
@@ -434,21 +434,21 @@ void r871x_dev_unload(_adapter *padapter)
 		
 	}else
 	{
-		RT_TRACE(_module_hci_intfs_c_,_drv_err_,("Initialize hcipriv.hci_priv_init error!!!\n"));
+		//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("Initialize hcipriv.hci_priv_init error!!!\n"));
 	}			
 	
-	RT_TRACE(_module_hci_intfs_c_,_drv_err_,("-r871x_dev_unload\n"));
+	//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("-r871x_dev_unload\n"));
 }
 #else
 void r871x_dev_unload(_adapter *padapter)
 {
 	struct net_device *pnetdev= (struct net_device*)padapter->pnetdev;
 
-	RT_TRACE(_module_hci_intfs_c_,_drv_err_,("+r871x_dev_unload\n"));
+	//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("+r871x_dev_unload\n"));
 
 	if(padapter->bup == _TRUE)
 	{
-		printk("+r871x_dev_unload\n");
+		//printk("+r871x_dev_unload\n");
 		//s1.
 /*		if(pnetdev)   
      		{
@@ -478,7 +478,7 @@ void r871x_dev_unload(_adapter *padapter)
 		//s5.
 		if(padapter->bSurpriseRemoved == _FALSE)
 		{
-			printk("r871x_dev_unload()->rtl871x_hal_deinit()\n");
+			//printk("r871x_dev_unload()->rtl871x_hal_deinit()\n");
 			rtl871x_hal_deinit(padapter);
 
 			//padapter->bSurpriseRemoved = _TRUE;
@@ -492,7 +492,7 @@ void r871x_dev_unload(_adapter *padapter)
 		}
 		else
 		{
-			RT_TRACE(_module_hci_intfs_c_,_drv_err_,("Initialize hcipriv.hci_priv_init error!!!\n"));
+			//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("Initialize hcipriv.hci_priv_init error!!!\n"));
 		}			
 		
 		padapter->bup = _FALSE;
@@ -500,12 +500,12 @@ void r871x_dev_unload(_adapter *padapter)
 	}
 	else
 	{
-		RT_TRACE(_module_hci_intfs_c_,_drv_err_,("r871x_dev_unload():padapter->bup == _FALSE\n" ));
+		//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("r871x_dev_unload():padapter->bup == _FALSE\n" ));
 	}
 				
-	printk("-r871x_dev_unload\n");		
+	//printk("-r871x_dev_unload\n");		
 	
-	RT_TRACE(_module_hci_intfs_c_,_drv_err_,("-r871x_dev_unload\n"));
+	//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("-r871x_dev_unload\n"));
 	
 }
 #endif
@@ -566,9 +566,9 @@ static int r871xu_drv_init(struct usb_interface *pusb_intf,const struct usb_devi
 	struct net_device *pnetdev;
 	struct usb_device	*udev;
 
-	RT_TRACE(_module_hci_intfs_c_,_drv_err_,("+871x - drv_init\n"));
+	//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("+871x - drv_init\n"));
 
-	printk( "==DriverVersion: %s==\n", DRVER );
+	//printk( "==DriverVersion: %s==\n", DRVER );
 
 	//2009.8.13, by Thomas
 	// In this probe function, O.S. will provide the usb interface pointer to driver.
@@ -612,13 +612,13 @@ static int r871xu_drv_init(struct usb_interface *pusb_intf,const struct usb_devi
 	//step 3.
 	//initialize the dvobj_priv 		
 	if(padapter->dvobj_init ==NULL){
-			RT_TRACE(_module_hci_intfs_c_,_drv_err_,("\n Initialize dvobjpriv.dvobj_init error!!!\n"));
+			//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("\n Initialize dvobjpriv.dvobj_init error!!!\n"));
 			goto error;
 	}else{
 	
 		status=padapter->dvobj_init(padapter);
 		if (status != _SUCCESS) {
-			RT_TRACE(_module_hci_intfs_c_,_drv_err_,("\n initialize device object priv Failed!\n"));			
+			//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("\n initialize device object priv Failed!\n"));			
 			goto error;
 		} 
 	}
@@ -626,7 +626,7 @@ static int r871xu_drv_init(struct usb_interface *pusb_intf,const struct usb_devi
 	//step 4.
 	status = init_drv_sw(padapter);	
 	if(status ==_FAIL){
-		RT_TRACE(_module_hci_intfs_c_,_drv_err_,("Initialize driver software resource Failed!\n"));	
+		//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("Initialize driver software resource Failed!\n"));	
 		goto error;					
 	}	
 
@@ -643,17 +643,17 @@ static int r871xu_drv_init(struct usb_interface *pusb_intf,const struct usb_devi
 		// To check system boot selection.
 		if (tmpU1b & _9356SEL)
 		{
-			printk("Boot from EEPROM\n");
+			//printk("Boot from EEPROM\n");
 		}
 		else 
 		{
-			printk("Boot from EFUSE\n");
+			//printk("Boot from EFUSE\n");
 		}	
 
 		// To check autoload success or not.
 		if (tmpU1b & _EEPROM_EN)
 		{
-			printk("Autoload OK!!\n");
+			//printk("Autoload OK!!\n");
 			AutoloadFail = _TRUE;
 
 			//tmpU1b = read8(padapter, EFUSE_TEST+3);
@@ -673,16 +673,16 @@ static int r871xu_drv_init(struct usb_interface *pusb_intf,const struct usb_devi
 			switch(padapter->registrypriv.chip_version)
 			{
 				case RTL8712_1stCUT:
-					RT_TRACE(_module_hci_intfs_c_,_drv_err_,("Chip Version ID: RTL8712_1stCUT.\n"));
+					//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("Chip Version ID: RTL8712_1stCUT.\n"));
 					break;
 				case RTL8712_2ndCUT:
-					RT_TRACE(_module_hci_intfs_c_,_drv_err_,("Chip Version ID: RTL8712_2ndCUT.\n"));
+					//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("Chip Version ID: RTL8712_2ndCUT.\n"));
 					break;
 				case RTL8712_3rdCUT:
-					RT_TRACE(_module_hci_intfs_c_,_drv_err_,("Chip Version ID: RTL8712_3rdCUT.\n"));
+					//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("Chip Version ID: RTL8712_3rdCUT.\n"));
 					break;
 				default:
-					RT_TRACE(_module_hci_intfs_c_,_drv_err_,("Unknown Chip Version!!\n"));
+					//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("Unknown Chip Version!!\n"));
 					padapter->registrypriv.chip_version = RTL8712_2ndCUT;
 					break;
 			}
@@ -764,7 +764,7 @@ static int r871xu_drv_init(struct usb_interface *pusb_intf,const struct usb_devi
 					break;
 					
 			}
-			printk("CustomerID = 0x%4x\n", padapter->eeprompriv.CustomerID);
+			//printk("CustomerID = 0x%4x\n", padapter->eeprompriv.CustomerID);
 
 			//
 			// Led mode
@@ -812,7 +812,7 @@ static int r871xu_drv_init(struct usb_interface *pusb_intf,const struct usb_devi
 #endif
 		}
 		else {
-			printk("AutoLoad Fail reported from CR9346!!\n");
+			//printk("AutoLoad Fail reported from CR9346!!\n");
 			AutoloadFail = _FALSE;
 		}
 
@@ -831,22 +831,21 @@ static int r871xu_drv_init(struct usb_interface *pusb_intf,const struct usb_devi
 	
 		_memcpy(pnetdev->dev_addr, mac/*padapter->eeprompriv.mac_addr*/, ETH_ALEN);
 
-		 printk("MAC Address from efuse= %x-%x-%x-%x-%x-%x\n", 
-			mac[0],mac[1],mac[2],mac[3], mac[4], mac[5]);		
+		 //printk("MAC Address from efuse= %x-%x-%x-%x-%x-%x\n", mac[0],mac[1],mac[2],mac[3], mac[4], mac[5]);		
 	}	
 #endif
 
 	//step 6.
 	/* Tell the network stack we exist */
 	if (register_netdev(pnetdev) != 0) {
-		RT_TRACE(_module_hci_intfs_c_,_drv_err_,("register_netdev() failed\n"));
+		//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("register_netdev() failed\n"));
 		goto error;
 	}
 	
 	_spinlock_init( &padapter->lockRxFF0Filter );
 	
-  	RT_TRACE(_module_hci_intfs_c_,_drv_err_,("-drv_init - Adapter->bDriverStopped=%d, Adapter->bSurpriseRemoved=%d\n",padapter->bDriverStopped, padapter->bSurpriseRemoved));
-  	RT_TRACE(_module_hci_intfs_c_,_drv_err_,("-871x_drv - drv_init, success!\n"));
+  	//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("-drv_init - Adapter->bDriverStopped=%d, Adapter->bSurpriseRemoved=%d\n",padapter->bDriverStopped, padapter->bSurpriseRemoved));
+  	//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("-871x_drv - drv_init, success!\n"));
 	//printk("-871x_drv - drv_init, success!\n");
 
 #ifdef CONFIG_HOSTAPD_MODE
@@ -854,7 +853,7 @@ static int r871xu_drv_init(struct usb_interface *pusb_intf,const struct usb_devi
 #endif	
 
 #ifdef CONFIG_PLATFORM_RTD2880B
-	printk("wlan link up\n");
+	//printk("wlan link up\n");
 	rtd2885_wlan_netlink_sendMsg("linkup", "8712");	
 #endif	
 
@@ -867,7 +866,7 @@ error:
 	usb_set_intfdata(pusb_intf, NULL);
 
    	if(padapter->dvobj_deinit==NULL){
-		RT_TRACE(_module_hci_intfs_c_,_drv_err_,("\n Initialize dvobjpriv.dvobj_deinit error!!!\n"));
+		//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("\n Initialize dvobjpriv.dvobj_deinit error!!!\n"));
 	}else{
 		padapter->dvobj_deinit(padapter);
 	} 	  
@@ -878,7 +877,7 @@ error:
 		free_netdev(pnetdev);
 	}
 
-	RT_TRACE(_module_hci_intfs_c_,_drv_err_,("-871x_sdio - drv_init, fail!\n"));
+	//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("-871x_sdio - drv_init, fail!\n"));
 	//printk("-871x_sdio - drv_init, fail!\n");
 
 	return -ENODEV;
@@ -900,7 +899,7 @@ _func_exit_;
 
 	if(padapter)	
 	{
-       		RT_TRACE(_module_hci_intfs_c_,_drv_err_,("+dev_remove()\n"));
+       		//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("+dev_remove()\n"));
 		
 		pnetdev= (struct net_device*)padapter->pnetdev;	
       		
@@ -931,7 +930,7 @@ _func_exit_;
 			
 	}
 	
-	RT_TRACE(_module_hci_intfs_c_,_drv_err_,("-dev_remove()\n"));
+	//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("-dev_remove()\n"));
 
 _func_exit_;	
 
@@ -958,7 +957,7 @@ _func_exit_;
 #endif //CONFIG_IOCTL_CFG80211
 
 		printk("+r871xu_dev_remove\n");
-       	RT_TRACE(_module_hci_intfs_c_,_drv_err_,("+dev_remove()\n"));		
+       	//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("+dev_remove()\n"));		
       		
 #ifdef CONFIG_HOSTAPD_MODE
 		hostapd_mode_unload(padapter);
@@ -1004,11 +1003,11 @@ _func_exit_;
 	if(udev->state != USB_STATE_NOTATTACHED)
 		usb_reset_device(udev);
 	
-	RT_TRACE(_module_hci_intfs_c_,_drv_err_,("-dev_remove()\n"));
+	//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("-dev_remove()\n"));
 	//printk("-r871xu_dev_remove, hw_init_completed=%d\n", padapter->hw_init_completed);
 
 #ifdef CONFIG_PLATFORM_RTD2880B
-	printk("wlan link down\n");
+	//printk("wlan link down\n");
 	rtd2885_wlan_netlink_sendMsg("linkdown", "8712");	
 #endif	
 	
@@ -1022,7 +1021,7 @@ _func_exit_;
 
 static int __init r8712u_drv_entry(void)
 {
-	RT_TRACE(_module_hci_intfs_c_,_drv_err_,("+r8712u_drv_entry\n"));
+	//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("+r8712u_drv_entry\n"));
 	g_pallocated_recv_buf = _malloc(NR_RECVBUFF *sizeof(struct recv_buf) + 4);
 	drvpriv.drv_registered = _TRUE;
 	return usb_register(&drvpriv.r871xu_drv);	
@@ -1030,8 +1029,8 @@ static int __init r8712u_drv_entry(void)
 
 static void __exit r8712u_drv_halt(void)
 {
-	RT_TRACE(_module_hci_intfs_c_,_drv_err_,("+r8712u_drv_halt\n"));
-	printk("+r8712u_drv_halt\n");
+	//RT_TRACE(_module_hci_intfs_c_,_drv_err_,("+r8712u_drv_halt\n"));
+	//printk("+r8712u_drv_halt\n");
 	drvpriv.drv_registered = _FALSE;
 	
 	usb_deregister(&drvpriv.r871xu_drv);
@@ -1039,7 +1038,7 @@ static void __exit r8712u_drv_halt(void)
 	if( g_pallocated_recv_buf )
 		_mfree(g_pallocated_recv_buf, NR_RECVBUFF *sizeof(struct recv_buf) + 4);
 	
-	printk("-r8712u_drv_halt\n");
+	//printk("-r8712u_drv_halt\n");
 }
 
 
