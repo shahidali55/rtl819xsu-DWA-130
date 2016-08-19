@@ -2253,7 +2253,8 @@ void query_rx_phy_status(_adapter *padapter,union recv_frame *prframe)
 	}
 	else
 		
-		//RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,(" pattrib->signal_qual =%d\n", pattrib->signal_qual ));
+		{//RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,(" pattrib->signal_qual =%d\n", pattrib->signal_qual ));
+		}
 	
 }	// Process_UiLinkQuality8192S
 
