@@ -400,7 +400,8 @@ void rtw_cfg80211_indicate_disconnect(_adapter *padapter)
 		cfg80211_disconnected(padapter->pnetdev, 0,
 			   				NULL, 0, GFP_ATOMIC);
 	else
-		//printk("pwdev->sme_state=%d\n", pwdev->sme_state);
+		{//printk("pwdev->sme_state=%d\n", pwdev->sme_state);
+		}
 
 }
  	
