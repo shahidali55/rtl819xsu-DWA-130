@@ -283,7 +283,7 @@ static inline char *translate_scan(_adapter *padapter, struct iw_request_info* i
 	if ( ( pnetwork->network.Configuration.DSConfig < 1 ) || ( pnetwork->network.Configuration.DSConfig > 14 ) )
 	{
 		//printk( "[%s] SSID = %s, DSConfig = %d\n", __FUNCTION__, pnetwork->network.Ssid.Ssid,
-								pnetwork->network.Configuration.DSConfig );
+		//						pnetwork->network.Configuration.DSConfig );
 		if ( pnetwork->network.Configuration.DSConfig < 1 )
 		{
 			pnetwork->network.Configuration.DSConfig = 1;
@@ -444,8 +444,8 @@ static inline char *translate_scan(_adapter *padapter, struct iw_request_info* i
 		u8 *p;
 		sint out_len=0;
 		out_len=get_sec_ie(pnetwork->network.IEs ,pnetwork->network.IELength,rsn_ie,&rsn_len,wpa_ie,&wpa_len);
-		RT_TRACE(_module_rtl871x_mlme_c_,_drv_info_,("r8711_wx_get_scan: ssid=%s\n",pnetwork->network.Ssid.Ssid));
-		RT_TRACE(_module_rtl871x_mlme_c_,_drv_info_,("r8711_wx_get_scan: wpa_len=%d rsn_len=%d\n",wpa_len,rsn_len));
+		//RT_TRACE(_module_rtl871x_mlme_c_,_drv_info_,("r8711_wx_get_scan: ssid=%s\n",pnetwork->network.Ssid.Ssid));
+		//RT_TRACE(_module_rtl871x_mlme_c_,_drv_info_,("r8711_wx_get_scan: wpa_len=%d rsn_len=%d\n",wpa_len,rsn_len));
 
 		if (wpa_len > 0)
 		{
@@ -545,16 +545,16 @@ static int wpa_set_auth_algs(struct net_device *dev, u32 value)
 
 	if ((value & AUTH_ALG_SHARED_KEY) && (value & AUTH_ALG_OPEN_SYSTEM))
 	{
-		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,
-			 ("wpa_set_auth_algs, AUTH_ALG_SHARED_KEY and  AUTH_ALG_OPEN_SYSTEM [value:0x%x]\n", value));
+		//RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,
+		//	 ("wpa_set_auth_algs, AUTH_ALG_SHARED_KEY and  AUTH_ALG_OPEN_SYSTEM [value:0x%x]\n", value));
 		padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption1Enabled;
 		padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeAutoSwitch;
 		padapter->securitypriv.dot11AuthAlgrthm = 3;
 	}
 	else if (value & AUTH_ALG_SHARED_KEY)
 	{
-		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,
-			 ("wpa_set_auth_algs, AUTH_ALG_SHARED_KEY  [value:0x%x]\n", value));
+		//RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,
+		//	 ("wpa_set_auth_algs, AUTH_ALG_SHARED_KEY  [value:0x%x]\n", value));
 		padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption1Enabled;
 
 #ifdef CONFIG_PLATFORM_MT53XX
@@ -568,8 +568,8 @@ static int wpa_set_auth_algs(struct net_device *dev, u32 value)
 	}
 	else if (value & AUTH_ALG_OPEN_SYSTEM)
 	{
-		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,
-			 ("wpa_set_auth_algs, AUTH_ALG_OPEN_SYSTEM\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,
+		//	 ("wpa_set_auth_algs, AUTH_ALG_OPEN_SYSTEM\n"));
 		//padapter->securitypriv.ndisencryptstatus = Ndis802_11EncryptionDisabled;
 		if (padapter->securitypriv.ndisauthtype < Ndis802_11AuthModeWPAPSK)
 		{
@@ -585,11 +585,9 @@ static int wpa_set_auth_algs(struct net_device *dev, u32 value)
 		}
 	}
 	else if (value & AUTH_ALG_LEAP) {
-		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,
-			 ("wpa_set_auth_algs, AUTH_ALG_LEAP\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_info_,("wpa_set_auth_algs, AUTH_ALG_LEAP\n"));
 	} else {
-		RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_err_,
-			("wpa_set_auth_algs, error!\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_os_c, _drv_err_,("wpa_set_auth_algs, error!\n"));
 		ret = -EINVAL;
 	}
 
