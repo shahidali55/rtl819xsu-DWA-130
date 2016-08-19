@@ -1306,7 +1306,7 @@ void update_txdesc(struct xmit_frame *pxmitframe, uint *pmem, int sz)
 			// ptxdesc->txdw6 = 0; // clear TCP_CHECKSUM and IP_CHECKSUM. It's zero already!!
 			u8 ip_hdr_offset = 32 + pattrib->hdrlen + pattrib->iv_len + 8;
 			ptxdesc->txdw7 = (1 << 31) | (ip_hdr_offset << 16);
-			printk("ptxdesc->txdw7 = %08x\n", ptxdesc->txdw7);
+			//printk("ptxdesc->txdw7 = %08x\n", ptxdesc->txdw7);
 		}
 #endif
 	}
