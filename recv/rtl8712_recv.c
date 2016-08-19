@@ -60,7 +60,7 @@ int	init_recv_priv(struct recv_priv *precvpriv, _adapter *padapter)
       precvpriv->pallocated_recv_buf = g_pallocated_recv_buf;
       if(precvpriv->pallocated_recv_buf==NULL){
 		res= _FAIL;
-		RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("alloc recv_buf fail!\n"));
+		//RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("alloc recv_buf fail!\n"));
 		goto exit;
       }
       _memset(precvpriv->pallocated_recv_buf, 0, NR_RECVBUFF *sizeof(struct recv_buf) + 4);
@@ -213,7 +213,7 @@ void free_recv_priv (struct recv_priv *precvpriv)
 #ifdef PLATFORM_LINUX
 
 	if (skb_queue_len(&precvpriv->rx_skb_queue)) {
-		printk(KERN_WARNING "rx_skb_queue not empty\n");
+		//printk(KERN_WARNING "rx_skb_queue not empty\n");
 	}
 
 	skb_queue_purge(&precvpriv->rx_skb_queue);
@@ -221,7 +221,7 @@ void free_recv_priv (struct recv_priv *precvpriv)
 #ifdef CONFIG_PREALLOC_RECV_SKB
 
 	if (skb_queue_len(&precvpriv->free_recv_skb_queue)) {
-		printk(KERN_WARNING "free_recv_skb_queue not empty, %d\n", skb_queue_len(&precvpriv->free_recv_skb_queue));
+		//printk(KERN_WARNING "free_recv_skb_queue not empty, %d\n", skb_queue_len(&precvpriv->free_recv_skb_queue));
 	}
 
 	skb_queue_purge(&precvpriv->free_recv_skb_queue);
@@ -311,10 +311,10 @@ struct recv_buf *precvbuf=precvframe->u.hdr.precvbuf;
                 list_insert_tail(&(precvbuf->list), get_list_head(&precvpriv->free_recv_buf_queue));
                 precvpriv->free_recv_buf_queue_cnt++;
                 _exit_critical(&precvpriv->free_recv_buf_queue.lock, &irqL);
-                RT_TRACE(_module_rtl871x_recv_c_,_drv_notice_,("os_read_port: precvbuf=0x%p enqueue:precvpriv->free_recv_buf_queue_cnt=%d\n",precvbuf,precvpriv->free_recv_buf_queue_cnt));
+                //RT_TRACE(_module_rtl871x_recv_c_,_drv_notice_,("os_read_port: precvbuf=0x%p enqueue:precvpriv->free_recv_buf_queue_cnt=%d\n",precvbuf,precvpriv->free_recv_buf_queue_cnt));
         }
-                RT_TRACE(_module_rtl871x_recv_c_,_drv_notice_,("os_read_port: precvbuf=0x%p enqueue:precvpriv->free_recv_buf_queue_cnt=%d\n",precvbuf,precvpriv->free_recv_buf_queue_cnt));
- _exit_critical_ex(&precvbuf->recvbuf_lock, &irql);
+                //RT_TRACE(_module_rtl871x_recv_c_,_drv_notice_,("os_read_port: precvbuf=0x%p enqueue:precvpriv->free_recv_buf_queue_cnt=%d\n",precvbuf,precvpriv->free_recv_buf_queue_cnt));
+ 	_exit_critical_ex(&precvbuf->recvbuf_lock, &irql);
 	}
 }
 #endif
@@ -395,9 +395,9 @@ void update_recvframe_attrib_from_recvstat(struct rx_pkt_attrib *pattrib, struct
 	if(drvinfo_sz)
 	{
 		pphy_stat =(struct phy_stat *)(prxstat+1);
-		RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("\n prxstat=%p  pphy_stat=%p \n",prxstat,pphy_stat));
+		//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("\n prxstat=%p  pphy_stat=%p \n",prxstat,pphy_stat));
 		pphy_info=(u32 *)prxstat+1;
-		RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("\n prxstat=%p  pphy_info=%p \n",prxstat,pphy_info));
+		//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("\n prxstat=%p  pphy_info=%p \n",prxstat,pphy_info));
 		//printk("pphy_info, of0=0x%08x\n", *pphy_info);
 		//printk("pphy_info, of1=0x%08x\n", *(pphy_info+1));
 		//printk("pphy_info, of2=0x%08x\n", *(pphy_info+2));
@@ -493,7 +493,7 @@ _func_enter_;
 	//free the defrag_q queue and return the prframe
 	free_recvframe_queue(defrag_q, pfree_recv_queue);  
 	
-	RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("Performance defrag!!!!!\n"));
+	//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("Performance defrag!!!!!\n"));
 	
 _func_exit_;	
 
@@ -562,7 +562,7 @@ _func_enter_;
 			list_insert_tail(&pfhdr->list, phead);			
 			//_spinunlock(&pdefrag_q->lock);
 			
-			RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("Enqueuq: ismfrag = %d, fragnum= %d\n", ismfrag,fragnum));
+			//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("Enqueuq: ismfrag = %d, fragnum= %d\n", ismfrag,fragnum));
 			
 			prtnframe=NULL;
 			
@@ -572,7 +572,7 @@ _func_enter_;
 			//can't find this ta's defrag_queue, so free this recv_frame 
 			free_recvframe(precv_frame, pfree_recv_queue);
 			prtnframe=NULL;
-			RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("Free because pdefrag_q ==NULL: ismfrag = %d, fragnum= %d\n", ismfrag, fragnum));
+			//RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("Free because pdefrag_q ==NULL: ismfrag = %d, fragnum= %d\n", ismfrag, fragnum));
 		}
 		
 	} 
@@ -589,7 +589,7 @@ _func_enter_;
 			//_spinunlock(&pdefrag_q->lock);			
 		
 			//call recvframe_defrag to defrag
-			RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("defrag: ismfrag = %d, fragnum= %d\n", ismfrag, fragnum));
+			//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("defrag: ismfrag = %d, fragnum= %d\n", ismfrag, fragnum));
 			precv_frame = recvframe_defrag(padapter, pdefrag_q);
 			prtnframe=precv_frame;
 		
@@ -599,7 +599,7 @@ _func_enter_;
 			//can't find this ta's defrag_queue, so free this recv_frame 
 			free_recvframe(precv_frame, pfree_recv_queue);
 			prtnframe=NULL;
-			RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("Free because pdefrag_q ==NULL: ismfrag = %d, fragnum= %d\n", ismfrag,fragnum));
+			//RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("Free because pdefrag_q ==NULL: ismfrag = %d, fragnum= %d\n", ismfrag,fragnum));
 		}
 		
 	}
@@ -610,7 +610,7 @@ _func_enter_;
 		//after defrag we must check tkip mic code 
 		if(recvframe_chkmic(padapter,  prtnframe)==_FAIL)
 		{
-			RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("\nrecvframe_chkmic(padapter,  prtnframe)==_FAIL \n"));
+			//RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("\nrecvframe_chkmic(padapter,  prtnframe)==_FAIL \n"));
 			free_recvframe(prtnframe,pfree_recv_queue);
 			prtnframe=NULL;
 		}
@@ -643,7 +643,7 @@ int recvbuf2recvframe(_adapter *padapter, struct recv_buf *precvbuf)
 	struct recv_priv *precvpriv = &padapter->recvpriv;
 	struct intf_hdl * pintfhdl=&padapter->pio_queue->intf;
 
-	RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("+recvbuf2recvframe()\n"));
+	//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("+recvbuf2recvframe()\n"));
 	
 	pfree_recv_queue = &(precvpriv->free_recv_queue);
 	
@@ -675,21 +675,21 @@ int recvbuf2recvframe(_adapter *padapter, struct recv_buf *precvbuf)
 	       //pkt_len = le32_to_cpu(prxstat->rxdw0&0x00003fff); //pkt_len = prxstat->frame_length;	
 	       pkt_len =  le32_to_cpu(prxstat->rxdw0)&0x00003fff;
 
-		RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("rxdesc : offsset0:0x%08x, offsset4:0x%08x, offsset8:0x%08x, offssetc:0x%08x\n", 
-			prxstat->rxdw0, prxstat->rxdw1, prxstat->rxdw2, prxstat->rxdw4));
+		//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("rxdesc : offsset0:0x%08x, offsset4:0x%08x, offsset8:0x%08x, offssetc:0x%08x\n", 
+		//	prxstat->rxdw0, prxstat->rxdw1, prxstat->rxdw2, prxstat->rxdw4));
 	
 		//drvinfo_sz = le16_to_cpu((prxstat->rxdw0&0x000f0000)>>16);//uint 2^3 = 8 bytes
 		drvinfo_sz = (le32_to_cpu(prxstat->rxdw0)&0x000f0000)>>16;
 		drvinfo_sz = drvinfo_sz<<3;
 
 
-		RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("DRV_INFO_SIZE=%d\n", drvinfo_sz));
+		//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("DRV_INFO_SIZE=%d\n", drvinfo_sz));
 
 		if(pkt_len<=0)
 		{
 			//KeBugCheckEx(0x87120044, 0xe0, 0x4c, 0x87, 0x44);	
 	
-			RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("recvbuf2recvframe(), pkt_len<=0\n"));
+			//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("recvbuf2recvframe(), pkt_len<=0\n"));
 		
 			goto  _exit_recvbuf2recvframe;
 		}		
@@ -701,7 +701,7 @@ int recvbuf2recvframe(_adapter *padapter, struct recv_buf *precvbuf)
 		{
 			//KeBugCheckEx(0x87120055, 0xe0, 0x4c, 0x87, 0x55);	
 
-			RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("recvbuf2recvframe(), precvframe==NULL\n"));
+			//RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("recvbuf2recvframe(), precvframe==NULL\n"));
 			
 			goto  _exit_recvbuf2recvframe;
 		}
@@ -758,8 +758,8 @@ _cont:
 		_exit_critical_ex(&precvbuf->recvbuf_lock, &irql);
 #endif
 
-		RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("recvbuf2recvframe(), transfer_len=%d, pkt_offset=%d, pkt_len=%d, ref_cnt=%d, precvbuf=0x%x\n",
-				transfer_len, pkt_offset, pkt_len, precvbuf->ref_cnt, precvbuf));
+		//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("recvbuf2recvframe(), transfer_len=%d, pkt_offset=%d, pkt_len=%d, ref_cnt=%d, precvbuf=0x%x\n",
+		//		transfer_len, pkt_offset, pkt_len, precvbuf->ref_cnt, precvbuf));
 
 
 		//because the endian issue, driver avoid reference to the rxstat after calling update_recvframe_attrib_from_recvstat();
@@ -767,7 +767,7 @@ _cont:
 						
 		if( recv_entry(precvframe) != _SUCCESS)
 		{
-			RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("recvbuf2recvframe(), recv_entry(precvframe) != _SUCCESS\n"));			
+			//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("recvbuf2recvframe(), recv_entry(precvframe) != _SUCCESS\n"));			
 		}
 
 		transfer_len -= pkt_offset;
@@ -825,7 +825,7 @@ int amsdu_to_msdu(_adapter *padapter, union recv_frame *prframe)
 		nSubframe_Length = (nSubframe_Length>>8) + (nSubframe_Length<<8);
 
 		if( a_len < (ETHERNET_HEADER_SIZE + nSubframe_Length) ) {
-			printk("nRemain_Length is %d and nSubframe_Length is : %d\n",a_len,nSubframe_Length);
+			//printk("nRemain_Length is %d and nSubframe_Length is : %d\n",a_len,nSubframe_Length);
 			goto exit;
 		}
 
@@ -849,7 +849,7 @@ int amsdu_to_msdu(_adapter *padapter, union recv_frame *prframe)
 		//sub_skb->dev = padapter->pnetdev;
 		subframes[nr_subframes++] = sub_skb;
 		if(nr_subframes >= MAX_SUBFRAME_COUNT) {
-			printk("ParseSubframe(): Too many Subframes! Packets dropped!\n");
+			//printk("ParseSubframe(): Too many Subframes! Packets dropped!\n");
 			break;
 		}
 
@@ -1001,7 +1001,7 @@ int amsdu_to_msdu(_adapter *padapter, union recv_frame *prframe)
   			}	
   			else
 			{
-  				 RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("drop pkt due to invalid frame format!\n"));
+  				 //RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("drop pkt due to invalid frame format!\n"));
    				
 				//KeBugCheckEx(0x87123333, 0xe0, 0x4c, 0x87, 0xdd);	
 
@@ -1038,7 +1038,7 @@ int amsdu_to_msdu(_adapter *padapter, union recv_frame *prframe)
 	
 			if (piphdr->protocol == 0x06)
 			{
-				RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("@@@===recv tcp len:%d @@@===\n", pnrframe->u.hdr.len));
+				//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("@@@===recv tcp len:%d @@@===\n", pnrframe->u.hdr.len));
 			}
 		}	
 #ifdef PLATFORM_OS_XP		
@@ -1119,7 +1119,7 @@ int amsdu_to_msdu(_adapter *padapter, union recv_frame *prframe)
 		#endif		
 				if(pskb_copy==NULL)
 				{			
-					printk("amsdu_to_msdu:can not all(ocate memory for skb copy\n");
+					//printk("amsdu_to_msdu:can not all(ocate memory for skb copy\n");
 				}		
 			
 				pnrframe_new->u.hdr.pkt = pskb_copy;
@@ -1136,7 +1136,7 @@ int amsdu_to_msdu(_adapter *padapter, union recv_frame *prframe)
 			}
 			else
 			{
-				printk("amsdu_to_msdu:can not allocate memory for pnrframe_new\n");
+				//printk("amsdu_to_msdu:can not allocate memory for pnrframe_new\n");
 			}
 		}
 
@@ -1242,7 +1242,7 @@ void rxcmd_event_hdl(_adapter *padapter, void *prxcmdbuf)
 	struct cmd_priv *pcmdpriv = &(padapter->cmdpriv);
 
 
-	RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("+rxcmd_event_hdl\n"));
+	//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("+rxcmd_event_hdl\n"));
 
 	poffset = (u8*)prxcmdbuf;
 	voffset = *(uint*)poffset;
@@ -1614,7 +1614,7 @@ int recv_indicatepkt_reorder(_adapter *padapter, union recv_frame *prframe)
 		{
 			if ((padapter->bDriverStopped ==_FALSE)&&( padapter->bSurpriseRemoved==_FALSE) )
 			{
-				RT_TRACE(_module_rtl871x_recv_c_, _drv_alert_, ("@@@@  recv_indicatepkt_reorder -recv_func recv_indicatepkt\n" ));	
+				//RT_TRACE(_module_rtl871x_recv_c_, _drv_alert_, ("@@@@  recv_indicatepkt_reorder -recv_func recv_indicatepkt\n" ));	
 
 				recv_indicatepkt(padapter, prframe);		
 				return _SUCCESS;
@@ -1792,7 +1792,7 @@ int process_recv_indicatepkts(_adapter *padapter, union recv_frame *prframe)
 		retval=wlanhdr_to_ethhdr (prframe);
 		if(retval != _SUCCESS)
 		{		
-			RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("wlanhdr_to_ethhdr: drop pkt \n"));
+			//RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("wlanhdr_to_ethhdr: drop pkt \n"));
 			return retval;
 		}
 		
@@ -1809,16 +1809,16 @@ int process_recv_indicatepkts(_adapter *padapter, union recv_frame *prframe)
 		if ((padapter->bDriverStopped ==_FALSE)&&( padapter->bSurpriseRemoved==_FALSE))
 		{
 			//indicate this recv_frame
-			RT_TRACE(_module_rtl871x_recv_c_, _drv_notice_, ("@@@@ process_recv_indicatepkts- recv_func recv_indicatepkt\n" ));	
+			//RT_TRACE(_module_rtl871x_recv_c_, _drv_notice_, ("@@@@ process_recv_indicatepkts- recv_func recv_indicatepkt\n" ));	
 			recv_indicatepkt(padapter, prframe);	
 
 			
 		}
 		else
 		{	
-			RT_TRACE(_module_rtl871x_recv_c_, _drv_notice_, ("@@@@ process_recv_indicatepkts- recv_func free_indicatepkt\n" ));	
+			//RT_TRACE(_module_rtl871x_recv_c_, _drv_notice_, ("@@@@ process_recv_indicatepkts- recv_func free_indicatepkt\n" ));	
 
-			RT_TRACE(_module_rtl871x_recv_c_, _drv_notice_, ("recv_func:bDriverStopped(%d) OR bSurpriseRemoved(%d)", padapter->bDriverStopped, padapter->bSurpriseRemoved));		
+			//RT_TRACE(_module_rtl871x_recv_c_, _drv_notice_, ("recv_func:bDriverStopped(%d) OR bSurpriseRemoved(%d)", padapter->bDriverStopped, padapter->bSurpriseRemoved));		
 			retval = _FAIL;
 			return retval;
 		}	
@@ -1864,7 +1864,7 @@ static u8 evm_db2percentage(s8 value)
 	ret_val = value;
 	//ret_val /= 2;
 
-	RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("EVMdbToPercentage92S Value=%d / %x \n", ret_val, ret_val));
+	//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("EVMdbToPercentage92S Value=%d / %x \n", ret_val, ret_val));
 		
 	if(ret_val >= 0)
 		ret_val = 0;
@@ -2149,7 +2149,7 @@ void query_rx_phy_status(_adapter *padapter,union recv_frame *prframe)
 			/* Translate DBM to percentage. */
 			rssi=query_rx_pwr_percentage(rx_pwr[i]);
 			total_rssi += rssi;
-			RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("RF-%d RXPWR=%x RSSI=%d\n", i, rx_pwr[i], rssi));
+			//RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("RF-%d RXPWR=%x RSSI=%d\n", i, rx_pwr[i], rssi));
 			
 			//Get Rx snr value in DB			
 
@@ -2161,7 +2161,7 @@ void query_rx_phy_status(_adapter *padapter,union recv_frame *prframe)
 		//
 		rx_pwr_all = (((pphy_head[PHY_STAT_PWDB_ALL_SHT]) >> 1 )& 0x7f) -106;
 		pwdb_all = query_rx_pwr_percentage(rx_pwr_all);	
-		RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("PWDB_ALL=%d\n",	pwdb_all));
+		//RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("PWDB_ALL=%d\n",	pwdb_all));
 		
 		
 	//	if(pMgntInfo->CustomerID != RT_CID_819x_Lenovo)		
@@ -2182,8 +2182,8 @@ void query_rx_phy_status(_adapter *padapter,union recv_frame *prframe)
 				// value to positive one, then the dbm value (which is supposed to be negative)  is not correct anymore.
 				evm =evm_db2percentage( (pphy_head[PHY_STAT_RXEVM_SHT+i] /*/ 2*/));	//dbm
 
-				RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("RXRATE=%x RXEVM=%x EVM=%s%d\n", 
-				prframe->u.hdr.attrib.mcs_rate, pphy_head[PHY_STAT_RXEVM_SHT+i], "%",evm));
+				//RT_TRACE(_module_rtl871x_recv_c_, _drv_err_, ("RXRATE=%x RXEVM=%x EVM=%s%d\n", 
+				//prframe->u.hdr.attrib.mcs_rate, pphy_head[PHY_STAT_RXEVM_SHT+i], "%",evm));
 				
 			//	if(bPacketMatchBSSID)
 				{
@@ -2244,7 +2244,7 @@ void query_rx_phy_status(_adapter *padapter,union recv_frame *prframe)
 			if(padapter->recvpriv.signal_qual_data.index >= PHY_LINKQUALITY_SLID_WIN_MAX)
 				padapter->recvpriv.signal_qual_data.index = 0;
 
-			RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("Total SQ=%d  pattrib->signal_qual= %d\n", padapter->recvpriv.signal_qual_data.total_val, pattrib->signal_qual));
+			//RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("Total SQ=%d  pattrib->signal_qual= %d\n", padapter->recvpriv.signal_qual_data.total_val, pattrib->signal_qual));
 
 			// <1> Showed on UI for user, in percentage.
 			tmpVal = padapter->recvpriv.signal_qual_data.total_val/padapter->recvpriv.signal_qual_data.total_num;
@@ -2253,7 +2253,7 @@ void query_rx_phy_status(_adapter *padapter,union recv_frame *prframe)
 	}
 	else
 		
-		RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,(" pattrib->signal_qual =%d\n", pattrib->signal_qual ));
+		//RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,(" pattrib->signal_qual =%d\n", pattrib->signal_qual ));
 	
 }	// Process_UiLinkQuality8192S
 
@@ -2282,7 +2282,7 @@ void process_rssi(_adapter *padapter,union recv_frame *prframe)
 		tmp_val = padapter->recvpriv.signal_strength_data.total_val/padapter->recvpriv.signal_strength_data.total_num;
 		padapter->recvpriv.rssi=(s8)translate2dbm( padapter,(u8)tmp_val);
 
-		RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("UI RSSI = %d, ui_rssi.TotalVal = %d, ui_rssi.TotalNum = %d \n", tmp_val, padapter->recvpriv.signal_strength_data.total_val,padapter->recvpriv.signal_strength_data.total_num));
+		//RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("UI RSSI = %d, ui_rssi.TotalVal = %d, ui_rssi.TotalNum = %d \n", tmp_val, padapter->recvpriv.signal_strength_data.total_val,padapter->recvpriv.signal_strength_data.total_num));
 	}
 
 	
@@ -2320,7 +2320,7 @@ int recv_func(_adapter *padapter, void *pcontext)
 			padapter->mppriv.rx_pktcount++;	         	
 					   
 		if(check_fwstate(pmlmepriv, WIFI_MP_LPBK_STATE) ==_FALSE){
-			RT_TRACE(_module_rtl871x_recv_c_,_drv_alert_,("MP - Not in loopback mode , drop pkt \n"));
+			//RT_TRACE(_module_rtl871x_recv_c_,_drv_alert_,("MP - Not in loopback mode , drop pkt \n"));
 			free_recvframe(orig_prframe, pfree_recv_queue);//free this recv_frame
 			goto _exit_recv_func;	
 		}
@@ -2333,13 +2333,13 @@ int recv_func(_adapter *padapter, void *pcontext)
 	if(retval !=_SUCCESS)
 	{ 		
 		free_recvframe(orig_prframe, pfree_recv_queue);//free this recv_frame
-		RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("recv_func: drop pkt \n"));
+		//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("recv_func: drop pkt \n"));
 		goto _exit_recv_func;
 	}
 	process_phy_info(padapter, prframe);
 	prframe=decryptor(padapter, prframe);
 	if(prframe==NULL){
-		RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("decryptor: drop pkt \n"));
+		//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("decryptor: drop pkt \n"));
 		retval = _FAIL;
 		goto _exit_recv_func;
 	}
@@ -2347,13 +2347,13 @@ int recv_func(_adapter *padapter, void *pcontext)
 
 	prframe = recvframe_chk_defrag(padapter, prframe);
 	if(prframe==NULL){
-		RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("recvframe_chk_defrag: drop pkt \n"));
+		//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("recvframe_chk_defrag: drop pkt \n"));
 		goto _exit_recv_func;
 	}
 
 	prframe=portctrl(padapter, prframe);
 	if(prframe==NULL)	{
-		RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("portctrl: drop pkt \n"));
+		//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("portctrl: drop pkt \n"));
 		retval = _FAIL;
 		goto _exit_recv_func;		
 	}
@@ -2365,7 +2365,7 @@ int recv_func(_adapter *padapter, void *pcontext)
 	retval = process_recv_indicatepkts(padapter, prframe);
 	if(retval != _SUCCESS)
 	{		
-		RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("recv_func: process_recv_indicatepkts fail! \n"));
+		//RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("recv_func: process_recv_indicatepkts fail! \n"));
 		free_recvframe(orig_prframe, pfree_recv_queue);//free this recv_frame
 		goto _exit_recv_func;	
 	}	
@@ -2377,7 +2377,7 @@ int recv_func(_adapter *padapter, void *pcontext)
 		retval=wlanhdr_to_ethhdr (prframe);
 		if(retval != _SUCCESS)
 		{		
-			RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("wlanhdr_to_ethhdr: drop pkt \n"));
+			//RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("wlanhdr_to_ethhdr: drop pkt \n"));
 			free_recvframe(orig_prframe, pfree_recv_queue);//free this recv_frame
 			goto _exit_recv_func;	
 		}
@@ -2393,14 +2393,14 @@ int recv_func(_adapter *padapter, void *pcontext)
 		
 		if ((padapter->bDriverStopped ==_FALSE)&&( padapter->bSurpriseRemoved==_FALSE))
 		{	
-			RT_TRACE(_module_rtl871x_recv_c_, _drv_alert_, ("@@@@ recv_func: recv_func recv_indicatepkt\n" ));	
+			//RT_TRACE(_module_rtl871x_recv_c_, _drv_alert_, ("@@@@ recv_func: recv_func recv_indicatepkt\n" ));	
 			//indicate this recv_frame
 			recv_indicatepkt(padapter, prframe);
 		}
 		else
 		{	
-			RT_TRACE(_module_rtl871x_recv_c_, _drv_alert_, ("@@@@  recv_func: free_recvframe\n" ));		
-			RT_TRACE(_module_rtl871x_recv_c_, _drv_debug_, ("recv_func:bDriverStopped(%d) OR bSurpriseRemoved(%d)", padapter->bDriverStopped, padapter->bSurpriseRemoved));		
+			///RT_TRACE(_module_rtl871x_recv_c_, _drv_alert_, ("@@@@  recv_func: free_recvframe\n" ));		
+			//RT_TRACE(_module_rtl871x_recv_c_, _drv_debug_, ("recv_func:bDriverStopped(%d) OR bSurpriseRemoved(%d)", padapter->bDriverStopped, padapter->bSurpriseRemoved));		
 			retval = _FAIL;
 			free_recvframe(orig_prframe, pfree_recv_queue); //free this recv_frame
 		}		
@@ -2446,7 +2446,7 @@ static int recvbuf2recvframe_u(_adapter *padapter, struct sk_buff *pskb)
 	union recv_frame *precvframe=NULL; 
 	struct recv_priv *precvpriv = &padapter->recvpriv;
 
-	RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("+recvbuf2recvframe_u()\n"));
+	//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("+recvbuf2recvframe_u()\n"));
 	
 	pfree_recv_queue = &(precvpriv->free_recv_queue);
 	
@@ -2480,17 +2480,17 @@ static int recvbuf2recvframe_u(_adapter *padapter, struct sk_buff *pskb)
 		mf = (le32_to_cpu(prxstat->rxdw1) >> 27) & 0x1;//more fragment bit
 		frag = (le32_to_cpu(prxstat->rxdw2) >> 12) & 0xf;//fragmentation number
 
-		RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("rxdesc : offsset0:0x%08x, offsset4:0x%08x, offsset8:0x%08x, offssetc:0x%08x\n", 
-			prxstat->rxdw0, prxstat->rxdw1, prxstat->rxdw2, prxstat->rxdw4));
+		//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("rxdesc : offsset0:0x%08x, offsset4:0x%08x, offsset8:0x%08x, offssetc:0x%08x\n", 
+		//	prxstat->rxdw0, prxstat->rxdw1, prxstat->rxdw2, prxstat->rxdw4));
 			
 		drvinfo_sz = (le32_to_cpu(prxstat->rxdw0)&0x000f0000)>>16;//uint 2^3 = 8 bytes
 		drvinfo_sz = drvinfo_sz<<3;
 
-		RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("DRV_INFO_SIZE=%d\n", drvinfo_sz));
+		//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("DRV_INFO_SIZE=%d\n", drvinfo_sz));
 
 		if(pkt_len<=0)
 		{	
-			RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("recvbuf2recvframe(), pkt_len<=0\n"));		
+			//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("recvbuf2recvframe(), pkt_len<=0\n"));		
 			goto  _exit_recvbuf2recvframe_u;
 		}		
 
@@ -2502,7 +2502,7 @@ static int recvbuf2recvframe_u(_adapter *padapter, struct sk_buff *pskb)
 		precvframe = alloc_recvframe(pfree_recv_queue);
 		if(precvframe==NULL)
 		{
-			RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("recvbuf2recvframe(), precvframe==NULL\n"));			
+			//RT_TRACE(_module_rtl871x_recv_c_,_drv_err_,("recvbuf2recvframe(), precvframe==NULL\n"));			
 			goto  _exit_recvbuf2recvframe_u;
 		}
 
@@ -2557,7 +2557,7 @@ static int recvbuf2recvframe_u(_adapter *padapter, struct sk_buff *pskb)
 						
 		if( recv_entry(precvframe) != _SUCCESS)
 		{
-			RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("recvbuf2recvframe(), recv_entry(precvframe) != _SUCCESS\n"));			
+			//RT_TRACE(_module_rtl871x_recv_c_,_drv_info_,("recvbuf2recvframe(), recv_entry(precvframe) != _SUCCESS\n"));			
 		}
 
 		transfer_len -= pkt_offset;
@@ -2616,7 +2616,7 @@ void recv_bh(void *priv)
 	{
 		if ((padapter->bDriverStopped == _TRUE)||(padapter->bSurpriseRemoved== _TRUE))
 		{
-			printk("recv_bh => bDriverStopped or bSurpriseRemoved \n");
+			//printk("recv_bh => bDriverStopped or bSurpriseRemoved \n");
 			break;
 		}
 
@@ -2628,7 +2628,7 @@ void recv_bh(void *priv)
 		if(ret != _SUCCESS)		
 		{
 			//printk("recv_bh(): after recv_func(), ret=%d\n", ret);
-			RT_TRACE(_module_rtl871x_recv_c_, _drv_debug_, ("recv_bh(): after recv_func(), ret=%d\n", ret));		
+			//RT_TRACE(_module_rtl871x_recv_c_, _drv_debug_, ("recv_bh(): after recv_func(), ret=%d\n", ret));		
 		}
 	}
 	
