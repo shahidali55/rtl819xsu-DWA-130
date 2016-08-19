@@ -1828,8 +1828,10 @@ _func_enter_;
 	//compare the mic
 	for(i=0;i<8;i++){
 		if(pframe[hdrlen+8+plen-8+i] != message[hdrlen+8+plen-8+i])
+		{
 			//RT_TRACE(_module_rtl871x_security_c_,_drv_err_,("aes_decipher:mic check error mic[%d]: pframe(%x) != message(%x) \n",
 			//			i,pframe[hdrlen+8+plen-8+i],message[hdrlen+8+plen-8+i]));
+		}
 	}
 _func_exit_;	
 	return _SUCCESS;
