@@ -74,16 +74,16 @@ void fill_fwpriv(_adapter * padapter, struct fw_priv *pfwpriv)
 	switch (pregpriv->rf_config) {
 		case RTL8712_RF_1T1R:
 			pfwpriv->rf_config = RTL8712_RFCONFIG_1T1R;
-			RT_TRACE(_module_hal_init_c_,_drv_info_,("== fill_fwpriv: RF_CONFIG=1T1R \n"));
+			//RT_TRACE(_module_hal_init_c_,_drv_info_,("== fill_fwpriv: RF_CONFIG=1T1R \n"));
 			break;
 		case RTL8712_RF_2T2R:
 			pfwpriv->rf_config = RTL8712_RFCONFIG_2T2R;
-			RT_TRACE(_module_hal_init_c_,_drv_info_,("== fill_fwpriv: RF_CONFIG=2T2R \n"));
+			//RT_TRACE(_module_hal_init_c_,_drv_info_,("== fill_fwpriv: RF_CONFIG=2T2R \n"));
 			break;
 		case RTL8712_RF_1T2R:
 		default:
 			pfwpriv->rf_config = RTL8712_RFCONFIG_1T2R;
-			RT_TRACE(_module_hal_init_c_,_drv_info_,("== fill_fwpriv: RF_CONFIG=1T2R \n"));
+			//RT_TRACE(_module_hal_init_c_,_drv_info_,("== fill_fwpriv: RF_CONFIG=1T2R \n"));
 	}
 
 	pfwpriv->mp_mode =  ( pregpriv->mp_mode == 1)?1 :0 ;	
@@ -95,7 +95,7 @@ void fill_fwpriv(_adapter * padapter, struct fw_priv *pfwpriv)
 
 	pfwpriv->lowPowerMode = pregpriv->low_power;
 	pfwpriv->rsvd024 = 1;	//	F/W will issue two probe request. One is with ssid ( if exists ), another is with the wildcard ssid.
-	RT_TRACE(_module_hal_init_c_,_drv_err_,("== fill_fwpriv: pfwpriv->lowPowerMode=%d [0:normal / 1:low power]\n",pfwpriv->lowPowerMode ));
+	//RT_TRACE(_module_hal_init_c_,_drv_err_,("== fill_fwpriv: pfwpriv->lowPowerMode=%d [0:normal / 1:low power]\n",pfwpriv->lowPowerMode ));
 }
 
 void update_fwhdr(struct fw_hdr	* pfwhdr, u8* pmappedfw)
@@ -114,8 +114,8 @@ void update_fwhdr(struct fw_hdr	* pfwhdr, u8* pmappedfw)
 	
 	//_memcpy(&pfwhdr->fwpriv, pmappedfw+16 + sizeof(uint)*4, sizeof(struct fw_priv));
 
-	RT_TRACE(_module_hal_init_c_,_drv_info_,("update_fwhdr:sig=%x;ver=%x;dmem_size=%d;IMEMsz=%d;SRAMsz=%d;fwprivsz=%d;struct_fwprivsz=%d\n",
-					pfwhdr->signature, pfwhdr->version,pfwhdr->dmem_size,pfwhdr->img_IMEM_size,pfwhdr->img_SRAM_size, pfwhdr->fw_priv_sz, sizeof(struct fw_priv)));
+	/*RT_TRACE(_module_hal_init_c_,_drv_info_,("update_fwhdr:sig=%x;ver=%x;dmem_size=%d;IMEMsz=%d;SRAMsz=%d;fwprivsz=%d;struct_fwprivsz=%d\n",
+					pfwhdr->signature, pfwhdr->version,pfwhdr->dmem_size,pfwhdr->img_IMEM_size,pfwhdr->img_SRAM_size, pfwhdr->fw_priv_sz, sizeof(struct fw_priv)));*/
 
 }
 
@@ -127,25 +127,25 @@ u8 chk_fwhdr(struct fw_hdr *pfwhdr, u32 ulfilelength)
 	//check signature
 	if ((pfwhdr->signature != 0x8712) && (pfwhdr->signature != 0x8192))
 	{
-		RT_TRACE(_module_hal_init_c_,_drv_err_,("Signature does not match (Signature %x != 8712)! Issue complaints for fw coder\n", pfwhdr->signature));
+		//RT_TRACE(_module_hal_init_c_,_drv_err_,("Signature does not match (Signature %x != 8712)! Issue complaints for fw coder\n", pfwhdr->signature));
 		return _FAIL;
 	}
 
 	//check fw_version
-	RT_TRACE(_module_hal_init_c_,_drv_info_,("FW_VER=%X\n", pfwhdr->version&0x0FFF));
+	//RT_TRACE(_module_hal_init_c_,_drv_info_,("FW_VER=%X\n", pfwhdr->version&0x0FFF));
 	
 	//check interface
 	intf = (u8)((pfwhdr->version&0x3000) >> 12);
-	RT_TRACE(_module_hal_init_c_,_drv_info_,("Interface=%X", intf));		
+	//RT_TRACE(_module_hal_init_c_,_drv_info_,("Interface=%X", intf));		
 
 	//check rf_conf
 	rfconf = (u8)((pfwhdr->version&0xC000) >> 14);
-	RT_TRACE(_module_hal_init_c_,_drv_info_,("chk_fwhdr RF_Configure=%X", rfconf));	
+	//RT_TRACE(_module_hal_init_c_,_drv_info_,("chk_fwhdr RF_Configure=%X", rfconf));	
 
 	//check fw_priv_sze & sizeof(struct fw_priv)
 	if(pfwhdr->fw_priv_sz != sizeof(struct fw_priv))
 	{
-		RT_TRACE(_module_hal_init_c_,_drv_err_,("fw_priv size mismatch between fw(%d) and driver(%d)\n", pfwhdr->fw_priv_sz, sizeof(struct fw_priv)));		
+		//RT_TRACE(_module_hal_init_c_,_drv_err_,("fw_priv size mismatch between fw(%d) and driver(%d)\n", pfwhdr->fw_priv_sz, sizeof(struct fw_priv)));
 		return _FAIL;
 	}
 	
@@ -155,7 +155,7 @@ u8 chk_fwhdr(struct fw_hdr *pfwhdr, u32 ulfilelength)
 	fw_sz =  fwhdrsz + pfwhdr->img_IMEM_size +pfwhdr->img_SRAM_size + pfwhdr->dmem_size;	
 	if (fw_sz != ulfilelength)
 	{			
-		RT_TRACE(_module_hal_init_c_,_drv_err_,("FW image size dismatch! fw_sz=%d != image_fw_sz = %d!\n", fw_sz, ulfilelength));		
+		//RT_TRACE(_module_hal_init_c_,_drv_err_,("FW image size dismatch! fw_sz=%d != image_fw_sz = %d!\n", fw_sz, ulfilelength));		
 		return _FAIL;
 	}
 
@@ -185,7 +185,7 @@ u8 rtl8712_dl_fw(_adapter *padapter)
 
 _func_enter_;
 
-	RT_TRACE(_module_hal_init_c_, _drv_notice_, ("rtl8712_dl_fw \n"));
+	//RT_TRACE(_module_hal_init_c_, _drv_notice_, ("rtl8712_dl_fw \n"));
 
 	ulfilelength = rtl871x_open_fw(padapter, &phfwfile_hdl, &pmappedfw);
 	if(pmappedfw && (ulfilelength>0))
@@ -194,7 +194,7 @@ _func_enter_;
 
 		if(chk_fwhdr(&fwhdr, ulfilelength)== _FAIL)
 		{
-			RT_TRACE(_module_hal_init_c_,_drv_err_,("CHK FWHDR fail!\n"));
+			//RT_TRACE(_module_hal_init_c_,_drv_err_,("CHK FWHDR fail!\n"));
 			ret8 = _FAIL;
 			goto exit;
 		}
@@ -210,7 +210,7 @@ _func_enter_;
 		ptmpchar = _malloc(4*1024);
 
 		if (ptmpchar==NULL) {
-			RT_TRACE(_module_hal_init_c_,_drv_err_,("can't alloc resources when dl_fw\n"));
+			//RT_TRACE(_module_hal_init_c_,_drv_err_,("can't alloc resources when dl_fw\n"));
 			ret8 = _FAIL;
 			goto exit;
 		}
@@ -223,7 +223,7 @@ _func_enter_;
 		//Download FirmWare
 
 		// 1. determine IMEM code size and Load IMEM Code Section
-		RT_TRACE(_module_hal_init_c_, _drv_notice_,("=============STEP1.================\n"));
+		//RT_TRACE(_module_hal_init_c_, _drv_notice_,("=============STEP1.================\n"));
 		
 		//_memcpy(ppayload, ptr, fwhdr.img_IMEM_size);
 		//ptx_desc->linip=1;
@@ -265,7 +265,7 @@ _func_enter_;
 		//ptx_desc->txdw0 |= BIT(28);
 		//ptx_desc->txdw1 |= ((3<<8)&0x00001f00);
 
-		RT_TRACE(_module_hal_init_c_, _drv_notice_,(" WT IMEM ; txpktsize = %x\n", ptx_desc->txdw0));
+		//RT_TRACE(_module_hal_init_c_, _drv_notice_,(" WT IMEM ; txpktsize = %x\n", ptx_desc->txdw0));
 		//write_port(padapter, RTL8712_DMA_VOQ, ptx_desc->txpktsize+32 ,(u8*) ptx_desc);
 		//write_mem(padapter, RTL8712_DMA_VOQ, ptx_desc->txpktsize+32 ,(u8*)ptx_desc);
 		//write_mem(padapter, RTL8712_DMA_VOQ, fwhdr.img_IMEM_size+TXDESC_SIZE, (u8*)ptx_desc);
@@ -273,37 +273,37 @@ _func_enter_;
 		//ptr = ptr + fwhdr.img_IMEM_size;
 		i = 10;
 		tmp16=read16(padapter,TCR);
-		RT_TRACE(_module_hal_init_c_, _drv_notice_,("TCR val = %x\n", tmp16));
+		//RT_TRACE(_module_hal_init_c_, _drv_notice_,("TCR val = %x\n", tmp16));
 		while(((tmp16 & _IMEM_CODE_DONE)==0) && (i>0))
 		{
 			//delay
 			udelay_os(10);
 			tmp16=read16(padapter,TCR);
-			RT_TRACE(_module_hal_init_c_, _drv_notice_, ("TCR val = %x\n", tmp16));						
+			//RT_TRACE(_module_hal_init_c_, _drv_notice_, ("TCR val = %x\n", tmp16));						
 			i--;
 		}
 		if (i == 0) {
-			RT_TRACE(_module_hal_init_c_, _drv_err_, ("Error => Pollin _IMEM_CODE_DONE Fail\n"));
+			//RT_TRACE(_module_hal_init_c_, _drv_err_, ("Error => Pollin _IMEM_CODE_DONE Fail\n"));
 			ret8=_FAIL;
 			goto exit;
 		}
 
 		if((tmp16 & _IMEM_CHK_RPT) == 0) {
-			RT_TRACE(_module_hal_init_c_, _drv_err_, ("_IMEM_CHK_RPT = 0\n"));
+			//RT_TRACE(_module_hal_init_c_, _drv_err_, ("_IMEM_CHK_RPT = 0\n"));
 			ret8 = _FAIL;
 			goto exit;
 		}
 
 		// 2.Download EMEM code size and Load EMEM Code Section
 
-		RT_TRACE(_module_hal_init_c_, _drv_notice_,("=============STEP2.================\n"));
+		//RT_TRACE(_module_hal_init_c_, _drv_notice_,("=============STEP2.================\n"));
 
 		//ptr = ptr + fwhdr.img_IMEM_size;
 		//ptx_desc->linip=1;
 		//ptx_desc->txpktsize =  fwhdr.img_SRAM_size ;		
 
 		emem_sz = fwhdr.img_SRAM_size;
-		RT_TRACE(_module_hal_init_c_, _drv_notice_,("WT SRAM ; txpktsize = 0x%x  fwhdr.img_SRAM_size=0x%x\n", emem_sz,fwhdr.img_SRAM_size));
+		//RT_TRACE(_module_hal_init_c_, _drv_notice_,("WT SRAM ; txpktsize = 0x%x  fwhdr.img_SRAM_size=0x%x\n", emem_sz,fwhdr.img_SRAM_size));
 		
 		do{
 	
@@ -332,7 +332,7 @@ _func_enter_;
 			
 		//ptx_desc->txdw1 |= ((3<<QSEL_SHT)&0x00001f00);
 		
-		RT_TRACE(_module_hal_init_c_, _drv_notice_,("WT SRAM; txpktsize = %x\n", ptx_desc->txdw0));	
+		//RT_TRACE(_module_hal_init_c_, _drv_notice_,("WT SRAM; txpktsize = %x\n", ptx_desc->txdw0));	
 		//_memcpy(ppayload, ptr, fwhdr.img_SRAM_size);
 		//write_port(padapter, RTL8712_DMA_VOQ, ptx_desc->txpktsize+32, (u8*)ptx_desc);
 		//write_mem(padapter, RTL8712_DMA_VOQ, ptx_desc->txpktsize+32 ,(u8*) ptx_desc);
@@ -341,62 +341,62 @@ _func_enter_;
 
 		i = 5;
 		tmp16=read16(padapter,TCR);
-			RT_TRACE(_module_hal_init_c_, _drv_notice_,("TCR val = %x\n", tmp16));
+			//RT_TRACE(_module_hal_init_c_, _drv_notice_,("TCR val = %x\n", tmp16));
 		while(((tmp16 & _EMEM_CODE_DONE)==0) && ( i>0))
 		{
 			udelay_os(10);
 			tmp16=read16(padapter,TCR);
-			RT_TRACE(_module_hal_init_c_, _drv_notice_,("TCR val = %x\n", tmp16));
+			//RT_TRACE(_module_hal_init_c_, _drv_notice_,("TCR val = %x\n", tmp16));
 			i--;
 		}
 		if (i == 0) {
-			RT_TRACE(_module_hal_init_c_,_drv_err_,("Error => Pollin _EMEM_CODE_DONE Fail\n"));
+			//RT_TRACE(_module_hal_init_c_,_drv_err_,("Error => Pollin _EMEM_CODE_DONE Fail\n"));
 			ret8=_FAIL;
 			goto exit;
 		}
 
 		if ((tmp16 & _EMEM_CHK_RPT) == 0) {
 			ret8 = _FAIL;
-			RT_TRACE(_module_hal_init_c_,_drv_err_,("_EMEM_CHK_RPT = 0\n"));
+			//RT_TRACE(_module_hal_init_c_,_drv_err_,("_EMEM_CHK_RPT = 0\n"));
 			goto exit;
 		}
 
 		// 3.Enable CPU
-		RT_TRACE(_module_hal_init_c_, _drv_notice_,("=============STEP3.================\n"));
+		//RT_TRACE(_module_hal_init_c_, _drv_notice_,("=============STEP3.================\n"));
 
 		tmp8 = read8(padapter, SYS_CLKR);
 
-		RT_TRACE(_module_hal_init_c_, _drv_notice_,("WT SYS_CLKR to 0x%x(ori=0x%x)\n", (u32)(tmp8|BIT(2)),tmp8) );
+		//RT_TRACE(_module_hal_init_c_, _drv_notice_,("WT SYS_CLKR to 0x%x(ori=0x%x)\n", (u32)(tmp8|BIT(2)),tmp8) );
 
 		write8(padapter, SYS_CLKR, tmp8|BIT(2));
 		tmp8_a = read8(padapter, SYS_CLKR);
 
 		if (tmp8_a != (tmp8|BIT(2))) {
-			RT_TRACE(_module_hal_init_c_,_drv_err_,("Error=> WT SYS_FUNC_EN fail; SYS_CLKR = %x;  target_val = %x\n", tmp8_a, tmp8));
+			//RT_TRACE(_module_hal_init_c_,_drv_err_,("Error=> WT SYS_FUNC_EN fail; SYS_CLKR = %x;  target_val = %x\n", tmp8_a, tmp8));
 			ret8 = _FAIL;
 			goto exit;
 		}
 
 		tmp8 = read8(padapter, SYS_FUNC_EN + 1);
-		RT_TRACE(_module_hal_init_c_, _drv_notice_,("WT SYS_FUNC_EN+1 to 0x%x[ori=0x%x]\n",(u32)(tmp8|BIT(2)),tmp8));
+		//RT_TRACE(_module_hal_init_c_, _drv_notice_,("WT SYS_FUNC_EN+1 to 0x%x[ori=0x%x]\n",(u32)(tmp8|BIT(2)),tmp8));
 		write8(padapter, SYS_FUNC_EN+1, tmp8|BIT(2)); 
 		tmp8_a = read8(padapter, SYS_FUNC_EN + 1); 
 		if (tmp8_a != (tmp8|BIT(2))) {
-			RT_TRACE(_module_hal_init_c_,_drv_err_,("Error=> WT SYS_FUNC_EN fail; SYS_FUNC_EN=%x; target_val=%x\n", tmp8_a, tmp8));
+			//RT_TRACE(_module_hal_init_c_,_drv_err_,("Error=> WT SYS_FUNC_EN fail; SYS_FUNC_EN=%x; target_val=%x\n", tmp8_a, tmp8));
 			ret8=_FAIL;
 			goto exit;
 		}
 
 		//---
-		RT_TRACE(_module_hal_init_c_, _drv_notice_,("WT TCR |_BASECHG\n"));
+		//RT_TRACE(_module_hal_init_c_, _drv_notice_,("WT TCR |_BASECHG\n"));
 
 		tmp32 = read32(padapter, TCR);
-		RT_TRACE(_module_hal_init_c_, _drv_notice_,("RD TCR = %x\n", tmp32));
+		//RT_TRACE(_module_hal_init_c_, _drv_notice_,("RD TCR = %x\n", tmp32));
 
 		// 4.polling IMEM Ready
-		RT_TRACE(_module_hal_init_c_, _drv_notice_,("=============STEP4.================\n"));
+		//RT_TRACE(_module_hal_init_c_, _drv_notice_,("=============STEP4.================\n"));
 
-		RT_TRACE(_module_hal_init_c_, _drv_notice_,(" polling IMEM Ready\n"));
+		//RT_TRACE(_module_hal_init_c_, _drv_notice_,(" polling IMEM Ready\n"));
 #ifdef CONFIG_USB_HCI
 		//write8(padapter, 0xb025003a, 0x3e);
 		//RT_TRACE(_module_hal_init_c_,_drv_info_,("RD DBS = %x \n", read8(padapter, 0xb025003a)));
@@ -407,43 +407,44 @@ _func_enter_;
 		{
 			udelay_os(1000);
 			tmp16 = read16(padapter,TCR);
-			RT_TRACE(_module_hal_init_c_, _drv_notice_,("TCR val = %x\n", tmp16));
+			//RT_TRACE(_module_hal_init_c_, _drv_notice_,("TCR val = %x\n", tmp16));
 			i--;
 		}
 		if (i == 0)
 		{
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("Error => Pollin _IMEM_RDY Fail\n"));
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("\nread  0x10250318=0x%x\n",read32(padapter,0x10250318)));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("Error => Pollin _IMEM_RDY Fail\n"));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("\nread  0x10250318=0x%x\n",read32(padapter,0x10250318)));
 			write16(padapter, 0x10250348, 0xc000);
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("write 0x10250348 0xc000\n"));
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250340=0x%x\n",read32(padapter,0x10250340)));
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250344=0x%x\n",read32(padapter,0x10250344)));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("write 0x10250348 0xc000\n"));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250340=0x%x\n",read32(padapter,0x10250340)));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250344=0x%x\n",read32(padapter,0x10250344)));
 			write16(padapter, 0x10250348, 0xc001);
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("write 0x10250348 0xc001\n"));
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250340=0x%x\n",read32(padapter,0x10250340)));
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250344=0x%x\n",read32(padapter,0x10250344)));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("write 0x10250348 0xc001\n"));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250340=0x%x\n",read32(padapter,0x10250340)));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250344=0x%x\n",read32(padapter,0x10250344)));
 			write16(padapter, 0x10250348, 0x2000);
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("write 0x10250348 0x2000\n"));
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250340=0x%x\n",read32(padapter,0x10250340)));
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250344=0x%x\n",read32(padapter,0x10250344)));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("write 0x10250348 0x2000\n"));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250340=0x%x\n",read32(padapter,0x10250340)));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250344=0x%x\n",read32(padapter,0x10250344)));
 			write16(padapter, 0x10250348, 0x2001);
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("write 0x10250348 0x2001\n"));
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250340=0x%x\n",read32(padapter,0x10250340)));
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250344=0x%x\n",read32(padapter,0x10250344)));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("write 0x10250348 0x2001\n"));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250340=0x%x\n",read32(padapter,0x10250340)));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250344=0x%x\n",read32(padapter,0x10250344)));
 			write16(padapter, 0x10250348, 0x2002);
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("write 0x10250348 0x2002\n"));
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250340=0x%x\n",read32(padapter,0x10250340)));
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250344=0x%x\n",read32(padapter,0x10250344)));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("write 0x10250348 0x2002\n"));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250340=0x%x\n",read32(padapter,0x10250340)));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250344=0x%x\n",read32(padapter,0x10250344)));
 			write16(padapter, 0x10250348, 0x2003);
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("write 0x10250348 0x2003\n"));
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250340=0x%x\n",read32(padapter,0x10250340)));
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250344=0x%x\n",read32(padapter,0x10250344)));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("write 0x10250348 0x2003\n"));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250340=0x%x\n",read32(padapter,0x10250340)));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("read  0x10250344=0x%x\n",read32(padapter,0x10250344)));
 	{
 			u32 i;
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("==dump register[0-44]===\n"));
-			for (i = 0; i < 0x48; i = i+4)
-				RT_TRACE(_module_hal_init_c_,_drv_emerg_,("[%x]=0x%x\n",i,read32(padapter,0x10250000+i)));
-			RT_TRACE(_module_hal_init_c_,_drv_emerg_,("===dump end===\n"));
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("==dump register[0-44]===\n"));
+			for (i = 0; i < 0x48; i = i+4){
+				//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("[%x]=0x%x\n",i,read32(padapter,0x10250000+i)));
+			}
+			//RT_TRACE(_module_hal_init_c_,_drv_emerg_,("===dump end===\n"));
 	}
 			ret8 = _FAIL;
 			goto exit;
@@ -452,7 +453,7 @@ _func_enter_;
 		//5.Download DMEM code size and Load EMEM Code Section
 		//tx_desc.linip=1;
 		//tx_desc.qsel=3;	//not necessary		
-		RT_TRACE(_module_hal_init_c_, _drv_notice_,("=============STEP5.================\n"));
+		//RT_TRACE(_module_hal_init_c_, _drv_notice_,("=============STEP5.================\n"));
 
 		_memset(ptx_desc, 0, TXDESC_SIZE);
 
@@ -461,13 +462,13 @@ _func_enter_;
 		
 		_memcpy(ppayload, &fwhdr.fwpriv, fwhdr.fw_priv_sz);
 
-		RT_TRACE(_module_hal_init_c_, _drv_notice_,(" Download fwpriv; txpktsize=0x%x ptx_desc->txdw0=0x%x\n", fwhdr.fw_priv_sz,ptx_desc->txdw0));
+		//RT_TRACE(_module_hal_init_c_, _drv_notice_,(" Download fwpriv; txpktsize=0x%x ptx_desc->txdw0=0x%x\n", fwhdr.fw_priv_sz,ptx_desc->txdw0));
 #ifdef CONFIG_USB_HCI		
 		write_mem(padapter, RTL8712_DMA_VOQ, fwhdr.fw_priv_sz+TXDESC_SIZE, (u8*)ptx_desc);
 #endif
 #ifdef CONFIG_SDIO_HCI
 		write_port(padapter, RTL8712_DMA_VOQ,  fwhdr.fw_priv_sz+TXDESC_SIZE, (u8*)ptx_desc);
-		RT_TRACE(_module_hal_init_c_,_drv_err_,(" Download fwpriv; fwhdr.fw_priv_sz+TXDESC_SIZE= 0x%x\n", fwhdr.fw_priv_sz+TXDESC_SIZE));
+		//RT_TRACE(_module_hal_init_c_,_drv_err_,(" Download fwpriv; fwhdr.fw_priv_sz+TXDESC_SIZE= 0x%x\n", fwhdr.fw_priv_sz+TXDESC_SIZE));
 
 #endif
 		//polling dmem code done
@@ -477,18 +478,18 @@ _func_enter_;
 		{
 			udelay_os(1000);
 			tmp16=read16(padapter,TCR);
-			RT_TRACE(_module_hal_init_c_, _drv_notice_,("TCR val=%x\n", tmp16));
+			//RT_TRACE(_module_hal_init_c_, _drv_notice_,("TCR val=%x\n", tmp16));
 			i--;
 		}
 		if(i==0)
 		{
-			RT_TRACE(_module_hal_init_c_,_drv_err_,("Error => Pollin _DMEM_CODE_DONE Fail\n"));
+			//RT_TRACE(_module_hal_init_c_,_drv_err_,("Error => Pollin _DMEM_CODE_DONE Fail\n"));
 			ret8=_FAIL;
 			goto exit;
 		}
 
 #if 1
-	        RT_TRACE(_module_hal_init_c_, _drv_notice_,("====STEP6.==Polling _FWRDY if ready==\n"));
+	        //RT_TRACE(_module_hal_init_c_, _drv_notice_,("====STEP6.==Polling _FWRDY if ready==\n"));
 
 		tmp8 = read8(padapter, 0x1025000A);
 
@@ -503,26 +504,26 @@ _func_enter_;
 			//udelay_os(1000);
 			msleep_os(100);
 			tmp16=read16(padapter,TCR);
-			RT_TRACE(_module_hal_init_c_, _drv_notice_,("TCR val=%x\n", tmp16));
+			//RT_TRACE(_module_hal_init_c_, _drv_notice_,("TCR val=%x\n", tmp16));
 			i--;			
 		}
 		
 		if(i==0)
 		{
-			RT_TRACE(_module_hal_init_c_,_drv_err_,("Error => Pollin _FWRDY Fail\n"));
+			//RT_TRACE(_module_hal_init_c_,_drv_err_,("Error => Pollin _FWRDY Fail\n"));
 			ret8=_FAIL;
 			goto exit;
 		}
 		else
 		{
-			RT_TRACE(_module_hal_init_c_, _drv_notice_,("Polling _FWRDY r_cnt=%d\n", i));
+			//RT_TRACE(_module_hal_init_c_, _drv_notice_,("Polling _FWRDY r_cnt=%d\n", i));
 		}
 #endif	
 		
 	}
 	else
 	{
-		RT_TRACE(_module_hal_init_c_,_drv_err_,("rtl8712_dl_fw=> can't open fwfile\n"));
+		//RT_TRACE(_module_hal_init_c_,_drv_err_,("rtl8712_dl_fw=> can't open fwfile\n"));
 		ret8 = _FAIL;
 	}
 
@@ -549,14 +550,14 @@ uint rtl8712_hal_init(_adapter *padapter)
 _func_enter_;
 
 	//r8712 firmware download
-	RT_TRACE(_module_hal_init_c_, _drv_alert_, ("rtl8712_hal_init #1 == SYS_FUNC_EN:0x%08x\n", read8(padapter,0x10250003)));
+	//RT_TRACE(_module_hal_init_c_, _drv_alert_, ("rtl8712_hal_init #1 == SYS_FUNC_EN:0x%08x\n", read8(padapter,0x10250003)));
 	val8 = rtl8712_dl_fw( padapter);
 	if (val8 == _FAIL){
-		RT_TRACE(_module_hal_init_c_, _drv_err_, ("FW Download fail!\n"));
+		//RT_TRACE(_module_hal_init_c_, _drv_err_, ("FW Download fail!\n"));
 		status = _FAIL;
 		goto exit;
 	}
-        RT_TRACE(_module_hal_init_c_, _drv_alert_, ("rtl8712_hal_init #2 == SYS_FUNC_EN:0x%08x\n", read8(padapter,0x10250003)));
+        //RT_TRACE(_module_hal_init_c_, _drv_alert_, ("rtl8712_hal_init #2 == SYS_FUNC_EN:0x%08x\n", read8(padapter,0x10250003)));
 
 	//register setting after firmware download
 	//val32 = 0;
@@ -565,19 +566,19 @@ _func_enter_;
 	//RT_TRACE(_module_hal_init_c_,_drv_err_,("RCR=0x%x \n",  read32(padapter, RCR)));
 
 #ifdef CONFIG_RTL8712_TCP_CSUM_OFFLOAD_RX
-	printk("1 RCR=0x%x\n",  read32(padapter, RCR));
+	//printk("1 RCR=0x%x\n",  read32(padapter, RCR));
 	val32 = read32(padapter, RCR);//RCR
 	write32(padapter, RCR, (val32|BIT(26))); //Enable RX TCP Checksum offload
-	RT_TRACE(_module_hal_init_c_,_drv_err_,("RCR=0x%x\n",  read32(padapter, RCR)));
-	printk("2 RCR=0x%x \n",  read32(padapter, RCR));
+	//RT_TRACE(_module_hal_init_c_,_drv_err_,("RCR=0x%x\n",  read32(padapter, RCR)));
+	//printk("2 RCR=0x%x \n",  read32(padapter, RCR));
 #endif	
 
 #ifdef CONFIG_RTL8712_TCP_CSUM_OFFLOAD_TX
-	printk("1 TCR=0x%x \n",  read32(padapter, TCR));
+	//printk("1 TCR=0x%x \n",  read32(padapter, TCR));
 	val32 = read32(padapter, TCR);
 	write32(padapter, TCR, (val32|BIT(25))); //Enable TX TCP Checksum offload
-	RT_TRACE(_module_hal_init_c_,_drv_err_,("TCR=0x%x \n",  read32(padapter, TCR)));
-	printk("2 TCR=0x%x \n",  read32(padapter, TCR));
+	//RT_TRACE(_module_hal_init_c_,_drv_err_,("TCR=0x%x \n",  read32(padapter, TCR)));
+	//printk("2 TCR=0x%x \n",  read32(padapter, TCR));
 #endif	
 	val32 = read32(padapter, RCR);
 	write32(padapter, RCR, (val32|BIT(25))); //Append PHY status
@@ -597,15 +598,15 @@ _func_enter_;
 
 	// enable interrupt
 	write16(padapter, SDIO_HIMR, 0xF);
-	RT_TRACE(_module_hal_init_c_, _drv_debug_, ("write SDIO_HIMR 0xF\n"));
+	//RT_TRACE(_module_hal_init_c_, _drv_debug_, ("write SDIO_HIMR 0xF\n"));
 #endif
 
 #ifdef CONFIG_USB_HCI
 	//for usb rx aggregation	
-	RT_TRACE(_module_hal_init_c_,_drv_debug_,("0x102500B5=0x%x\n", read8(padapter, 0x102500B5)));
-	RT_TRACE(_module_hal_init_c_,_drv_debug_,("0x102500D9=0x%x\n", read8(padapter, 0x102500D9)));
-	RT_TRACE(_module_hal_init_c_,_drv_debug_,("0x102500BD=0x%x\n", read8(padapter, 0x102500BD)));
-	RT_TRACE(_module_hal_init_c_,_drv_debug_,("0x1025FE5B=0x%x\n", read8(padapter, 0x1025FE5B)));
+	//RT_TRACE(_module_hal_init_c_,_drv_debug_,("0x102500B5=0x%x\n", read8(padapter, 0x102500B5)));
+	//RT_TRACE(_module_hal_init_c_,_drv_debug_,("0x102500D9=0x%x\n", read8(padapter, 0x102500D9)));
+	//RT_TRACE(_module_hal_init_c_,_drv_debug_,("0x102500BD=0x%x\n", read8(padapter, 0x102500BD)));
+	//RT_TRACE(_module_hal_init_c_,_drv_debug_,("0x1025FE5B=0x%x\n", read8(padapter, 0x1025FE5B)));
 	
 	write8(padapter, 0x102500B5, read8(padapter, 0x102500B5)|BIT(0));//page = 128bytes
 #ifdef CONFIG_USB_RX_AGGREGATION
@@ -618,10 +619,10 @@ _func_enter_;
 	//write8(padapter, 0x1025FE5B, 0x02);// 1.7ms/2
 	write8(padapter, 0x1025FE5B, 0x04);// 1.7ms/4
 
-	RT_TRACE(_module_hal_init_c_,_drv_debug_,("0x102500B5=0x%x\n", read8(padapter, 0x102500B5)));
-	RT_TRACE(_module_hal_init_c_,_drv_debug_,("0x102500D9=0x%x\n", read8(padapter, 0x102500D9)));
-	RT_TRACE(_module_hal_init_c_,_drv_debug_,("0x102500BD=0x%x\n", read8(padapter, 0x102500BD)));
-	RT_TRACE(_module_hal_init_c_,_drv_debug_,("0x1025FE5B=0x%x\n", read8(padapter, 0x1025FE5B)));
+	//RT_TRACE(_module_hal_init_c_,_drv_debug_,("0x102500B5=0x%x\n", read8(padapter, 0x102500B5)));
+	//RT_TRACE(_module_hal_init_c_,_drv_debug_,("0x102500D9=0x%x\n", read8(padapter, 0x102500D9)));
+	//RT_TRACE(_module_hal_init_c_,_drv_debug_,("0x102500BD=0x%x\n", read8(padapter, 0x102500BD)));
+	//RT_TRACE(_module_hal_init_c_,_drv_debug_,("0x1025FE5B=0x%x\n", read8(padapter, 0x1025FE5B)));
 
 	// Fix the RX FIFO issue(USB error), Rivesed by Roger, 2008-06-14
 	val8 = read8(padapter, 0x1025fe5C);
@@ -642,17 +643,17 @@ _func_enter_;
 			padapter->eeprompriv.mac_addr[i] = val8;			
 		}
 #if 0
-		printk("MAC Address = %x-%x-%x-%x-%x-%x\n", 
+		/*printk("MAC Address = %x-%x-%x-%x-%x-%x\n", 
 				 peeprompriv->mac_addr[0],	peeprompriv->mac_addr[1],
 				 peeprompriv->mac_addr[2],	peeprompriv->mac_addr[3],
-			peeprompriv->mac_addr[4],	peeprompriv->mac_addr[5]);
+			peeprompriv->mac_addr[4],	peeprompriv->mac_addr[5]);*/
 #endif
 	}
 				 
-	RT_TRACE(_module_hal_init_c_, _drv_debug_,
+	/*RT_TRACE(_module_hal_init_c_, _drv_debug_,
 		 ("MAC Address=%02x:%02x:%02x:%02x:%02x:%02x\n",
 		  peeprompriv->mac_addr[0], peeprompriv->mac_addr[1], peeprompriv->mac_addr[2],
-		  peeprompriv->mac_addr[3], peeprompriv->mac_addr[4], peeprompriv->mac_addr[5]));
+		  peeprompriv->mac_addr[3], peeprompriv->mac_addr[4], peeprompriv->mac_addr[5]));*/
 
 exit:
 
@@ -664,7 +665,7 @@ _func_exit_;
 uint rtl8712_hal_deinit(_adapter *padapter)
 {
 #ifdef CONFIG_USB_HCI
-	RT_TRACE(_module_hal_init_c_,_drv_info_,("+rtl8712_hal_deinit\n"));
+	//RT_TRACE(_module_hal_init_c_,_drv_info_,("+rtl8712_hal_deinit\n"));
 
 	//write8(padapter, 0x1025004c, 0x0);
 
@@ -726,7 +727,7 @@ uint rtl8712_hal_deinit(_adapter *padapter)
 	}
 #endif
 
-	RT_TRACE(_module_hal_init_c_,_drv_info_,("-rtl8712_hal_deinit, success!\n"));
+	//RT_TRACE(_module_hal_init_c_,_drv_info_,("-rtl8712_hal_deinit, success!\n"));
 
 	//NdisMDeregisterAdapterShutdownHandler(padapter->hndis_adapter);
 
@@ -763,7 +764,7 @@ uint rtl8712_hal_deinit(_adapter *padapter)
 
 	write8(padapter, AFE_MISC, 0x0); // Disable AFE BG&MB  (30)
 
-	RT_TRACE(_module_hal_init_c_, _drv_notice_, ("-rtl8712_hal_deinit, success!\n"));
+	//RT_TRACE(_module_hal_init_c_, _drv_notice_, ("-rtl8712_hal_deinit, success!\n"));
 
 	return _SUCCESS;
 
@@ -803,26 +804,26 @@ static uint iram_test(_adapter *padapter)
 	u32 val32;
 	u32 report = 0;
 
-	RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@ iram_test !!!!!\n"));	
+	//RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@ iram_test !!!!!\n"));	
 
 	//step 1.Mbist clock enable,write 0x310[3] = 1
 	val32 = read32(padapter, BIST_REG);	
 	val32|= BIT(3);
-	RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@ iram_test !!!!! #step 1 - Mbist clock enable (0x%08x)\n",val32));	
+	//RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@ iram_test !!!!! #step 1 - Mbist clock enable (0x%08x)\n",val32));	
 	write32(padapter,  BIST_REG, val32);
 
 
 	//step 2.Mbist report select,write 0x310[11:8] = 0000
 	val32 = read32(padapter, BIST_REG);	
 	val32 &= 0xFFFFF0FF;
-	RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@ iram_test !!!!! #step 2 - Mbist report select (0x%08x)\n",val32));	
+	//RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@ iram_test !!!!! #step 2 - Mbist report select (0x%08x)\n",val32));	
 	write32(padapter,  BIST_REG, val32);	
 
 
 	//step 3.Mbist mode = BISR,0x310[3:0] = 1011
 	val32 = read32(padapter, BIST_REG);	
 	val32 &= 0xFFFFFFFB;
-	RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@ iram_test !!!!! #step 3 -Mbist mode (0x%08x)\n",val32));	
+	//RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@ iram_test !!!!! #step 3 -Mbist mode (0x%08x)\n",val32));	
 	write32(padapter,  BIST_REG, val32);		
 
 	msleep_os(100);//delay 10 mini seconds
@@ -833,26 +834,26 @@ static uint iram_test(_adapter *padapter)
 	report =(val32 & 0xFFFF0000);
 	
 	if((report& IRAM_BISR_DONE ) && (!(report&IRAM_BISR_FAIL))){ 
-		RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@  Internal SRAM- bisr test pass !!!!! (0x%08x)\n",val32));
+		//RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@  Internal SRAM- bisr test pass !!!!! (0x%08x)\n",val32));
 	}
 	if(report&IRAM_BISR_FAIL){ 
-		RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@  Internal SRAM- bisr test fail !!!!!! (0x%08x)\n",val32));		
+		//RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@  Internal SRAM- bisr test fail !!!!!! (0x%08x)\n",val32));		
 	}
 	if(report&IRAM_BISR_REPAIRED){
-		RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@  Internal SRAM - bisr test fail - repaired !!!!! (0x%08x)\n",val32));
+		//RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@  Internal SRAM - bisr test fail - repaired !!!!! (0x%08x)\n",val32));
 	}
 	if(report&IRAM_BISR_OUT_DIFF){
-		RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@  Internal SRAM  bisr test fail - out diff !!!!! (0x%08x)\n",val32));
+		//RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@  Internal SRAM  bisr test fail - out diff !!!!! (0x%08x)\n",val32));
 	}
 	if(report&IRAM_BISR_UNREPAIRABLE){
-		RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@ Internal SRAM - bisr test fail - unrepairable !!!!! (0x%08x)\n",val32));		
+		//RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@ Internal SRAM - bisr test fail - unrepairable !!!!! (0x%08x)\n",val32));		
 	}
-	RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@ iram_test !!!!! #step 4 - check report (0x%08x) \n",report));		
+	//RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@ iram_test !!!!! #step 4 - check report (0x%08x) \n",report));		
 
 	//step 5.leave mbisr mode: write 0x310[3:0] = 0000 
 	val32 = read32(padapter, BIST_REG);	
 	val32  &= 0xFFFFFFF0;
-	RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@ iram_test !!!!! #step 5 - leave mbisr mode  (0x%08x)\n",val32));	
+	//RT_TRACE(_module_hal_init_c_,_drv_alert_,("@@@@@ iram_test !!!!! #step 5 - leave mbisr mode  (0x%08x)\n",val32));	
 	write32(padapter,  BIST_REG, val32);
 
 	return _SUCCESS;
@@ -867,7 +868,7 @@ uint rtl871x_hal_init(_adapter *padapter)
 	 padapter->hw_init_completed=_FALSE;
 	if(padapter->halpriv.hal_bus_init ==NULL)
 	{
-		RT_TRACE(_module_hal_init_c_,_drv_err_,("\nInitialize halpriv.hal_bus_init error!!!\n"));
+		//RT_TRACE(_module_hal_init_c_,_drv_err_,("\nInitialize halpriv.hal_bus_init error!!!\n"));
 		status = _FAIL;
 		goto exit;
 	}
@@ -876,7 +877,7 @@ uint rtl871x_hal_init(_adapter *padapter)
 		val8=padapter->halpriv.hal_bus_init(padapter);
 		if(val8==_FAIL)
 		{
-			RT_TRACE(_module_hal_init_c_,_drv_err_,("rtl871x_hal_init: hal_bus_init fail\n"));
+			//RT_TRACE(_module_hal_init_c_,_drv_err_,("rtl871x_hal_init: hal_bus_init fail\n"));
 			status= _FAIL;
 			goto exit;
 		}
@@ -893,7 +894,7 @@ uint rtl871x_hal_init(_adapter *padapter)
 		padapter->hw_init_completed=_FALSE;
 exit:
 
-	RT_TRACE(_module_hal_init_c_,_drv_err_,("-rtl871x_hal_init:status=0x%x\n",status));
+	//RT_TRACE(_module_hal_init_c_,_drv_err_,("-rtl871x_hal_init:status=0x%x\n",status));
 
 	return status;
 
@@ -907,14 +908,14 @@ uint rtl871x_hal_deinit(_adapter *padapter)
 _func_enter_;
 
 	if (padapter->halpriv.hal_bus_deinit == NULL) {
-		RT_TRACE(_module_hal_init_c_,_drv_err_,("\nInitialize halpriv.hal_bus_init error!!!\n"));
+		//RT_TRACE(_module_hal_init_c_,_drv_err_,("\nInitialize halpriv.hal_bus_init error!!!\n"));
 		res = _FAIL;
 		goto exit;
 	} else {
 		val8=padapter->halpriv.hal_bus_deinit(padapter);
 
 		if (val8 ==_FAIL) {
-			RT_TRACE(_module_hal_init_c_,_drv_err_,("\n rtl871x_hal_init: hal_bus_init fail\n"));		
+			//RT_TRACE(_module_hal_init_c_,_drv_err_,("\n rtl871x_hal_init: hal_bus_init fail\n"));		
 			res= _FAIL;
 			goto exit;
 
