@@ -300,7 +300,7 @@ void io_irp_timeout_handler(void *FunctionContext)
 
 
 _func_enter_;		
-	RT_TRACE(_module_hci_ops_c_,_drv_err_,("^^^io_irp_timeout_handler ^^^\n"));
+	//RT_TRACE(_module_hci_ops_c_,_drv_err_,("^^^io_irp_timeout_handler ^^^\n"));
 	
 #ifdef PLATFORM_LINUX
 	//pintfpriv->bio_irp_timeout=_TRUE;
