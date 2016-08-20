@@ -50,7 +50,7 @@ u8 validate_ssid(NDIS_802_11_SSID *ssid)
 _func_enter_;
 
 	if (ssid->SsidLength > 32) {
-		RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_, ("ssid length >32\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_, ("ssid length >32\n"));
 		ret = _FALSE;
 		goto exit;
 	}
@@ -59,7 +59,7 @@ _func_enter_;
 	{
 		//wifi, printable ascii code must be supported
 		if (!( (ssid->Ssid[i] >= 0x20) && (ssid->Ssid[i] <= 0x7e) )) {
-			RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_, ("ssid has nonprintabl ascii\n"));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_, ("ssid has nonprintabl ascii\n"));
 			ret = _FALSE;
 			break;
 		}
@@ -85,7 +85,7 @@ _func_enter_;
 	phead = get_list_head(queue);
 	plist = get_next(phead);
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_notice_, ("+do_join: phead=%p; plist=%p\n", phead, plist));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_notice_, ("+do_join: phead=%p; plist=%p\n", phead, plist));
 
 	pmlmepriv->cur_network.join_res = -2;
 	pmlmepriv->fw_state |= _FW_UNDER_LINKING;
@@ -106,7 +106,7 @@ _func_enter_;
 			// submit site_survey_cmd
 			sitesurvey_cmd(padapter, &pmlmepriv->assoc_ssid);
 
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("do_join(): site survey if scanned_queue is empty\n."));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("do_join(): site survey if scanned_queue is empty\n."));
 		}
 		
 		//ret=_FALSE;
@@ -153,13 +153,13 @@ _func_enter_;
 					
 				if(createbss_cmd(padapter)!=_SUCCESS)
 				{
-					RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("***Error=>do_goin: createbss_cmd status FAIL*** \n "));						
+					//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("***Error=>do_goin: createbss_cmd status FAIL*** \n "));						
 					return _FALSE;
 			}
 
 			        pmlmepriv->to_join = _FALSE;
 
-				RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("***Error=> select_and_join_from_scanned_queue FAIL under STA_Mode*** \n "));						
+				//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("***Error=> select_and_join_from_scanned_queue FAIL under STA_Mode*** \n "));						
 
 		}
 		else
@@ -175,7 +175,7 @@ _func_enter_;
 				{
 					// for funk to do roaming
 					// funk will reconnect, but funk will not sitesurvey before reconnect
-					RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("for funk to do roaming"));
+					//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("for funk to do roaming"));
 					if(pmlmepriv->sitesurveyctrl.traffic_busy==_FALSE)
 						sitesurvey_cmd(padapter, &pmlmepriv->assoc_ssid);
 				}
@@ -224,12 +224,12 @@ void pnp_resume_wk(void *context)
 	res = rtl871x_hal_init(padapter);
 
 	if (res ==_FAIL) {
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n========== pnp_hw_init_thread:init 8712 fail!!!!!!!!!!\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n========== pnp_hw_init_thread:init 8712 fail!!!!!!!!!!\n"));
 	}
 
 	if (padapter->dvobjpriv.inirp_init !=NULL) {
 		padapter->dvobjpriv.inirp_init(padapter);
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("\n pnp_hw_init_thread:rx irp init!!\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("\n pnp_hw_init_thread:rx irp init!!\n"));
 	}
 
 	padapter->hw_init_completed = _TRUE;
@@ -253,7 +253,7 @@ void pnp_sleep_wk(void *context)
 
 	_exit_critical(&pmlmepriv->lock, &irqL );
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("\npnp_sleep_wk:fwstate:%d\n", pmlmepriv->fw_state));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("\npnp_sleep_wk:fwstate:%d\n", pmlmepriv->fw_state));
 
 	pwrctrl->pnp_bstop_trx=_TRUE;
 
@@ -289,7 +289,7 @@ void pnp_resume_wk(void *context)
 	_adapter * padapter = (_adapter *)context;
 
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("pnp_resume_wk ===>\n"));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("pnp_resume_wk ===>\n"));
 
 	padapter->pwrctrlpriv.pnp_bstop_trx=_FALSE;
 
@@ -303,7 +303,7 @@ void pnp_resume_wk(void *context)
 
 	if(INVALID_HANDLE_VALUE == hPMU )
 	{
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("CreateFile Error SDH1==.\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("CreateFile Error SDH1==.\n"));
 	}
 
 	 fRet=DeviceIoControl(hPMU,
@@ -317,7 +317,7 @@ void pnp_resume_wk(void *context)
 
 	if(!fRet)
 	{
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("DeviceIoControl Error \n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("DeviceIoControl Error \n"));
 	}
 
 	CloseHandle(hPMU);
@@ -345,25 +345,25 @@ void pnp_resume_wk(void *context)
 
 	status=padapter->dvobj_init(padapter);
 	if (status != NDIS_STATUS_SUCCESS) {
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n initialize device object priv Failed!\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n initialize device object priv Failed!\n"));
 	}
 
 	res = rtl871x_hal_init(padapter);
 	if (res ==_FAIL) {
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n========== pnp_hw_init_thread:init 8712 fail!!!!!!!!!!\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n========== pnp_hw_init_thread:init 8712 fail!!!!!!!!!!\n"));
 	}
 #endif
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("===>write SDIO_HIMR!!!\n"));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("===>write SDIO_HIMR!!!\n"));
 	write16(padapter, SDIO_HIMR, 0x3ff);
 	{
 		u32 tmp32;
 		tmp32=read32(padapter, TXFF_EMPTY_TH);
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("  =====TXFF_EMPTY_TH=0x%.8x!\n",tmp32));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("  =====TXFF_EMPTY_TH=0x%.8x!\n",tmp32));
 		tmp32=tmp32 |0xfffff;
 		write32(padapter, TXFF_EMPTY_TH, tmp32);
 		tmp32=read32(padapter, TXFF_EMPTY_TH);
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("  =====TXFF_EMPTY_TH=0x%.8x!\n",tmp32));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("  =====TXFF_EMPTY_TH=0x%.8x!\n",tmp32));
 	}
 
 	padapter->hw_init_completed=_TRUE;
@@ -376,7 +376,7 @@ void pnp_resume_wk(void *context)
 
 	NdisMSetInformationComplete(padapter->hndis_adapter, NDIS_STATUS_SUCCESS);
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("pnp_resume_wk <===\n"));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("pnp_resume_wk <===\n"));
 }
 
 void pnp_sleep_wk(void *context)
@@ -387,7 +387,7 @@ void pnp_sleep_wk(void *context)
 	struct pwrctrl_priv *pwrctrl = &padapter->pwrctrlpriv;
 
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("pnp_sleep_wk ===>\n"));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("pnp_sleep_wk ===>\n"));
 
 	_enter_critical(&pmlmepriv->lock, &irqL );
 
@@ -402,7 +402,7 @@ void pnp_sleep_wk(void *context)
 
 	_exit_critical(&pmlmepriv->lock, &irqL );
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("pnp_sleep_wk:fwstate:%d\n", pmlmepriv->fw_state));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("pnp_sleep_wk:fwstate:%d\n", pmlmepriv->fw_state));
 
 #ifdef CONFIG_POWER_DOWN_MODE
 	//before enter powerdown mode, we must ensure FW in S4 state.
@@ -427,7 +427,7 @@ void pnp_sleep_wk(void *context)
 
 	NdisMSetInformationComplete(padapter->hndis_adapter, NDIS_STATUS_SUCCESS);
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("pnp_sleep_wk <===\n"));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("pnp_sleep_wk <===\n"));
 }
 #endif
 
@@ -437,11 +437,11 @@ u8 pnp_set_power_wakeup(_adapter *padapter)
 
 _func_enter_;
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("==>pnp_set_power_wakeup!!!\n"));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("==>pnp_set_power_wakeup!!!\n"));
 
 	res = setstandby_cmd(padapter, 0);
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("<==pnp_set_power_wakeup!!!\n"));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("<==pnp_set_power_wakeup!!!\n"));
 
 _func_exit_;
 
@@ -454,12 +454,12 @@ u8 pnp_set_power_sleep(_adapter *padapter)
 
 _func_enter_;
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("==>pnp_set_power_sleep!!!\n"));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("==>pnp_set_power_sleep!!!\n"));
 	//DbgPrint("+pnp_set_power_sleep\n");
 
 	res = setstandby_cmd(padapter, 1);
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("<==pnp_set_power_sleep!!!\n"));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("<==pnp_set_power_sleep!!!\n"));
 
 _func_exit_;
 
@@ -473,7 +473,7 @@ _func_enter_;
 	switch (reloadDefaults)
 	{
 		case Ndis802_11ReloadWEPKeys:
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("SetInfo OID_802_11_RELOAD_DEFAULTS : Ndis802_11ReloadWEPKeys\n"));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("SetInfo OID_802_11_RELOAD_DEFAULTS : Ndis802_11ReloadWEPKeys\n"));
 			break;
 	}
 
@@ -535,9 +535,9 @@ u8 set_802_11_bssid(_adapter *padapter, u8 *bssid)
 
 _func_enter_;
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_notice_,
+	/*RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_notice_,
 		 ("+set_802_11_bssid: bssid=%02x:%02x:%02x:%02x:%02x:%02x\n",
-		  bssid[0], bssid[1], bssid[2], bssid[3], bssid[4], bssid[5]));
+		  bssid[0], bssid[1], bssid[2], bssid[3], bssid[4], bssid[5]));*/
 
 	if ((bssid[0]==0x00 && bssid[1]==0x00 && bssid[2]==0x00 && bssid[3]==0x00 && bssid[4]==0x00 &&bssid[5]==0x00) ||
 	    (bssid[0]==0xFF && bssid[1]==0xFF && bssid[2]==0xFF && bssid[3]==0xFF && bssid[4]==0xFF &&bssid[5]==0xFF))
@@ -550,27 +550,27 @@ _func_enter_;
 
  	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY|_FW_UNDER_LINKING) == _TRUE)
 	{
-		RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_,
+		/*RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_,
 			 ("Set BSSID is not allowed under surveying || adhoc master || under linking, fw_state=0x%08x\n",
-			  get_fwstate(pmlmepriv)));
+			  get_fwstate(pmlmepriv)));*/
 		status = check_fwstate(pmlmepriv, _FW_UNDER_LINKING);
 		goto _Abort_Set_BSSID;
 	}
 
 	if (check_fwstate(pmlmepriv, _FW_LINKED|WIFI_ADHOC_MASTER_STATE) == _TRUE)
 	{
-		RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_info_, ("set_bssid: _FW_LINKED||WIFI_ADHOC_MASTER_STATE\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_info_, ("set_bssid: _FW_LINKED||WIFI_ADHOC_MASTER_STATE\n"));
 
 		if (_memcmp(&pmlmepriv->cur_network.network.MacAddress, bssid, ETH_ALEN) == _TRUE)
 		{
 			if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == _FALSE)
 				goto _Abort_Set_BSSID;//it means driver is in WIFI_ADHOC_MASTER_STATE, we needn't create bss again.
 		} else {
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("Set BSSID not the same ssid\n"));
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("set_bssid=%02x:%02x:%02x:%02x:%02x:%02x\n", bssid[0],bssid[1],bssid[2],bssid[3],bssid[4],bssid[5]));
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("cur_bssid=%02x:%02x:%02x:%02x:%02x:%02x\n",
-				pmlmepriv->cur_network.network.MacAddress[0],pmlmepriv->cur_network.network.MacAddress[1],pmlmepriv->cur_network.network.MacAddress[2],
-				pmlmepriv->cur_network.network.MacAddress[3],pmlmepriv->cur_network.network.MacAddress[4],pmlmepriv->cur_network.network.MacAddress[5]));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("Set BSSID not the same ssid\n"));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("set_bssid=%02x:%02x:%02x:%02x:%02x:%02x\n", bssid[0],bssid[1],bssid[2],bssid[3],bssid[4],bssid[5]));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("cur_bssid=%02x:%02x:%02x:%02x:%02x:%02x\n",
+			//	pmlmepriv->cur_network.network.MacAddress[0],pmlmepriv->cur_network.network.MacAddress[1],pmlmepriv->cur_network.network.MacAddress[2],
+			//	pmlmepriv->cur_network.network.MacAddress[3],pmlmepriv->cur_network.network.MacAddress[4],pmlmepriv->cur_network.network.MacAddress[5]));
 
 			disassoc_cmd(padapter);
 
@@ -596,7 +596,7 @@ _func_enter_;
 
 _Abort_Set_BSSID:
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_, ("set_802_11_bssid: _Abort_Set_BSSID\n"));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_, ("set_802_11_bssid: _Abort_Set_BSSID\n"));
 
 done:
 
@@ -624,38 +624,38 @@ u8 set_802_11_ssid(_adapter *padapter, NDIS_802_11_SSID *ssid)
 
 _func_enter_;
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_notice_,
-		 ("+set_802_11_ssid: ssid=[%s] fw_state=0x%08x\n",
-		  ssid->Ssid, get_fwstate(pmlmepriv)));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_notice_,
+	//	 ("+set_802_11_ssid: ssid=[%s] fw_state=0x%08x\n",
+	//	  ssid->Ssid, get_fwstate(pmlmepriv)));
 
 	if (padapter->hw_init_completed == _FALSE) {
-		RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_,
-			 ("set_ssid: hw_init_completed==_FALSE=>exit!!!\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_,
+		//	 ("set_ssid: hw_init_completed==_FALSE=>exit!!!\n"));
 		return _FALSE;
 	}
 
 	_enter_critical(&pmlmepriv->lock, &irqL);
 
 	if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY|_FW_UNDER_LINKING) == _TRUE) {
-		RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_,
-			 ("Set SSID is not allowed under surveying || adhoc master || under linking\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_,
+		//	 ("Set SSID is not allowed under surveying || adhoc master || under linking\n"));
 		status = check_fwstate(pmlmepriv, _FW_UNDER_LINKING);
 		goto _Abort_Set_SSID;
 	}
 
 	if (check_fwstate(pmlmepriv, _FW_LINKED|WIFI_ADHOC_MASTER_STATE) == _TRUE)
 	{
-		RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_info_,
-			 ("set_ssid: _FW_LINKED||WIFI_ADHOC_MASTER_STATE\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_info_,
+		//	 ("set_ssid: _FW_LINKED||WIFI_ADHOC_MASTER_STATE\n"));
 
 		if ((pmlmepriv->assoc_ssid.SsidLength == ssid->SsidLength) &&
 		    (_memcmp(&pmlmepriv->assoc_ssid.Ssid, ssid->Ssid, ssid->SsidLength) == _TRUE))
 		{
 			if ((check_fwstate(pmlmepriv, WIFI_STATION_STATE) == _FALSE))
 			{
-				RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_,
-					 ("Set SSID is the same ssid, fw_state=0x%08x\n",
-					  get_fwstate(pmlmepriv)));
+				//RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_,
+				//	 ("Set SSID is the same ssid, fw_state=0x%08x\n",
+				//	  get_fwstate(pmlmepriv)));
 
 				if (is_same_ibss(padapter, pnetwork) == _FALSE)
 				{				
@@ -680,9 +680,9 @@ _func_enter_;
 		}
 		else
 		{
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("Set SSID not the same ssid\n"));
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("set_ssid=[%s] len=0x%x\n", ssid->Ssid, (unsigned int)ssid->SsidLength));
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("assoc_ssid=[%s] len=0x%x\n", pmlmepriv->assoc_ssid.Ssid, (unsigned int)pmlmepriv->assoc_ssid.SsidLength));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("Set SSID not the same ssid\n"));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("set_ssid=[%s] len=0x%x\n", ssid->Ssid, (unsigned int)ssid->SsidLength));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("assoc_ssid=[%s] len=0x%x\n", pmlmepriv->assoc_ssid.Ssid, (unsigned int)pmlmepriv->assoc_ssid.SsidLength));
 
 			disassoc_cmd(padapter);
 
@@ -701,23 +701,23 @@ _func_enter_;
 #ifdef PLATFORM_WINDOWS
 	if (padapter->securitypriv.btkip_countermeasure == _TRUE)
 	{
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("set_802_11_ssid:padapter->securitypriv.btkip_countermeasure==_TRUE\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("set_802_11_ssid:padapter->securitypriv.btkip_countermeasure==_TRUE\n"));
 		NdisGetCurrentSystemTime(&sys_time);
 		cur_time=(u32)(sys_time.QuadPart/10);  // In micro-second.
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("set_802_11_ssid:cur_time=0x%x\n",cur_time));
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("set_802_11_ssid:psecuritypriv->last_mic_err_time=0x%x\n",padapter->securitypriv.btkip_countermeasure_time));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("set_802_11_ssid:cur_time=0x%x\n",cur_time));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("set_802_11_ssid:psecuritypriv->last_mic_err_time=0x%x\n",padapter->securitypriv.btkip_countermeasure_time));
 		diff_time = cur_time -padapter->securitypriv.btkip_countermeasure_time; // In micro-second.
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("set_802_11_ssid:diff_time=0x%x\n",diff_time));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("set_802_11_ssid:diff_time=0x%x\n",diff_time));
 
 		if (diff_time > 60000000) {
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("set_802_11_ssid(): countermeasure time >60s.\n"));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("set_802_11_ssid(): countermeasure time >60s.\n"));
 			padapter->securitypriv.btkip_countermeasure = _FALSE;
 			// Update MIC error time.
 			padapter->securitypriv.btkip_countermeasure_time = 0;
 		} else {
 			// can't join  in 60 seconds.
 			status = _FALSE;
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("set_802_11_ssid(): countermeasure time <60s.\n"));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("set_802_11_ssid(): countermeasure time <60s.\n"));
 			goto _Abort_Set_SSID;
 		}
 	}
@@ -747,8 +747,8 @@ _func_enter_;
 
 _Abort_Set_SSID:
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_,
-		 ("-set_802_11_ssid: _Abort_Set_SSID: status=%d\n", status));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_,
+	//	 ("-set_802_11_ssid: _Abort_Set_SSID: status=%d\n", status));
 
 done:
 
@@ -770,9 +770,9 @@ u8 set_802_11_infrastructure_mode(_adapter *padapter,
 
 _func_enter_;
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_notice_,
-		 ("+set_802_11_infrastructure_mode: old=%d new=%d fw_state=0x%08x\n",
-		  *pold_state, networktype, pmlmepriv->fw_state));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_notice_,
+	//	 ("+set_802_11_infrastructure_mode: old=%d new=%d fw_state=0x%08x\n",
+	//	  *pold_state, networktype, pmlmepriv->fw_state));
 
 	if (*pold_state != networktype)
 	{
@@ -846,7 +846,7 @@ _func_enter_;
 
 	if (check_fwstate(pmlmepriv, _FW_LINKED) == _TRUE)
 	{
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("MgntActSet_802_11_DISASSOCIATE: indicate_disconnect\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("MgntActSet_802_11_DISASSOCIATE: indicate_disconnect\n"));
 
 		disassoc_cmd(padapter);
 		indicate_disconnect(padapter);
@@ -875,11 +875,11 @@ _func_enter_;
 	}
 
 	pmlmepriv = &padapter->mlmepriv;
-	RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_notice_, ("+set_802_11_bssid_list_scan: fw_state=0x%08x\n", get_fwstate(pmlmepriv)));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_notice_, ("+set_802_11_bssid_list_scan: fw_state=0x%08x\n", get_fwstate(pmlmepriv)));
 
 	if (padapter->hw_init_completed == _FALSE) {
 		ret = _FALSE;
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("!set_802_11_bssid_list_scan: hw_init_completed==_FALSE\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("!set_802_11_bssid_list_scan: hw_init_completed==_FALSE\n"));
 		goto exit;
 	}
 
@@ -890,12 +890,12 @@ _func_enter_;
 	{
 		// Scan or linking is in progress, do nothing.
 		ret = (u8)check_fwstate(pmlmepriv, _FW_UNDER_SURVEY);
-		RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_,
-			 ("!set_802_11_bssid_list_scan: FAIL! fw_state=0x%08x, busy=%d, ret=%d\n",
-			  pmlmepriv->fw_state, pmlmepriv->sitesurveyctrl.traffic_busy, ret));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_,
+		//	 ("!set_802_11_bssid_list_scan: FAIL! fw_state=0x%08x, busy=%d, ret=%d\n",
+		//	  pmlmepriv->fw_state, pmlmepriv->sitesurveyctrl.traffic_busy, ret));
 	} else {
 		free_network_queue(padapter);
-		RT_TRACE(_module_rtl871x_cmd_c_, _drv_notice_, ("set_802_11_bssid_list_scan: flush network queue\n"));
+		//RT_TRACE(_module_rtl871x_cmd_c_, _drv_notice_, ("set_802_11_bssid_list_scan: flush network queue\n"));
 		ret = sitesurvey_cmd(padapter, NULL);
 	}
 
@@ -915,7 +915,7 @@ u8 set_802_11_authentication_mode(_adapter *padapter, NDIS_802_11_AUTHENTICATION
 
 _func_enter_;
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_notice_,("+set_802_11_auth_mode: mode=%d\n", authmode));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_notice_,("+set_802_11_auth_mode: mode=%d\n", authmode));
 
 	psecuritypriv->ndisauthtype = authmode;
 
@@ -926,7 +926,7 @@ _func_enter_;
 		ret = _TRUE;
 	else {
 		ret = _FALSE;
-		RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_,("!set_802_11_auth_mode: fail!!\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_,("!set_802_11_auth_mode: fail!!\n"));
 	}
 
 _func_exit_;
@@ -949,7 +949,7 @@ _func_enter_;
 	keyid = wep->KeyIndex & 0x3fffffff;
 
 	if (keyid >= WEP_KEYS) {
-		RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_, ("MgntActSet_802_11_ADD_WEP: keyid>4 FAIL!\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_, _drv_err_, ("MgntActSet_802_11_ADD_WEP: keyid>4 FAIL!\n"));
 		ret = _FALSE;
 		goto exit;
 	}
@@ -958,30 +958,30 @@ _func_enter_;
 	{
 		case 5:
 			psecuritypriv->dot11PrivacyAlgrthm = _WEP40_;
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("MgntActSet_802_11_ADD_WEP:wep->KeyLength=5\n"));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("MgntActSet_802_11_ADD_WEP:wep->KeyLength=5\n"));
 			break;
 		case 13:
 			psecuritypriv->dot11PrivacyAlgrthm = _WEP104_;
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("MgntActSet_802_11_ADD_WEP:wep->KeyLength=13\n"));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("MgntActSet_802_11_ADD_WEP:wep->KeyLength=13\n"));
 			break;
 		default:
 			psecuritypriv->dot11PrivacyAlgrthm = _NO_PRIVACY_;
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("MgntActSet_802_11_ADD_WEP:wep->KeyLength!=5 or 13\n"));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("MgntActSet_802_11_ADD_WEP:wep->KeyLength!=5 or 13\n"));
 			break;
 	}
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("MgntActSet_802_11_ADD_WEP:befor memcpy, wep->KeyLength=0x%x wep->KeyIndex=0x%x  keyid =%x\n",wep->KeyLength,wep->KeyIndex,keyid));
+	//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("MgntActSet_802_11_ADD_WEP:befor memcpy, wep->KeyLength=0x%x wep->KeyIndex=0x%x  keyid =%x\n",wep->KeyLength,wep->KeyIndex,keyid));
 
 	_memcpy(psecuritypriv->dot11DefKey[keyid].skey, &wep->KeyMaterial, wep->KeyLength);
 	psecuritypriv->dot11DefKeylen[keyid] = wep->KeyLength;
 	psecuritypriv->dot11PrivacyKeyIndex = keyid;
 
-	RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("MgntActSet_802_11_ADD_WEP:security key material: %02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x\n",
+	/*RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("MgntActSet_802_11_ADD_WEP:security key material: %02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x\n",
 		psecuritypriv->dot11DefKey[keyid].skey[0],psecuritypriv->dot11DefKey[keyid].skey[1],psecuritypriv->dot11DefKey[keyid].skey[2],
 		psecuritypriv->dot11DefKey[keyid].skey[3],psecuritypriv->dot11DefKey[keyid].skey[4],psecuritypriv->dot11DefKey[keyid].skey[5],
 		psecuritypriv->dot11DefKey[keyid].skey[6],psecuritypriv->dot11DefKey[keyid].skey[7],psecuritypriv->dot11DefKey[keyid].skey[8],
 		psecuritypriv->dot11DefKey[keyid].skey[9],psecuritypriv->dot11DefKey[keyid].skey[10],psecuritypriv->dot11DefKey[keyid].skey[11],
-		psecuritypriv->dot11DefKey[keyid].skey[12]));
+		psecuritypriv->dot11DefKey[keyid].skey[12]));*/
 
 	if (set_key(padapter, psecuritypriv, keyid) == _FAIL)
 		ret = _FALSE;
@@ -1042,9 +1042,9 @@ _func_enter_;
 
 		// It is invalid to clear bit 31 and set bit 30. If the miniport driver encounters this combination,
 		// it must fail the request and return NDIS_STATUS_INVALID_DATA.
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("MgntActSet_802_11_ADD_KEY: ((key->KeyIndex & 0x80000000) == 0)[=%d] ",(int)(key->KeyIndex & 0x80000000) == 0));
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("MgntActSet_802_11_ADD_KEY:((key->KeyIndex & 0x40000000) > 0)[=%d]" , (int)(key->KeyIndex & 0x40000000) > 0));
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("MgntActSet_802_11_ADD_KEY: key->KeyIndex=%d \n" ,(int)key->KeyIndex));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("MgntActSet_802_11_ADD_KEY: ((key->KeyIndex & 0x80000000) == 0)[=%d] ",(int)(key->KeyIndex & 0x80000000) == 0));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("MgntActSet_802_11_ADD_KEY:((key->KeyIndex & 0x40000000) > 0)[=%d]" , (int)(key->KeyIndex & 0x40000000) > 0));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_info_,("MgntActSet_802_11_ADD_KEY: key->KeyIndex=%d \n" ,(int)key->KeyIndex));
 		ret= _FAIL;
 		goto exit;
 	}
@@ -1053,33 +1053,33 @@ _func_enter_;
 	{
 		// Pairwise key
 
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("OID_802_11_ADD_KEY: +++++ Pairwise key +++++\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("OID_802_11_ADD_KEY: +++++ Pairwise key +++++\n"));
 
 		pbssid=get_bssid(&padapter->mlmepriv);
 		stainfo=get_stainfo(&padapter->stapriv, pbssid);
 
 		if((stainfo!=NULL)&&(padapter->securitypriv.dot11AuthAlgrthm==2)){
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("OID_802_11_ADD_KEY:( stainfo!=NULL)&&(Adapter->securitypriv.dot11AuthAlgrthm==2)\n"));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("OID_802_11_ADD_KEY:( stainfo!=NULL)&&(Adapter->securitypriv.dot11AuthAlgrthm==2)\n"));
 			encryptionalgo=stainfo->dot118021XPrivacy;
 		}
 		else{
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("OID_802_11_ADD_KEY: stainfo==NULL)||(Adapter->securitypriv.dot11AuthAlgrthm!=2)\n"));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("OID_802_11_ADD_KEY: stainfo==NULL)||(Adapter->securitypriv.dot11AuthAlgrthm!=2)\n"));
 			encryptionalgo=padapter->securitypriv.dot11PrivacyAlgrthm;
 		}
 
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("Set_802_11_ADD_KEY: (encryptionalgo ==%d)!\n",encryptionalgo ));
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("Set_802_11_ADD_KEY: (Adapter->securitypriv.dot11PrivacyAlgrthm ==%d)!\n",padapter->securitypriv.dot11PrivacyAlgrthm));
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("Set_802_11_ADD_KEY: (Adapter->securitypriv.dot11AuthAlgrthm ==%d)!\n",padapter->securitypriv.dot11AuthAlgrthm));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("Set_802_11_ADD_KEY: (encryptionalgo ==%d)!\n",encryptionalgo ));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("Set_802_11_ADD_KEY: (Adapter->securitypriv.dot11PrivacyAlgrthm ==%d)!\n",padapter->securitypriv.dot11PrivacyAlgrthm));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("Set_802_11_ADD_KEY: (Adapter->securitypriv.dot11AuthAlgrthm ==%d)!\n",padapter->securitypriv.dot11AuthAlgrthm));
 
 		if((stainfo!=NULL)){
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("Set_802_11_ADD_KEY: (stainfo->dot118021XPrivacy ==%d)!\n", stainfo->dot118021XPrivacy));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("Set_802_11_ADD_KEY: (stainfo->dot118021XPrivacy ==%d)!\n", stainfo->dot118021XPrivacy));
 		}
 
 		if(key->KeyIndex & 0x000000FF){
 			// The key index is specified in the lower 8 bits by values of zero to 255.
 			// The key index should be set to zero for a Pairwise key, and the driver should fail with
 			// NDIS_STATUS_INVALID_DATA if the lower 8 bits is not zero
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,(" key->KeyIndex & 0x000000FF.\n"));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,(" key->KeyIndex & 0x000000FF.\n"));
 			ret= _FAIL;
 			goto exit;
 		}
@@ -1087,7 +1087,7 @@ _func_enter_;
 		// check BSSID
 		if (IS_MAC_ADDRESS_BROADCAST(key->BSSID) == _TRUE){
 
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("MacAddr_isBcst(key->BSSID)\n"));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("MacAddr_isBcst(key->BSSID)\n"));
 			ret= _FALSE;
 			goto exit;
 		}
@@ -1095,7 +1095,7 @@ _func_enter_;
 		// Check key length for TKIP.
 		//if(encryptionAlgorithm == RT_ENC_TKIP_ENCRYPTION && key->KeyLength != 32)
 		if((encryptionalgo== _TKIP_)&& (key->KeyLength != 32)){
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("TKIP KeyLength:0x%x != 32\n", key->KeyLength));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("TKIP KeyLength:0x%x != 32\n", key->KeyLength));
 			ret=_FAIL;
 			goto exit;
 
@@ -1114,7 +1114,7 @@ _func_enter_;
 
 		// Check key length for WEP. For NDTEST, 2005.01.27, by rcnjko.
 		if(	(encryptionalgo== _WEP40_|| encryptionalgo== _WEP104_) && (key->KeyLength != 5 || key->KeyLength != 13)) {
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("WEP KeyLength:0x%x != 5 or 13\n", key->KeyLength));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("WEP KeyLength:0x%x != 5 or 13\n", key->KeyLength));
 			ret=_FAIL;
 			goto exit;
 		}
@@ -1122,55 +1122,55 @@ _func_enter_;
 		bgroup = _FALSE;
 
 		// Check the pairwise key. Added by Annie, 2005-07-06.
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("------------------------------------------\n"));
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("[Pairwise Key set]\n"));
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("------------------------------------------\n"));
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("key index: 0x%8x(0x%8x)\n", key->KeyIndex,(key->KeyIndex&0x3)));
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("key Length: %d\n", key->KeyLength));
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("------------------------------------------\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("------------------------------------------\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("[Pairwise Key set]\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("------------------------------------------\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("key index: 0x%8x(0x%8x)\n", key->KeyIndex,(key->KeyIndex&0x3)));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("key Length: %d\n", key->KeyLength));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("------------------------------------------\n"));
 
 	}
 	else
 	{
 		// Group key - KeyIndex(BIT30==0)
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("OID_802_11_ADD_KEY: +++++ Group key +++++\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("OID_802_11_ADD_KEY: +++++ Group key +++++\n"));
 
 
 		// when add wep key through add key and didn't assigned encryption type before
 		if((padapter->securitypriv.ndisauthtype<=3)&&(padapter->securitypriv.dot118021XGrpPrivacy==0))
 		{
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("keylen=%d( Adapter->securitypriv.dot11PrivacyAlgrthm=%x  )padapter->securitypriv.dot118021XGrpPrivacy(%x)\n", key->KeyLength,padapter->securitypriv.dot11PrivacyAlgrthm,padapter->securitypriv.dot118021XGrpPrivacy));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("keylen=%d( Adapter->securitypriv.dot11PrivacyAlgrthm=%x  )padapter->securitypriv.dot118021XGrpPrivacy(%x)\n", key->KeyLength,padapter->securitypriv.dot11PrivacyAlgrthm,padapter->securitypriv.dot118021XGrpPrivacy));
 
 			switch(key->KeyLength)
 			{
 				case 5:
 					padapter->securitypriv.dot11PrivacyAlgrthm=_WEP40_;
-					RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("Adapter->securitypriv.dot11PrivacyAlgrthm= %x key->KeyLength=%u\n", padapter->securitypriv.dot11PrivacyAlgrthm,key->KeyLength));
+					//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("Adapter->securitypriv.dot11PrivacyAlgrthm= %x key->KeyLength=%u\n", padapter->securitypriv.dot11PrivacyAlgrthm,key->KeyLength));
 					break;
 				case 13:
 					padapter->securitypriv.dot11PrivacyAlgrthm=_WEP104_;
-					RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("Adapter->securitypriv.dot11PrivacyAlgrthm= %x key->KeyLength=%u\n", padapter->securitypriv.dot11PrivacyAlgrthm,key->KeyLength));
+					//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("Adapter->securitypriv.dot11PrivacyAlgrthm= %x key->KeyLength=%u\n", padapter->securitypriv.dot11PrivacyAlgrthm,key->KeyLength));
 					break;
 				default:
 					padapter->securitypriv.dot11PrivacyAlgrthm=_NO_PRIVACY_;
-					RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("Adapter->securitypriv.dot11PrivacyAlgrthm= %x key->KeyLength=%u \n", padapter->securitypriv.dot11PrivacyAlgrthm,key->KeyLength));
+					//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("Adapter->securitypriv.dot11PrivacyAlgrthm= %x key->KeyLength=%u \n", padapter->securitypriv.dot11PrivacyAlgrthm,key->KeyLength));
 					break;
 			}
 
 			encryptionalgo=padapter->securitypriv.dot11PrivacyAlgrthm;
 
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,(" Adapter->securitypriv.dot11PrivacyAlgrthm=%x\n", padapter->securitypriv.dot11PrivacyAlgrthm));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,(" Adapter->securitypriv.dot11PrivacyAlgrthm=%x\n", padapter->securitypriv.dot11PrivacyAlgrthm));
 
 		}
 		else
 		{
 			encryptionalgo=padapter->securitypriv.dot118021XGrpPrivacy;
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("( Adapter->securitypriv.dot11PrivacyAlgrthm=%x  )encryptionalgo(%x)=padapter->securitypriv.dot118021XGrpPrivacy(%x)keylen=%d\n", padapter->securitypriv.dot11PrivacyAlgrthm,encryptionalgo,padapter->securitypriv.dot118021XGrpPrivacy,key->KeyLength));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("( Adapter->securitypriv.dot11PrivacyAlgrthm=%x  )encryptionalgo(%x)=padapter->securitypriv.dot118021XGrpPrivacy(%x)keylen=%d\n", padapter->securitypriv.dot11PrivacyAlgrthm,encryptionalgo,padapter->securitypriv.dot118021XGrpPrivacy,key->KeyLength));
 
 		}
 
 		if((check_fwstate(&padapter->mlmepriv, WIFI_ADHOC_STATE)==_TRUE) && (IS_MAC_ADDRESS_BROADCAST(key->BSSID) == _FALSE)) {
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,(" IBSS but BSSID is not Broadcast Address.\n"));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,(" IBSS but BSSID is not Broadcast Address.\n"));
 			ret= _FAIL;
 			goto exit;
 		}
@@ -1178,7 +1178,7 @@ _func_enter_;
 		// Check key length for TKIP
 		if((encryptionalgo== _TKIP_) && (key->KeyLength != 32)) {
 
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,(" TKIP GTK KeyLength:%u != 32\n", key->KeyLength));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,(" TKIP GTK KeyLength:%u != 32\n", key->KeyLength));
 			ret= _FAIL;
 			goto exit;
 
@@ -1186,7 +1186,7 @@ _func_enter_;
 
 			// Check key length for AES
 			// For NDTEST, we allow keylen=32 in this case. 2005.01.27, by rcnjko.
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("<=== SetInfo, OID_802_11_ADD_KEY: AES GTK KeyLength:%u != 16 or 32\n", key->KeyLength));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("<=== SetInfo, OID_802_11_ADD_KEY: AES GTK KeyLength:%u != 16 or 32\n", key->KeyLength));
 			ret= _FAIL;
 			goto exit;
 		}
@@ -1194,7 +1194,7 @@ _func_enter_;
 		// Change the key length for EAPPkt9x.vxd. Added by Annie, 2005-11-03.
 		if((encryptionalgo==  _AES_) && (key->KeyLength == 32) ) {
 			key->KeyLength = 16;
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("AES key length changed: %u\n", key->KeyLength) );
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("AES key length changed: %u\n", key->KeyLength) );
 		}
 
 		if(key->KeyIndex & 0x8000000) {//error ??? 0x8000_0000
@@ -1208,12 +1208,12 @@ _func_enter_;
 
 		bgroup = _TRUE;
 
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("------------------------------------------\n") );
+		/*RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("------------------------------------------\n") );
 		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("[Group Key set]\n") );
 		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("------------------------------------------\n")) ;
 		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("key index: 0x%8x(0x%8x)\n", key->KeyIndex,(key->KeyIndex&0x3)));
 		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("key Length: %d\n", key->KeyLength)) ;
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("------------------------------------------\n"));
+		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("------------------------------------------\n"));*/
 
 	}
 
@@ -1225,14 +1225,14 @@ _func_enter_;
 		u32 len = FIELD_OFFSET(NDIS_802_11_KEY, KeyMaterial) + key->KeyLength;
 		NDIS_802_11_WEP *wep = &padapter->securitypriv.ndiswep;
 
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("OID_802_11_ADD_KEY: +++++ WEP key +++++\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("OID_802_11_ADD_KEY: +++++ WEP key +++++\n"));
 
 		wep->Length = len;
 		keyindex = key->KeyIndex&0x7fffffff;
 		wep->KeyIndex = keyindex ;
 		wep->KeyLength = key->KeyLength;
 
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("OID_802_11_ADD_KEY:Before memcpy \n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("OID_802_11_ADD_KEY:Before memcpy \n"));
 
 		_memcpy(wep->KeyMaterial, key->KeyMaterial, key->KeyLength);
 		_memcpy(&(padapter->securitypriv.dot11DefKey[keyindex].skey[0]), key->KeyMaterial, key->KeyLength);
@@ -1248,7 +1248,7 @@ _func_enter_;
 
 	if (key->KeyIndex & 0x20000000) {
 		// SetRSC
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("OID_802_11_ADD_KEY: +++++ SetRSC+++++\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("OID_802_11_ADD_KEY: +++++ SetRSC+++++\n"));
 		if(bgroup == _TRUE)
 		{
 			NDIS_802_11_KEY_RSC keysrc=key->KeyRSC & 0x00FFFFFFFFFFFFULL;
@@ -1287,12 +1287,12 @@ _func_enter_;
 			_memcpy(&padapter->securitypriv.dot118021XGrptxmickey[(u8)((key->KeyIndex-1) & 0x03)], key->KeyMaterial + 16, 8);
 			_memcpy(&padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)], key->KeyMaterial + 24, 8);
 
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n set_802_11_add_key:rx mic :0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x\n",
-				padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[0],padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[1],
-				padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[2],padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[3],
-				padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[4],padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[5],
-				padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[6],padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[7]));
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n set_802_11_add_key:set Group mic key!!!!!!!!\n"));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n set_802_11_add_key:rx mic :0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x\n",
+			//	padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[0],padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[1],
+			//	padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[2],padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[3],
+			//	padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[4],padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[5],
+			//	padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[6],padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[7]));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n set_802_11_add_key:set Group mic key!!!!!!!!\n"));
 
 		}
 		else
@@ -1300,12 +1300,12 @@ _func_enter_;
 			_memcpy(&padapter->securitypriv.dot118021XGrptxmickey[(u8)((key->KeyIndex-1) & 0x03)], key->KeyMaterial + 24, 8);
 			_memcpy(&padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)], key->KeyMaterial + 16, 8);
 
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n set_802_11_add_key:rx mic :0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x\n",
-				padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[0],padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[1],
-				padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[2],padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[3],
-				padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[4],padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[5],
-				padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[6],padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[7]));
-			RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n set_802_11_add_key:set Group mic key!!!!!!!!\n"));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n set_802_11_add_key:rx mic :0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x:0x%02x\n",
+			//	padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[0],padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[1],
+			//	padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[2],padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[3],
+			//	padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[4],padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[5],
+			//	padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[6],padapter->securitypriv.dot118021XGrprxmickey[(u8)((key->KeyIndex-1) & 0x03)].skey[7]));
+			//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n set_802_11_add_key:set Group mic key!!!!!!!!\n"));
 
 		}
 
@@ -1318,7 +1318,7 @@ _func_enter_;
 
 		padapter->securitypriv.bcheck_grpkey=_FALSE;
 
-		RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("reset group key"));
+		//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("reset group key"));
 
 		res=set_key(padapter,&padapter->securitypriv, key->KeyIndex);
 
@@ -1354,7 +1354,7 @@ _func_enter_;
 
 				_set_timer(&padapter->securitypriv.tkip_timer, 50);
 
-				RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n ==========_set_timer\n"));
+				//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n ==========_set_timer\n"));
 
 				// if TKIP, save the Receive/Transmit MIC key in KeyMaterial[128-255]
 				if((key->KeyIndex & 0x10000000)){
@@ -1378,11 +1378,11 @@ _func_enter_;
 			if(bgrouptkey)//never go to here
 			{
 				res=setstakey_cmd(padapter, (unsigned char *)stainfo, _FALSE);
-				RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n set_802_11_add_key:setstakey_cmd(group)\n"));
+				//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n set_802_11_add_key:setstakey_cmd(group)\n"));
 			}
 			else{
 				res=setstakey_cmd(padapter, (unsigned char *)stainfo, _TRUE);
-				RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n set_802_11_add_key:setstakey_cmd(unicast)\n"));
+				//RT_TRACE(_module_rtl871x_ioctl_set_c_,_drv_err_,("\n set_802_11_add_key:setstakey_cmd(unicast)\n"));
 			}
 
 			if(res ==_FALSE)
@@ -1570,7 +1570,7 @@ int rtw_set_country(_adapter *adapter, const char *country_code)
 	else if(0 == strcmp(country_code, "JP"))
 		channel_plan = RT_CHANNEL_DOMAIN_MKK;
 	else
-		printk("%s unknown country_code:%s\n", __FUNCTION__, country_code);
+		//printk("%s unknown country_code:%s\n", __FUNCTION__, country_code);
 	
 	return rtw_set_channel_plan(adapter, channel_plan);
 }
