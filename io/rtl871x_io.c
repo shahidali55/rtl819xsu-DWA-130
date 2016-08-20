@@ -457,7 +457,7 @@ _func_enter_;
 	pio_queue = (struct io_queue *)_malloc (sizeof (struct io_queue));
 
 	if (pio_queue == NULL) {
-		RT_TRACE(_module_rtl871x_ioctl_c_,_drv_err_,("\n  alloc_io_queue:pio_queue == NULL !!!!\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_c_,_drv_err_,("\n  alloc_io_queue:pio_queue == NULL !!!!\n"));
 		goto alloc_io_queue_fail;	
 	}
 
@@ -470,7 +470,7 @@ _func_enter_;
 	pio_queue->pallocated_free_ioreqs_buf = (u8 *)_malloc(NUM_IOREQ *(sizeof (struct io_req)) + 4);
 
 	if ((pio_queue->pallocated_free_ioreqs_buf) == NULL) {
-		RT_TRACE(_module_rtl871x_io_c_,_drv_err_,("\n  alloc_io_queue:(pio_queue->pallocated_free_ioreqs_buf) == NULL!!!!\n"));
+		//RT_TRACE(_module_rtl871x_io_c_,_drv_err_,("\n  alloc_io_queue:(pio_queue->pallocated_free_ioreqs_buf) == NULL!!!!\n"));
 		goto alloc_io_queue_fail;
 	}
 
@@ -493,13 +493,13 @@ _func_enter_;
 		goto alloc_io_queue_fail;
 	pio_req->pmdl=IoAllocateMdl((u8 *)&pio_req->val, 4, FALSE, FALSE, NULL);
 	if (pio_req->pmdl== NULL) {
-		RT_TRACE(_module_rtl871x_io_c_,_drv_err_,("alloc_io_queue : MDL is NULL.\n "));	
+		//RT_TRACE(_module_rtl871x_io_c_,_drv_err_,("alloc_io_queue : MDL is NULL.\n "));	
 		goto alloc_io_queue_fail;
 	}
 	MmBuildMdlForNonPagedPool(pio_req->pmdl);
 	pio_req->sdrp = ExAllocatePool(NonPagedPool, sizeof(SDBUS_REQUEST_PACKET));
 	if (pio_req->sdrp == NULL) {
-		RT_TRACE(_module_rtl871x_io_c_,_drv_err_,("alloc_io_queue : sdrp is NULL.\n "));	
+		//RT_TRACE(_module_rtl871x_io_c_,_drv_err_,("alloc_io_queue : sdrp is NULL.\n "));	
 		goto alloc_io_queue_fail;
 	}
 #endif
@@ -509,7 +509,7 @@ _func_enter_;
 	}		
 
 	if ((register_intf_hdl((u8*)adapter, &(pio_queue->intf))) == _FAIL) {
-		RT_TRACE(_module_rtl871x_ioctl_c_,_drv_err_,("\n  alloc_io_queue:register_intf_hdl == _FAIL !!!!\n"));
+		//RT_TRACE(_module_rtl871x_ioctl_c_,_drv_err_,("\n  alloc_io_queue:register_intf_hdl == _FAIL !!!!\n"));
 		goto alloc_io_queue_fail;
 	}
 
@@ -555,7 +555,7 @@ void free_io_queue(_adapter *adapter)
 
 _func_enter_;
 
-	RT_TRACE(_module_rtl871x_ioctl_c_,_drv_info_,("free_io_queue\n"));
+	//RT_TRACE(_module_rtl871x_ioctl_c_,_drv_info_,("free_io_queue\n"));
 	
 	if (pio_queue) {
 		mfree_io_queue_lock(pio_queue);
