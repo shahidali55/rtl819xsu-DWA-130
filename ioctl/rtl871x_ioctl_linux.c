@@ -2856,7 +2856,7 @@ static int r871x_wx_get_sensitivity(struct net_device *dev,
 
 	wrqu->qual.level = padapter->recvpriv.fw_rssi;
 
-    printk(" level = %u\n",  wrqu->qual.level );
+    //printk(" level = %u\n",  wrqu->qual.level );
 
 	return 0;
 }
