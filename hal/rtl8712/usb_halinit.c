@@ -51,7 +51,7 @@ u8 usb_hal_bus_init(_adapter * padapter)
 	
 	ret =_SUCCESS;
 
-	RT_TRACE(_module_hci_hal_init_c_, _drv_info_,("chip_version=%d\n", pregistrypriv->chip_version));	
+	//RT_TRACE(_module_hci_hal_init_c_, _drv_info_,("chip_version=%d\n", pregistrypriv->chip_version));	
 	
 	//pregistrypriv->chip_version = RTL8712_2ndCUT;//RTL8712_1stCUT;
 
@@ -417,7 +417,7 @@ _func_enter_;
 
 	status = _SUCCESS;
 
-	RT_TRACE(_module_hci_hal_init_c_,_drv_info_,("===> usb_inirp_init \n"));	
+	//RT_TRACE(_module_hci_hal_init_c_,_drv_info_,("===> usb_inirp_init \n"));	
 		
 	precvpriv->ff_hwaddr = RTL8712_DMA_RX0FF;//mapping rx fifo address
 	
@@ -427,7 +427,7 @@ _func_enter_;
 	{
 		if(usb_read_port(pintfhdl, precvpriv->ff_hwaddr, 0, (unsigned char *)precvbuf) == _FALSE )
 		{
-			RT_TRACE(_module_hci_hal_init_c_,_drv_err_,("usb_rx_init: usb_read_port error \n"));
+			//RT_TRACE(_module_hci_hal_init_c_,_drv_err_,("usb_rx_init: usb_read_port error \n"));
 			status = _FAIL;
 			goto exit;
 		}
@@ -439,7 +439,7 @@ _func_enter_;
 		
 exit:
 	
-	RT_TRACE(_module_hci_hal_init_c_,_drv_info_,("<=== usb_inirp_init \n"));
+	//RT_TRACE(_module_hci_hal_init_c_,_drv_info_,("<=== usb_inirp_init \n"));
 
 _func_exit_;
 
@@ -449,12 +449,12 @@ _func_exit_;
 
 unsigned int usb_inirp_deinit(_adapter * padapter)
 {	
-	RT_TRACE(_module_hci_hal_init_c_,_drv_info_,("\n ===> usb_rx_deinit \n"));
+	//RT_TRACE(_module_hci_hal_init_c_,_drv_info_,("\n ===> usb_rx_deinit \n"));
 	
 	usb_read_port_cancel(padapter);
 
 
-	RT_TRACE(_module_hci_hal_init_c_,_drv_info_,("\n <=== usb_rx_deinit \n"));
+	//RT_TRACE(_module_hci_hal_init_c_,_drv_info_,("\n <=== usb_rx_deinit \n"));
 
 	return _SUCCESS;
 }
