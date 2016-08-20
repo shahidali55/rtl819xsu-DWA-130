@@ -996,7 +996,7 @@ NDIS_STATUS oid_rt_get_connect_state_hdl(struct oid_par_priv* poid_par_priv)
 
 #if 0
 	// Rearrange the order to let the UI still shows connection when scan is in progress
-	RT_TRACE(COMP_OID_QUERY, DBG_LOUD, ("===> Query OID_RT_GET_CONNECT_STATE.\n"));
+	//RT_TRACE(COMP_OID_QUERY, DBG_LOUD, ("===> Query OID_RT_GET_CONNECT_STATE.\n"));
 	if(pMgntInfo->mAssoc)
 		ulInfo = 1;
 	else if(pMgntInfo->mIbss)
@@ -1006,7 +1006,7 @@ NDIS_STATUS oid_rt_get_connect_state_hdl(struct oid_par_priv* poid_par_priv)
 	else
 		ulInfo = 3;
 	ulInfoLen = sizeof(ULONG);
-	RT_TRACE(COMP_OID_QUERY, DBG_LOUD, ("<=== Query OID_RT_GET_CONNECT_STATE: %d\n", ulInfo));
+	//RT_TRACE(COMP_OID_QUERY, DBG_LOUD, ("<=== Query OID_RT_GET_CONNECT_STATE: %d\n", ulInfo));
 #endif
 
 	return status;
