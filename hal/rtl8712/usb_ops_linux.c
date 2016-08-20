@@ -63,7 +63,7 @@ _func_enter_;
 	pintfpriv->piorw_urb = usb_alloc_urb(0, GFP_ATOMIC);	
 	if(pintfpriv->piorw_urb==NULL)
 	{		
-		RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("pintfpriv->piorw_urb==NULL!!!\n"));
+		//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("pintfpriv->piorw_urb==NULL!!!\n"));
 		goto usb_init_intf_priv_fail;
 	}	
 	
@@ -91,7 +91,7 @@ void usb_unload_intf_priv(struct intf_priv *pintfpriv)
 
 _func_enter_;
 	
-	RT_TRACE(_module_hci_ops_os_c_,_drv_info_,("+usb_unload_intf_priv\n"));
+	//RT_TRACE(_module_hci_ops_os_c_,_drv_info_,("+usb_unload_intf_priv\n"));
 
 	if(pintfpriv->piorw_urb)
 	{
@@ -101,7 +101,7 @@ _func_enter_;
 
 	_free_sema(&(pintfpriv->io_retevt));
 
-	RT_TRACE(_module_hci_ops_os_c_,_drv_info_,("-usb_unload_intf_priv\n"));
+	//RT_TRACE(_module_hci_ops_os_c_,_drv_info_,("-usb_unload_intf_priv\n"));
 
 _func_exit_;
 	
@@ -208,7 +208,7 @@ int ffaddr2pipehdl(struct dvobj_priv *pdvobj, u32 addr)
 	}
 	else
 	{
-	   RT_TRACE(_module_rtl871x_mlme_c_,_drv_err_,("ffaddr2pipehdl():nr_endpoint=%d error!\n", pdvobj->nr_endpoint));
+	   //RT_TRACE(_module_rtl871x_mlme_c_,_drv_err_,("ffaddr2pipehdl():nr_endpoint=%d error!\n", pdvobj->nr_endpoint));
 	   pipe = 0;
 	}
 		
@@ -330,11 +330,11 @@ static void usb_write_mem_complete(struct urb *purb, struct pt_regs *regs)
 	
 _func_enter_;
 
-	RT_TRACE(_module_rtl871x_mlme_c_,_drv_err_,("+usb_write_mem_complete\n"));
+	//RT_TRACE(_module_rtl871x_mlme_c_,_drv_err_,("+usb_write_mem_complete\n"));
 
 	if(padapter->bSurpriseRemoved || padapter->bDriverStopped)
 	{
-		RT_TRACE(_module_rtl871x_mlme_c_,_drv_err_,("usb_write_mem_complete:bDriverStopped(%d) OR bSurpriseRemoved(%d)", padapter->bDriverStopped, padapter->bSurpriseRemoved));		
+		//RT_TRACE(_module_rtl871x_mlme_c_,_drv_err_,("usb_write_mem_complete:bDriverStopped(%d) OR bSurpriseRemoved(%d)", padapter->bDriverStopped, padapter->bSurpriseRemoved));		
 	}
 	
 	if(purb->status==0)
@@ -371,14 +371,14 @@ _func_enter_;
 		{			
 			padapter->bSurpriseRemoved=_TRUE;
 			
-			RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_mem_complete:bSurpriseRemoved=TRUE\n"));
+			//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_mem_complete:bSurpriseRemoved=TRUE\n"));
 		}		
 
 	}
 	
 	_up_sema(&pintfpriv->io_retevt);
 
-	RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("-usb_write_mem_complete\n"));
+	//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("-usb_write_mem_complete\n"));
 
 _func_exit_;	
 
@@ -397,11 +397,11 @@ void usb_write_mem(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *wmem)
 	
 _func_enter_;	
 
-	RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("+usb_write_mem\n"));
+	//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("+usb_write_mem\n"));
 
 	if((padapter->bDriverStopped) || (padapter->bSurpriseRemoved) ||(padapter->pwrctrlpriv.pnp_bstop_trx))
 	{
-		RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_mem:( padapter->bDriverStopped ||padapter->bSurpriseRemoved ||adapter->pwrctrlpriv.pnp_bstop_trx)!!!\n"));
+		//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_mem:( padapter->bDriverStopped ||padapter->bSurpriseRemoved ||adapter->pwrctrlpriv.pnp_bstop_trx)!!!\n"));
 		goto exit;
 	}
 
@@ -409,7 +409,7 @@ _func_enter_;
 	pipe = ffaddr2pipehdl(pdvobj, addr);
 	if(pipe==0)
 	{
-	   RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_mem, pipe=%x\n", pipe));	
+	   //RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_write_mem, pipe=%x\n", pipe));	
 		goto exit;
 	}
 	
@@ -431,12 +431,12 @@ _func_enter_;
 	else
 	{
 		//TODO:		
-		RT_TRACE(_module_rtl871x_mlme_c_,_drv_err_,("usb_write_mem(): usb_submit_urb err, status=%x\n", status));
+		//RT_TRACE(_module_rtl871x_mlme_c_,_drv_err_,("usb_write_mem(): usb_submit_urb err, status=%x\n", status));
 	}
 
 	_down_sema(&pintfpriv->io_retevt);
 	
-	RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("-usb_write_mem\n"));
+	//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("-usb_write_mem\n"));
 	
 exit:
 	
@@ -456,7 +456,7 @@ static void usb_read_port_complete(struct urb *purb, struct pt_regs *regs)
 	_adapter 			*padapter =(_adapter *)precvbuf->adapter;
 	struct recv_priv	*precvpriv = &padapter->recvpriv;	
 	
-	RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_read_port_complete!!!\n"));
+	//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_read_port_complete!!!\n"));
 	
 	//Useless for linux usb driver.
 	//2010-03-10 by Thomas
@@ -473,7 +473,7 @@ static void usb_read_port_complete(struct urb *purb, struct pt_regs *regs)
 
 	if(padapter->bSurpriseRemoved ||padapter->bDriverStopped)
 	{
-		RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_read_port_complete:bDriverStopped(%d) OR bSurpriseRemoved(%d)\n", padapter->bDriverStopped, padapter->bSurpriseRemoved));
+		//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_read_port_complete:bDriverStopped(%d) OR bSurpriseRemoved(%d)\n", padapter->bDriverStopped, padapter->bSurpriseRemoved));
 		goto exit;
 	}
 
@@ -481,7 +481,7 @@ static void usb_read_port_complete(struct urb *purb, struct pt_regs *regs)
 	{
 		if((purb->actual_length>(MAX_RECVBUF_SZ)) || (purb->actual_length < RXDESC_SIZE)) 
 		{
-			RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_read_port_complete: (purb->actual_length > MAX_RECVBUF_SZ) || (purb->actual_length < RXDESC_SIZE)\n"));
+			//RT_TRACE(_module_hci_ops_os_c_,_drv_err_,("usb_read_port_complete: (purb->actual_length > MAX_RECVBUF_SZ) || (purb->actual_length < RXDESC_SIZE)\n"));
 			precvbuf->reuse = _TRUE;
 			read_port(padapter, precvpriv->ff_hwaddr, 0, (unsigned char *)precvbuf);
 		}
